@@ -4,6 +4,7 @@ import 'package:gardenia/constants/constants.dart';
 import 'package:gardenia/extensions/mediaQuery.dart';
 import 'package:gardenia/modules/myText.dart';
 import 'package:gardenia/modules/textFormField.dart';
+import 'package:gardenia/view/categories/item_model.dart';
 
 class Categories extends StatelessWidget {
   Categories({super.key});
@@ -99,58 +100,20 @@ class Categories extends StatelessWidget {
                         ListView(
                           children: [
                             SizedBox(
-                              height: 200,
+                              height: context.setHeight(5),
                               child: ListView.separated(
                                 scrollDirection: Axis.horizontal,
-                                itemBuilder: (context, index) => Card(
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(vertical: 12.0.h,horizontal: 16.w),
-                                    child: Column(
-                                      children: [
-                                        Expanded(child: Image.asset('images/plant1.png')),
-                                        MyText(
-                                          text: 'Plant Name',
-                                          color: Constants.appColor,
-                                          fontWeight: FontWeight.bold,fontSize: 13.sp,
-                                        ),
-                                        MyText(
-                                            text: 'Type',
-                                            fontSize: 12.sp,
-                                            fontWeight: FontWeight.w500
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
+                                itemBuilder: (context, index) => ItemModel(imageUrl: 'images/plant1.png', plantName: 'plantName', plantType: 'plantType'),
                                 separatorBuilder: (context, index) => SizedBox(width: 10.w,),
                                 itemCount: 5,
                               ),
                             ),
                             SizedBox(height: 16.h,),
                             SizedBox(
-                              height: context.setHeight(6),
+                              height: context.setHeight(5),
                               child: ListView.separated(
                                 scrollDirection: Axis.horizontal,
-                                itemBuilder: (context, index) => Card(
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(vertical: 12.0.h,horizontal: 16.w),
-                                    child: Column(
-                                      children: [
-                                        Expanded(child: Image.asset('images/plant1.png')),
-                                        MyText(
-                                          text: 'Plant Name',
-                                          color: Constants.appColor,
-                                          fontWeight: FontWeight.bold,fontSize: 13.sp,
-                                        ),
-                                        MyText(
-                                            text: 'Type',
-                                            fontSize: 12.sp,
-                                            fontWeight: FontWeight.w500
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
+                                itemBuilder: (context, index) => ItemModel(imageUrl: 'images/plant1.png', plantName: 'plantName', plantType: 'plantType'),
                                 separatorBuilder: (context, index) => SizedBox(width: 10.w,),
                                 itemCount: 5,
                               ),

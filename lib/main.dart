@@ -7,6 +7,8 @@ import 'package:gardenia/view/auth/login/login.dart';
 import 'package:gardenia/view_model/Login/cubit.dart';
 import 'package:gardenia/view_model/bloc_observer.dart';
 import 'package:gardenia/view_model/bottomNavBar/cubit.dart';
+import 'package:gardenia/view_model/categories/cubit.dart';
+import 'package:gardenia/view_model/home/cubit.dart';
 import 'package:gardenia/view_model/onBoarding/cubit.dart';
 import 'package:gardenia/view_model/sign_up/cubit.dart';
 
@@ -34,6 +36,8 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (context) =>  BottomNavCubit()),
           BlocProvider(create: (context) =>  LoginCubit()),
           BlocProvider(create: (context) =>  SignUpCubit()),
+          BlocProvider(create: (context) =>  HomeCubit()),
+          BlocProvider(create: (context) =>  CategoriesCubit()),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,

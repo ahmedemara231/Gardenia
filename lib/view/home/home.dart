@@ -4,10 +4,22 @@ import 'package:gardenia/constants/constants.dart';
 import 'package:gardenia/modules/divider.dart';
 import 'package:gardenia/modules/myText.dart';
 import 'package:gardenia/view/home/post_model.dart';
+import 'package:gardenia/view_model/home/cubit.dart';
 
-class Home extends StatelessWidget {
-  Home({super.key});
+class Home extends StatefulWidget {
+  const Home({super.key});
 
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+
+  @override
+  void initState() {
+    HomeCubit.getInstance(context).getAllPosts();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +36,7 @@ class Home extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12.0),
                   child: CircleAvatar(
-                    backgroundImage: NetworkImage('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSIVa0RNjFqKEdcXG0trW_AYrevZXZfNh0VQg&usqp=CAU'),
+                    backgroundImage: const NetworkImage('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSIVa0RNjFqKEdcXG0trW_AYrevZXZfNh0VQg&usqp=CAU'),
                     radius: 20.sp,
                   ),
                 ),
@@ -75,17 +87,23 @@ class Home extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Post(
-                      userImageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSIVa0RNjFqKEdcXG0trW_AYrevZXZfNh0VQg&usqp=CAU',
-                      userName: 'random',
-                      postImage: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSIVa0RNjFqKEdcXG0trW_AYrevZXZfNh0VQg&usqp=CAU',
-                      caption: 'DocsDocsDocsDocsDocsDocs',
-                      commentsNumber: 10,
+                      userImageUrl: HomeCubit.getInstance(context).posts[index].userImageUrl,
+                      userName: HomeCubit.getInstance(context).posts[index].userName,
+                      postImage: HomeCubit.getInstance(context).posts[index].postImage,
+                      caption: HomeCubit.getInstance(context).posts[index].postCaption,
+                      commentsNumber: HomeCubit.getInstance(context).posts[index].commentsNumber,
                       onPressed: () {},
+                      onSave: ()
+                      {
+                        HomeCubit.getInstance(context).addToFavorites(
+                            HomeCubit.getInstance(context).posts[index],
+                        );
+                      },
                     ),
                   ),
                 ),
                 separatorBuilder: (context, index) => SizedBox(height: 25.h,),
-                itemCount: 3
+                itemCount: HomeCubit.getInstance(context).posts.length,
             )
           ],
         ),
