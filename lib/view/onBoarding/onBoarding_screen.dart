@@ -7,7 +7,7 @@ import 'package:gardenia/view/onBoarding/screen_model.dart';
 import 'package:gardenia/view_model/onBoarding/cubit.dart';
 import 'package:gardenia/view_model/onBoarding/states.dart';
 import '../../constants/constants.dart';
-import '../../modules/myText.dart';
+import '../../modules/base_widgets/myText.dart';
 import '../auth/first_view/first_view.dart';
 import '../auth/login/login.dart';
 

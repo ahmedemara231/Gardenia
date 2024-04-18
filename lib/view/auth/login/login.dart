@@ -1,14 +1,19 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gardenia/extensions/routes.dart';
-import 'package:gardenia/modules/myText.dart';
-import 'package:gardenia/modules/textFormField.dart';
-import 'package:gardenia/modules/widgets/auth_components.dart';
+import 'package:gardenia/modules/base_widgets/myText.dart';
+import 'package:gardenia/modules/base_widgets/textFormField.dart';
 import 'package:gardenia/view/auth/forgot_password/forgetpassword.dart';
 import 'package:gardenia/view/auth/sign_up/sign_up.dart';
 import 'package:gardenia/view_model/Login/cubit.dart';
 import 'package:gardenia/view_model/Login/states.dart';
+import 'package:gardenia/view_model/create_post/cubit.dart';
+import '../../../model/local/flutter_secure_storage.dart';
+import '../../../model/local/shared_prefs.dart';
+import '../../../model/remote/api_service/service/dio_connection.dart';
+import '../../../modules/app_widgets/auth_components.dart';
 
 class Login extends StatelessWidget {
   Login({super.key});
@@ -20,7 +25,13 @@ class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        actions: [
+          IconButton(onPressed: () async{
+
+          }, icon: Icon(Icons.add))
+        ],
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: 8.0.h,horizontal: 16.w),
@@ -139,10 +150,12 @@ class Login extends StatelessWidget {
                     {
                       if(formKey.currentState!.validate())
                         {
-                          LoginCubit.getInstance(context).login(context);
+                          LoginCubit.getInstance(context).login(context,
+                            email: emailCont.text,
+                            password: passCont.text,
+                          );
                         }
                       else{
-
                         LoginCubit.getInstance(context).loginButtonCont.reset();
                         return;
                       }

@@ -3,8 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gardenia/constants/constants.dart';
 import 'package:gardenia/extensions/mediaQuery.dart';
 import 'package:gardenia/extensions/routes.dart';
-import 'package:gardenia/modules/divider.dart';
-import 'package:gardenia/modules/myText.dart';
+import 'package:gardenia/modules/base_widgets/divider.dart';
+import 'package:gardenia/modules/base_widgets/myText.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 class AuthComponents extends StatelessWidget {

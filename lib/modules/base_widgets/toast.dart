@@ -19,15 +19,10 @@ class MyToast
           ),
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 12.0,horizontal: 28),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  MyText(
-                    text: msg,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ],
+              child: MyText(
+                text: msg,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
               ),
             ),
           ),

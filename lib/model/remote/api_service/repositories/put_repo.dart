@@ -1,4 +1,4 @@
-import 'dio_helper.dart';
+import '../service/api_requests.dart';
 
 class PutRepo
 {

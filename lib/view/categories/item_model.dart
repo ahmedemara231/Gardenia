@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gardenia/extensions/mediaQuery.dart';
 import '../../constants/constants.dart';
-import '../../modules/myText.dart';
+import '../../modules/base_widgets/myText.dart';
 
 class ItemModel extends StatelessWidget {
 

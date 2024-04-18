@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gardenia/constants/constants.dart';
 import 'package:gardenia/extensions/mediaQuery.dart';
-import 'package:gardenia/modules/myText.dart';
-import 'package:gardenia/modules/textFormField.dart';
+import 'package:gardenia/modules/base_widgets/myText.dart';
+import 'package:gardenia/modules/base_widgets/textFormField.dart';
 import 'package:gardenia/view/categories/item_model.dart';
 
 class Categories extends StatelessWidget {

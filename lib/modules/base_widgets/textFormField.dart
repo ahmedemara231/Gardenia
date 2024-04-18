@@ -18,6 +18,7 @@ class TFF extends StatelessWidget {
   void Function(String)? onFieldSubmitted;
   String? Function(String?)? validator;
   TextStyle? style;
+  EdgeInsetsGeometry? contentPadding;
 
   TFF({super.key,
     required this.obscureText,
@@ -37,6 +38,7 @@ class TFF extends StatelessWidget {
     this.enabledBorder,
     this.validator,
     this.style,
+    this.contentPadding,
    });
 
   @override
@@ -60,6 +62,7 @@ class TFF extends StatelessWidget {
           fontWeight: FontWeight.w500
       ),
       decoration: InputDecoration(
+        contentPadding: contentPadding,
         border: border,
         enabledBorder: enabledBorder,
         hintText: hintText,

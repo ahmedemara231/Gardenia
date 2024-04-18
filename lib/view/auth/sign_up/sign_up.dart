@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:gardenia/modules/myText.dart';
-import 'package:gardenia/modules/widgets/auth_components.dart';
+import 'package:gardenia/modules/base_widgets/myText.dart';
+import 'package:gardenia/modules/base_widgets/snackBar.dart';
+import 'package:gardenia/modules/data_types/user_data.dart';
 import 'package:gardenia/view/auth/login/login.dart';
 import 'package:gardenia/view_model/sign_up/cubit.dart';
 import 'package:gardenia/view_model/sign_up/states.dart';
-import 'package:rounded_loading_button/rounded_loading_button.dart';
-import '../../../modules/textFormField.dart';
+import '../../../modules/app_widgets/auth_components.dart';
+import '../../../modules/base_widgets/textFormField.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -21,7 +22,7 @@ class _SignUpState extends State<SignUp> {
   final nameCont = TextEditingController();
   final emailCont = TextEditingController();
   final passCont = TextEditingController();
-  final phoneCont = TextEditingController();
+  final passConfCont = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
   late List<Widget> signUpInputs;
@@ -53,18 +54,6 @@ class _SignUpState extends State<SignUp> {
           borderRadius: BorderRadius.circular(7),
         ),
       ),
-      TFF(
-        hintText: 'Enter Your Phone Number',
-        obscureText: false,
-        hintStyle: const TextStyle(
-          color: Colors.grey,
-        ),
-        controller: phoneCont,
-        enabledBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Colors.grey),
-          borderRadius: BorderRadius.circular(7),
-        ),
-      ),
       BlocBuilder<SignUpCubit,SignUpStates>(
         builder: (context, state) =>  TFF(
           hintText: 'Enter Your Password',
@@ -74,14 +63,37 @@ class _SignUpState extends State<SignUp> {
           suffixIcon: IconButton(
             onPressed: ()
             {
-              SignUpCubit.getInstance(context).changePasswordVisibility();
+              SignUpCubit.getInstance(context).changePasswordVisibility(0);
             },
-            icon: SignUpCubit.getInstance(context).isVisible?
+            icon: SignUpCubit.getInstance(context).obscurePass[0]?
             const Icon(Icons.visibility_off):
             const Icon(Icons.visibility),
           ),
-          obscureText: SignUpCubit.getInstance(context).isVisible,
+          obscureText: SignUpCubit.getInstance(context).obscurePass[0],
           controller: passCont,
+          enabledBorder: OutlineInputBorder(
+            borderSide: const BorderSide(color: Colors.grey),
+            borderRadius: BorderRadius.circular(7),
+          ),
+        ),
+      ),
+      BlocBuilder<SignUpCubit,SignUpStates>(
+        builder: (context, state) =>  TFF(
+          hintText: 'Conform Your Password',
+          hintStyle: const TextStyle(
+            color: Colors.grey,
+          ),
+          suffixIcon: IconButton(
+            onPressed: ()
+            {
+              SignUpCubit.getInstance(context).changePasswordVisibility(1);
+            },
+            icon: SignUpCubit.getInstance(context).obscurePass[1]?
+            const Icon(Icons.visibility_off):
+            const Icon(Icons.visibility),
+          ),
+          obscureText: SignUpCubit.getInstance(context).obscurePass[1],
+          controller: passConfCont,
           enabledBorder: OutlineInputBorder(
             borderSide: const BorderSide(color: Colors.grey),
             borderRadius: BorderRadius.circular(7),
@@ -128,7 +140,26 @@ class _SignUpState extends State<SignUp> {
                 {
                   if(formKey.currentState!.validate())
                     {
-                      SignUpCubit.getInstance(context).signUp(context);
+                      if(passCont.text == passConfCont.text)
+                        {
+                          SignUpCubit.getInstance(context).signUp(
+                            context,
+                            user: UserData(
+                              name: nameCont.text,
+                              email: emailCont.text,
+                              password: passCont.text,
+                              conformPass: passConfCont.text,
+                            ),
+                          );
+                        }
+                      else{
+                        SignUpCubit.getInstance(context).signUpButtonCont.reset();
+                        MySnackBar.showSnackBar(
+                            context: context,
+                            message: 'The password should be the same',
+                            color: Colors.red,
+                        );
+                      }
                     }
                   else{
                     SignUpCubit.getInstance(context).signUpButtonCont.reset();

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:gardenia/modules/textFormField.dart';
-import 'package:gardenia/modules/widgets/app_button.dart';
-import '../../../modules/myText.dart';
+import 'package:gardenia/modules/base_widgets/textFormField.dart';
+import '../../../modules/app_widgets/app_button.dart';
+import '../../../modules/base_widgets/myText.dart';
 
 class ResetPassword extends StatelessWidget {
   ResetPassword({super.key});

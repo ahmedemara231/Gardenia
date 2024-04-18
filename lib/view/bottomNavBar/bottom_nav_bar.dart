@@ -16,10 +16,10 @@ class BottomNavBar extends StatelessWidget {
 
   final List<Widget> screens =
   [
-    Home(),
+    const Home(),
     Categories(),
-    const Profile(),
     const Favorites(),
+    const Profile(),
   ];
   @override
   Widget build(BuildContext context) {

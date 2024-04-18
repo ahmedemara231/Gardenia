@@ -17,9 +17,6 @@ class Services
 
   GetIt getIt = GetIt.instance;
 
-  void initDependencies() 
-  {
-
-  }
+  void initDependencies() {}
 
 }

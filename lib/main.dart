@@ -1,21 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gardenia/model/local/flutter_secure_storage.dart';
 import 'package:gardenia/model/local/shared_prefs.dart';
 import 'package:gardenia/service_locator/get_it.dart';
+import 'package:gardenia/test/test.dart';
 import 'package:gardenia/view/auth/login/login.dart';
+import 'package:gardenia/view/auth/sign_up/sign_up.dart';
+import 'package:gardenia/view/create_post/create_post.dart';
+import 'package:gardenia/view/home/home.dart';
+import 'package:gardenia/view/onBoarding/onBoarding_screen.dart';
 import 'package:gardenia/view_model/Login/cubit.dart';
 import 'package:gardenia/view_model/bloc_observer.dart';
 import 'package:gardenia/view_model/bottomNavBar/cubit.dart';
 import 'package:gardenia/view_model/categories/cubit.dart';
+import 'package:gardenia/view_model/create_post/cubit.dart';
 import 'package:gardenia/view_model/home/cubit.dart';
 import 'package:gardenia/view_model/onBoarding/cubit.dart';
 import 'package:gardenia/view_model/sign_up/cubit.dart';
 
 void main()async {
   WidgetsFlutterBinding.ensureInitialized();
-  Services.getInstance().initDependencies();
   await CacheHelper.getInstance().cacheInit();
+  SecureStorage.getInstance().init();
   Bloc.observer = MyBlocObserver();
   runApp(const MyApp());
 }
@@ -23,7 +30,6 @@ void main()async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
@@ -38,6 +44,7 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (context) =>  SignUpCubit()),
           BlocProvider(create: (context) =>  HomeCubit()),
           BlocProvider(create: (context) =>  CategoriesCubit()),
+          BlocProvider(create: (context) =>  CreatePostCubit()),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,

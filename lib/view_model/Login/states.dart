@@ -11,3 +11,15 @@ class LoginLoadingState extends LoginStates {}
 class LoginSuccessState extends LoginStates {}
 
 class LoginErrorState extends LoginStates {}
+
+class LogoutLoadingState extends LoginStates {}
+
+class LogoutSuccessState extends LoginStates {}
+
+class LogoutErrorState extends LoginStates {}
+
+// class RefreshTokenSuccessState extends LoginStates {}
+
+// class RefreshTokenErrorState extends LoginStates {}
+
+

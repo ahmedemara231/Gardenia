@@ -1,33 +1,70 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gardenia/extensions/routes.dart';
-import 'package:gardenia/view/auth/login/login.dart';
+import 'package:gardenia/model/remote/api_service/repositories/post_repo.dart';
+import 'package:gardenia/model/remote/api_service/service/dio_connection.dart';
+import 'package:gardenia/modules/data_types/user_data.dart';
 import 'package:gardenia/view_model/sign_up/states.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
+import '../../constants/constants.dart';
+import '../../model/remote/api_service/model/model.dart';
+import '../../modules/base_widgets/toast.dart';
+import '../../view/auth/login/login.dart';
 
 class SignUpCubit extends Cubit<SignUpStates>
 {
   SignUpCubit() : super(SignUpInitialState());
   factory SignUpCubit.getInstance(context) => BlocProvider.of(context);
 
-  bool isVisible = true;
-  void changePasswordVisibility()
+  List<bool> obscurePass = [true, true];
+  void changePasswordVisibility(int index)
   {
-    isVisible = !isVisible;
+    obscurePass[index] = !obscurePass[index];
     emit(ChangePasswordVisibilityState());
   }
 
   RoundedLoadingButtonController signUpButtonCont = RoundedLoadingButtonController();
-  Future<void> signUp(BuildContext context) async
+  PostRepo postRepo = PostRepo(apiService: DioConnection.getInstance());
+  late Model signUpResult;
+
+  Future<void> signUp(BuildContext context,{required UserData user}) async
   {
-    await Future.delayed(const Duration(seconds: 2),()
+    emit(SignUpLoadingState());
+    await postRepo.signUp(user).then((result)async
     {
-      signUpButtonCont.success();
+      if(result.isSuccess())
+        {
+          signUpButtonCont.success();
+          Future.delayed(
+            const Duration(milliseconds: 1500),
+            () {
+              signUpButtonCont.reset();
+              MyToast.showToast(
+                context,
+                msg: 'Congratulations!',
+                color: Constants.appColor,
+              );
+              context.removeOldRoute(Login());
+            },
+          );
 
-      Future.delayed(const Duration(seconds: 1),() {
-        context.removeOldRoute(Login());
-      },);
-
-    },);
+          emit(SignUpSuccessState());
+        }
+      else{
+        signUpButtonCont.error();
+        Future.delayed(
+          const Duration(milliseconds: 1500),
+          () {
+            signUpButtonCont.reset();
+            MyToast.showToast(
+              context,
+              msg: '${result.tryGetError()}',
+              color: Colors.red,
+            );
+          },
+        );
+        emit(SignUpErrorState());
+      }
+    });
   }
 }

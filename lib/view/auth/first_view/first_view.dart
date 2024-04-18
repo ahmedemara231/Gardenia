@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:gardenia/modules/widgets/app_button.dart';
 import 'package:gardenia/view/auth/login/login.dart';
 import 'package:gardenia/view/auth/sign_up/sign_up.dart';
+import '../../../modules/app_widgets/app_button.dart';
 
 class FirstView extends StatelessWidget {
   const FirstView({super.key});

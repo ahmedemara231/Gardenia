@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gardenia/constants/constants.dart';
 import 'package:gardenia/extensions/mediaQuery.dart';
-import 'package:gardenia/modules/textFormField.dart';
+import 'package:gardenia/modules/base_widgets/textFormField.dart';
 import 'package:gardenia/view_model/Login/cubit.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
-import '../../../modules/myText.dart';
+import '../../../modules/base_widgets/myText.dart';
 
 class ForgetPassword extends StatelessWidget {
   ForgetPassword({super.key});
