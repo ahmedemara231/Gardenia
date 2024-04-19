@@ -86,9 +86,12 @@ class BadResponseInterceptor extends InterceptorsWrapper
       options: Options(
         headers: await _getHeaders(true),
       )
-    ).then((newResponse)
+    ).then((newToken)async
     {
-
+      await SecureStorage.getInstance().setData(
+          key: 'userToken',
+          value: newToken.data
+      );
     });
   }
 

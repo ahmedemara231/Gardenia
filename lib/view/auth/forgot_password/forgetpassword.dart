@@ -4,6 +4,9 @@ import 'package:gardenia/constants/constants.dart';
 import 'package:gardenia/extensions/mediaQuery.dart';
 import 'package:gardenia/modules/base_widgets/textFormField.dart';
 import 'package:gardenia/view_model/Login/cubit.dart';
+import 'package:gardenia/view_model/forgot_reset_pass/cubit.dart';
+import 'package:gardenia/view_model/forgot_reset_pass/cubit.dart';
+import 'package:gardenia/view_model/forgot_reset_pass/cubit.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 import '../../../modules/base_widgets/myText.dart';
 
@@ -55,15 +58,15 @@ class ForgetPassword extends StatelessWidget {
             RoundedLoadingButton(
                 borderRadius: 12,
                 color: Constants.appColor,
-                controller: LoginCubit.getInstance(context).resetPasswordButtonCont,
-                onPressed: ()
+                controller: ForgotResetPassCubit.getInstance(context).forgotPasswordButtonCont,
+                onPressed: ()async
                 {
                   if(formKey.currentState!.validate())
                     {
-                      LoginCubit.getInstance(context).sendCode(context);
+                      await ForgotResetPassCubit.getInstance(context).forgotPassword(context, forgetPassCont.text);
                     }
                   else{
-                    LoginCubit.getInstance(context).resetPasswordButtonCont.reset();
+                    ForgotResetPassCubit.getInstance(context).forgotPasswordButtonCont.reset();
                   }
                 },
                 child: SizedBox(
@@ -79,6 +82,7 @@ class ForgetPassword extends StatelessWidget {
             )
           ],
         ),
-      ),);
+      ),
+    );
   }
 }

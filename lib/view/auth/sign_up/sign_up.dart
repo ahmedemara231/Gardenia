@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gardenia/constants/constants.dart';
 import 'package:gardenia/modules/base_widgets/myText.dart';
 import 'package:gardenia/modules/base_widgets/snackBar.dart';
 import 'package:gardenia/modules/data_types/user_data.dart';
@@ -112,7 +113,7 @@ class _SignUpState extends State<SignUp> {
           padding:  EdgeInsets.symmetric(horizontal: 16.w),
           child: Column(
             children: [
-              Image.asset('images/app_logo.png'),
+              Image.asset(Constants.appLogo),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
                 child: MyText(

@@ -21,8 +21,8 @@ class DeleteRepo
     Result<Response, CustomError> deletePostResponse = await apiService!.callApi(
         request: RequestModel(
           method: Methods.DELETE,
-          endPoint: '${ApiConstants.deletePost}/$postId',
-          queryParams: {},
+          endPoint: ApiConstants.deletePost,
+          queryParams: { 'post_id' : postId },
           withToken: false,
         ),
     );
@@ -35,14 +35,21 @@ class DeleteRepo
     }
   }
 
-  Future<Result<Model,CustomError>> deleteComment(int postId)async
+  Future<Result<Model,CustomError>> deleteComment({
+    required int postId,
+    required int commentId,
+})async
   {
     Result<Response, CustomError> deleteCommentResponse = await apiService!.callApi(
       request: RequestModel(
         method: Methods.DELETE,
-        endPoint: '${ApiConstants.deletePost}/$postId',
-        queryParams: {},
-        withToken: false,
+        endPoint: ApiConstants.deleteComment,
+        queryParams:
+        {
+          'post_id' : postId,
+          'comment_id' : commentId
+        },
+        withToken: true,
       ),
     );
     if(deleteCommentResponse.isSuccess())

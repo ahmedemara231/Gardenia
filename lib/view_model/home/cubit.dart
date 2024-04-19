@@ -7,7 +7,9 @@ import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gardenia/constants/constants.dart';
 import 'package:gardenia/extensions/mediaQuery.dart';
+import 'package:gardenia/extensions/string.dart';
 import 'package:gardenia/model/local/flutter_secure_storage.dart';
+import 'package:gardenia/model/local/shared_prefs.dart';
 import 'package:gardenia/model/remote/api_service/model/model.dart';
 import 'package:gardenia/model/remote/api_service/repositories/delete_repo.dart';
 import 'package:gardenia/model/remote/api_service/repositories/get_repo.dart';
@@ -107,6 +109,12 @@ class HomeCubit extends Cubit<HomeStates>
     });
   }
 
+  void addPost(Post post)
+  {
+    posts.insert(0, post);
+    emit(GetPostsSuccessState());
+  }
+
   DeleteRepo deleteRepo = DeleteRepo(apiService: DioConnection.getInstance());
 
   Future<void> deletePost(context,{required int postId})async
@@ -140,10 +148,22 @@ class HomeCubit extends Cubit<HomeStates>
   PostRepo postRepo = PostRepo(apiService: DioConnection.getInstance());
   Future<void> createComment(context,{required int postId, required String comment})async
   {
-    await postRepo.createComment(postId: postId, comment: comment).then((result)
+    emit(CreateCommentLoading());
+    await postRepo.createComment(postId: postId, comment: comment).then((result)async
     {
       if(result.isSuccess())
         {
+          comments.add(
+              Comment(
+                userImageUrl: Constants.defaultProfileImage,
+                userId: (await CacheHelper.getInstance().getData('userData') as List<String>)[0].toInt(),
+                userName: (await CacheHelper.getInstance().getData('userData') as List<String>)[1],
+                comment: result.getOrThrow().data?['content'],
+                time: result.getOrThrow().data?['created_at'],
+                id: result.getOrThrow().data?['id'],
+              ),
+          );
+          emit(CreateCommentSuccess());
           MyToast.showToast(
             context,
             msg: result.getOrThrow().message,
@@ -156,6 +176,7 @@ class HomeCubit extends Cubit<HomeStates>
             msg: 'Check your internet connection and try again',
           );
         }
+        emit(CreateCommentError());
       }
     });
   }
@@ -174,7 +195,8 @@ class HomeCubit extends Cubit<HomeStates>
               userName: e['user']['username'],
               comment: e['content'],
               time: e['created_at'],
-              userId: e['user_id']
+              userId: e['user_id'],
+              id: e['id'],
             ),
         ).toList();
 
@@ -194,5 +216,24 @@ class HomeCubit extends Cubit<HomeStates>
     });
   }
 
-
+  Future<void> deleteComment({
+    required int postId,
+    required int commentId,
+  })async
+  {
+    await deleteRepo.deleteComment(
+        postId: postId,
+        commentId: commentId
+    ).then((result)
+    {
+      if(result.isSuccess())
+        {
+          comments.removeWhere((element) => element.id == commentId);
+          emit(DeleteCommentSuccess());
+        }
+      else{
+        emit(DeleteCommentError());
+      }
+    });
+  }
 }

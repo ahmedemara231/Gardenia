@@ -21,3 +21,13 @@ class GetCommentsLoading extends HomeStates{}
 class GetCommentsSuccess extends HomeStates{}
 
 class GetCommentsError extends HomeStates{}
+
+class CreateCommentLoading extends HomeStates{}
+
+class CreateCommentSuccess extends HomeStates{}
+
+class CreateCommentError extends HomeStates{}
+
+class DeleteCommentSuccess extends HomeStates{}
+
+class DeleteCommentError extends HomeStates{}

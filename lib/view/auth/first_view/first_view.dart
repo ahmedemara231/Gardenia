@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gardenia/view/auth/login/login.dart';
 import 'package:gardenia/view/auth/sign_up/sign_up.dart';
+import '../../../constants/constants.dart';
 import '../../../modules/app_widgets/app_button.dart';
 
 class FirstView extends StatelessWidget {
@@ -18,7 +19,7 @@ class FirstView extends StatelessWidget {
           children: [
             Column(
               children: [
-                Image.asset('images/app_logo.png'),
+                Image.asset(Constants.appLogo),
                 Image.asset('images/app_name.png'),
               ],
             ),

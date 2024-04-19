@@ -4,13 +4,6 @@ import 'package:gardenia/extensions/string.dart';
 import 'package:gardenia/model/local/shared_prefs.dart';
 import 'package:gardenia/model/remote/api_service/service/constants.dart';
 import 'package:gardenia/model/remote/api_service/service/error_handling/errors.dart';
-import 'package:gardenia/model/remote/api_service/service/error_handling/errors.dart';
-import 'package:gardenia/model/remote/api_service/service/error_handling/errors.dart';
-import 'package:gardenia/model/remote/api_service/service/error_handling/errors.dart';
-import 'package:gardenia/model/remote/api_service/service/error_handling/errors.dart';
-import 'package:gardenia/model/remote/api_service/service/error_handling/errors.dart';
-import 'package:gardenia/model/remote/api_service/service/error_handling/errors.dart';
-import 'package:gardenia/model/remote/api_service/service/error_handling/errors.dart';
 import 'package:gardenia/model/remote/api_service/service/languages_and_methods.dart';
 import 'package:gardenia/model/remote/api_service/service/request_model.dart';
 import 'package:multiple_result/multiple_result.dart';
@@ -79,6 +72,26 @@ class PostRepo
     }
   }
 
+
+  Future<Result<Model,CustomError>> forgotPassword(String email)async
+  {
+    Result<Response,CustomError> forgotPassResponse = await apiService.callApi(
+      request: RequestModel(
+        method: Methods.POST,
+        endPoint: ApiConstants.forgotPassword,
+        withToken: false,
+        data: {'email' : email},
+      ),
+    );
+    if(forgotPassResponse.isSuccess())
+      {
+        return Result.success(Executer().factory(forgotPassResponse.getOrThrow()));
+      }
+    else{
+      return Result.error(forgotPassResponse.tryGetError()!);
+    }
+  }
+
   Future<Result<Model,CustomError>> refreshOrLogout({required Operation operation}) async
   {
     Result<Response,CustomError> response = await apiService.callApi(
@@ -109,7 +122,6 @@ class PostRepo
   {
 
     FormData formData = FormData.fromMap({
-      'user_id' : (await CacheHelper.getInstance().getData('userData') as List)[0],
       'caption': caption,
       'image': await MultipartFile.fromFile(
         selectedImage.path,
@@ -141,11 +153,11 @@ class PostRepo
         request: RequestModel(
           method: Methods.POST,
           withToken: true,
-          endPoint: 'posts/$postId/comments',
+          endPoint: ApiConstants.createComment,
           data:
           {
             'content' : comment,
-            'user_id' : CacheHelper.getInstance().sharedPreferences.getStringList('userData')![0].toInt(),
+            // 'user_id' : CacheHelper.getInstance().sharedPreferences.getStringList('userData')![0].toInt(),
             'post_id' : postId,
           }
         ),

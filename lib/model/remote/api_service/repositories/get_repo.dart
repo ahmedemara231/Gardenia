@@ -37,7 +37,8 @@ class GetRepo
     Result<Response, CustomError> getCommentsResponse = await apiService!.callApi(
       request: RequestModel(
           method: Methods.GET,
-          endPoint: 'posts/$postId/comments',
+          endPoint: ApiConstants.getComments,
+          queryParams: {'post_id' : postId},
           withToken: false
       ),
     );

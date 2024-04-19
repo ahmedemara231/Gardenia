@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CacheHelper
@@ -15,11 +17,12 @@ class CacheHelper
   Future<void> cacheInit()async
   {
     sharedPreferences = await SharedPreferences.getInstance();
+    log('Done');
   }
 
   Future<void> setData({
     required String key,
-    required value,
+    required dynamic value,
 })async
   {
     switch(value)

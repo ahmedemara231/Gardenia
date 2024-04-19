@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gardenia/modules/base_widgets/textFormField.dart';
+import '../../../constants/constants.dart';
 import '../../../modules/app_widgets/app_button.dart';
 import '../../../modules/base_widgets/myText.dart';
 
@@ -19,7 +20,7 @@ class ResetPassword extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 16.0.w),
           child: Column(
             children: [
-              Image.asset('images/app_logo.png'),
+              Image.asset(Constants.appLogo),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
                 child: MyText(

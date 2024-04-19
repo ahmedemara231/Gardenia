@@ -5,6 +5,7 @@ class Comment
   String comment;
   String time;
   int userId;
+  int id;
 
   Comment({
     required this.userImageUrl,
@@ -12,5 +13,6 @@ class Comment
     required this.comment,
     required this.time,
     required this.userId,
+    required this.id,
 });
 }

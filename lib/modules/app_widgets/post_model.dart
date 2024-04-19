@@ -40,68 +40,69 @@ class Post extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Row(
-          children: [
-           CircleAvatar(
-             backgroundImage: NetworkImage(userImageUrl?? Constants.defaultProfileImage),
-             radius: 22.sp,
-           ),
-            SizedBox(width: 10.w,),
-            Column(
-              children: [
-                MyText(text: userName,fontSize: 16.sp,fontWeight: FontWeight.bold,),
-                MyText(text: time),
-              ],
-            ),
-            const Spacer(),
-            PopupMenuButton(
-              shape: OutlineInputBorder(
+        ListTile(
+          leading: CircleAvatar(
+            backgroundImage: NetworkImage(userImageUrl?? Constants.defaultProfileImage),
+            radius: 22.sp,
+          ),
+          title:  MyText(text: userName,fontSize: 16.sp,fontWeight: FontWeight.bold,),
+          subtitle: MyText(text: time),
+          trailing: PopupMenuButton(
+            shape: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
                 borderSide: const BorderSide(color: Colors.white,width: 0)
-              ),
-              itemBuilder: (context)
-              {
-                return
-                  [
+            ),
+            itemBuilder: (context)
+            {
+              if(currentUserId == postManagerId){
+                print(true);
+              }
+              else{
+                print(false);
+                print(currentUserId);
+                print(postManagerId);
+              }
+              return
+                [
+                  PopupMenuItem(
+                    onTap: onSave,
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: MyText(
+                            text: 'Save',
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15.sp,
+                            color: Constants.appColor,
+                          ),
+                        ),
+                        const Spacer(),
+                        Icon(Icons.save_alt,color: Constants.appColor,)
+                      ],
+                    ),
+                  ),
+                  if(currentUserId == postManagerId)
                     PopupMenuItem(
-                      onTap: onSave,
+                      onTap: () => context.normalNewRoute(EditPost()),
                       child: Row(
                         children: [
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 8.0),
                             child: MyText(
-                              text: 'Save',
-                              fontWeight: FontWeight.bold,
+                              text: 'Edit',
                               fontSize: 15.sp,
                               color: Constants.appColor,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                           const Spacer(),
-                          Icon(Icons.save_alt,color: Constants.appColor,)
+                          Icon(Icons.edit,color: Constants.appColor,)
                         ],
                       ),
                     ),
-                    if(currentUserId == postManagerId)
-                      PopupMenuItem(
-                        onTap: () => context.normalNewRoute(EditPost()),
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                              child: MyText(
-                                text: 'Edit',
-                                fontSize: 15.sp,
-                                color: Constants.appColor,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const Spacer(),
-                            Icon(Icons.edit,color: Constants.appColor,)
-                          ],
-                        ),
-                      ),
-                    if(currentUserId == postManagerId)
-                      PopupMenuItem(
+                  if(currentUserId == postManagerId)
+                    PopupMenuItem(
                       onTap: onDelete,
                       child: Row(
                         children: [
@@ -119,16 +120,16 @@ class Post extends StatelessWidget {
                         ],
                       ),
                     ),
-                  ];
-              },
-            )
-          ],
+                ];
+            },
+          ),
         ),
         Padding(
           padding: EdgeInsets.symmetric(vertical: 16.0.h),
           child: SizedBox(
               width: context.setWidth(1.1),
-              child: Image.file(File(postImage??''),fit: BoxFit.fill,),
+              child: Image.network('https://$postImage!'),
+              // child: Image.file( File(postImage??''),fit: BoxFit.fill,),
           ),
         ),
         Align(

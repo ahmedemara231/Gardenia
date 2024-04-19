@@ -93,20 +93,9 @@ class CreatePost extends StatelessWidget {
                   height: context.setWidth(1),
                   color: Colors.grey[300],
                   child: CreatePostCubit.getInstance(context).selectedImage != null?
-                  Stack(
-                    children: [
-                      Image.file(
-                        CreatePostCubit.getInstance(context).selectedImage!,
-                        fit: BoxFit.fill,
-                      ),
-                      IconButton(
-                        onPressed: () {},
-                        style: const ButtonStyle(
-                          shape: MaterialStatePropertyAll(RoundedRectangleBorder())
-                        ),
-                        icon: const Icon(Icons.close),
-                      )
-                    ],
+                  Image.file(
+                    CreatePostCubit.getInstance(context).selectedImage!,
+                    fit: BoxFit.fill,
                   ):
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -120,8 +109,6 @@ class CreatePost extends StatelessWidget {
                             await CreatePostCubit.getInstance(context).pickImage(
                                 source: ImageSource.camera
                             );
-                            // CreatePostCubit.getInstance(context).pickFile();
-
                           },
                           icon: const Icon(
                             Icons.add,

@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -108,18 +107,17 @@ class LoginCubit extends Cubit<LoginStates>
   );
   }
 
-  final RoundedLoadingButtonController resetPasswordButtonCont = RoundedLoadingButtonController();
-  Future<void> sendCode(BuildContext context)async
-  {
-    await Future.delayed(const Duration(seconds: 2),()
-    {
-      resetPasswordButtonCont.success();
-      Future.delayed(const Duration(seconds: 1),()async
-      {
-        context.removeOldRoute(ResetPassword());
-      },);
-    },);
-  }
+  // Future<void> sendCode(BuildContext context)async
+  // {
+  //   await Future.delayed(const Duration(seconds: 2),()
+  //   {
+  //     resetPasswordButtonCont.success();
+  //     Future.delayed(const Duration(seconds: 1),()async
+  //     {
+  //       context.removeOldRoute(ResetPassword());
+  //     },);
+  //   },);
+  // }
 
   Future<void> logout(BuildContext context)async
   {

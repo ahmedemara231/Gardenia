@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gardenia/constants/constants.dart';
 import 'package:gardenia/extensions/routes.dart';
 import 'package:gardenia/modules/base_widgets/myText.dart';
 import 'package:gardenia/modules/base_widgets/textFormField.dart';
@@ -39,7 +40,7 @@ class Login extends StatelessWidget {
             key: formKey,
             child: Column(
               children: [
-                Image.asset('images/app_logo.png'),
+                Image.asset(Constants.appLogo),
                 MyText(
                   text: 'Log In',
                   fontSize: 24.sp,
