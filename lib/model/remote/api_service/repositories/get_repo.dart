@@ -5,6 +5,7 @@ import 'package:gardenia/model/remote/api_service/service/constants.dart';
 import 'package:gardenia/model/remote/api_service/service/error_handling/errors.dart';
 import 'package:gardenia/model/remote/api_service/service/languages_and_methods.dart';
 import 'package:gardenia/model/remote/api_service/service/request_model.dart';
+import 'package:gardenia/modules/data_types/plant.dart';
 import 'package:multiple_result/multiple_result.dart';
 import '../service/api_requests.dart';
 
@@ -48,6 +49,39 @@ class GetRepo
       }
     else{
       return Result.error(getCommentsResponse.tryGetError()!);
+    }
+  }
+
+  Future<Result<List<Plant>,CustomError>> getAllCategories()async
+  {
+    Result<Response, CustomError> getAllCategoriesRes = await apiService!.callApi(
+        request: RequestModel(
+            method: Methods.GET,
+            endPoint: ApiConstants.allCategories,
+            withToken: false,
+        ),
+    );
+    if(getAllCategoriesRes.isSuccess())
+      {
+        return Result.success((getAllCategoriesRes.tryGetSuccess()!.data['data']['plants'] as List).map((e) => Plant(
+            id: e['id'],
+            name: e['name'],
+            image: e['image'],
+            description: e['description'],
+            type: e['type'],
+            light: e['light'],
+            ideal_temperature: e['ideal_temperature'],
+            resistance_zone: e['resistance_zone'],
+            suitable_location: e['suitable_location'],
+            careful: e['careful'],
+            liquid_fertilizer: e['liquid_fertilizer'],
+            clean: e['clean'],
+            toxicity: e['toxicity'],
+            names: e['names']
+        )).toList());
+      }
+    else{
+      return Result.error(getAllCategoriesRes.tryGetError()!);
     }
   }
 }

@@ -25,7 +25,7 @@ class ItemModel extends StatelessWidget {
           padding: EdgeInsets.symmetric(vertical: 12.0.h,horizontal: 16.w),
           child: Column(
             children: [
-              Expanded(child: Image.asset(imageUrl)),
+              Expanded(child: Image.network(imageUrl)),
               MyText(
                 text: plantName,
                 color: Constants.appColor,

@@ -8,6 +8,7 @@ import 'package:gardenia/model/local/shared_prefs.dart';
 import 'package:gardenia/model/remote/api_service/model/model.dart';
 import 'package:gardenia/model/remote/api_service/repositories/post_repo.dart';
 import 'package:gardenia/model/remote/api_service/service/dio_connection.dart';
+import 'package:gardenia/model/remote/api_service/service/error_handling/errors.dart';
 import 'package:gardenia/modules/base_widgets/toast.dart';
 import 'package:gardenia/view/auth/reset_password/reset_password.dart';
 import 'package:gardenia/view_model/Login/states.dart';
@@ -90,34 +91,30 @@ class LoginCubit extends Cubit<LoginStates>
         }
       else{
         loginButtonCont.error();
-        await Future.delayed(
-          const Duration(milliseconds: 1500),
-              () {
-            loginButtonCont.reset();
-            MyToast.showToast(
-              context,
-              msg: '${result.tryGetError()?.message}',
-              color: Colors.red,
+
+        if(result.tryGetError() is NetworkError || result.tryGetError() is UnprocessableEntityError)
+          {
+            await Future.delayed(
+              const Duration(milliseconds: 1500),
+                  () {
+                loginButtonCont.reset();
+                MyToast.showToast(
+                  context,
+                  msg: '${result.tryGetError()?.message}',
+                  color: Colors.red,
+                );
+              },
             );
-          },
-        );
+          }
+        else{
+          log(result.tryGetError()!.message!);
+        }
+
         emit(LoginErrorState());
       }
     },
   );
   }
-
-  // Future<void> sendCode(BuildContext context)async
-  // {
-  //   await Future.delayed(const Duration(seconds: 2),()
-  //   {
-  //     resetPasswordButtonCont.success();
-  //     Future.delayed(const Duration(seconds: 1),()async
-  //     {
-  //       context.removeOldRoute(ResetPassword());
-  //     },);
-  //   },);
-  // }
 
   Future<void> logout(BuildContext context)async
   {
@@ -134,19 +131,6 @@ class LoginCubit extends Cubit<LoginStates>
       }
     });
   }
-
-  // Future<void> refreshToken(BuildContext context)async
-  // {
-  //   await postRepo.refreshOrLogout(operation: Operation.refresh).then((result) {
-  //     if (result.isSuccess()) {
-  //       emit(RefreshTokenSuccessState());
-  //     }
-  //     else {
-  //       MyToast.showToast(context, msg: 'try again later', color: Colors.red);
-  //       emit(RefreshTokenErrorState());
-  //     }
-  //   });
-  // }
 }
 
 

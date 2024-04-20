@@ -34,6 +34,10 @@ class ConflictError extends CustomError {
   ConflictError(super.message);
 }
 
+class UnprocessableEntityError extends CustomError {
+  UnprocessableEntityError(super.message);
+}
+
 class BadCertificateError extends CustomError {
   BadCertificateError(super.message);
 }

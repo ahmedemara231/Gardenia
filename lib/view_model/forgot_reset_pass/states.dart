@@ -19,3 +19,9 @@ class ResetNewPasswordLoading extends ForgotResetPassStates {}
 class ResetNewPasswordSuccess extends ForgotResetPassStates {}
 
 class ResetNewPasswordError extends ForgotResetPassStates {}
+
+
+class FillContState extends ForgotResetPassStates {}
+
+
+

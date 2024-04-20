@@ -17,5 +17,4 @@ class SuccessModel extends Model
         data: data['data'],
     );
   }
-
 }

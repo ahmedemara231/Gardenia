@@ -1,12 +1,14 @@
 class ApiConstants
 {
   // base url
-  static const String baseUrl = 'https://6cab-45-243-136-140.ngrok-free.app/api/v1/';
+  static const String baseUrl = 'https://ce34-45-246-233-71.ngrok-free.app/api/v1/';
 
   // Auth
   static const String login = 'login';
   static const String signUp = 'register';
   static const String forgotPassword = 'password/forget_password';
+  static const String sendCode = 'password/otp_password';
+  static const String resetPassword = 'password/reset_password';
   static const String refreshToken = 'refresh';
   static const String logout = 'logout';
 
@@ -21,4 +23,6 @@ class ApiConstants
   static const String createComment = 'posts/create_comments';
   static const String deleteComment = 'comments';
 
+  // categories
+  static const String allCategories = 'AllCategories';
 }

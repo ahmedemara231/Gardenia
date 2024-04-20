@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gardenia/constants/constants.dart';
 import 'package:gardenia/extensions/mediaQuery.dart';
+import 'package:gardenia/extensions/routes.dart';
 import 'package:gardenia/modules/base_widgets/textFormField.dart';
-import 'package:gardenia/view_model/Login/cubit.dart';
-import 'package:gardenia/view_model/forgot_reset_pass/cubit.dart';
-import 'package:gardenia/view_model/forgot_reset_pass/cubit.dart';
+import 'package:gardenia/view/auth/otp_code/screen.dart';
 import 'package:gardenia/view_model/forgot_reset_pass/cubit.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 import '../../../modules/base_widgets/myText.dart';
@@ -63,7 +62,16 @@ class ForgetPassword extends StatelessWidget {
                 {
                   if(formKey.currentState!.validate())
                     {
-                      await ForgotResetPassCubit.getInstance(context).forgotPassword(context, forgetPassCont.text);
+                      await ForgotResetPassCubit.getInstance(context).forgotPassword(
+                          context,
+                          forgetPassCont.text
+                      ).then((value) {
+                        context.normalNewRoute(
+                          OtpCode(
+                            email: forgetPassCont.text,
+                          ),
+                        );
+                      });
                     }
                   else{
                     ForgotResetPassCubit.getInstance(context).forgotPasswordButtonCont.reset();

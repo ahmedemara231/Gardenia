@@ -1,3 +1,5 @@
+  import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gardenia/extensions/routes.dart';
@@ -8,6 +10,7 @@ import 'package:gardenia/view_model/sign_up/states.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 import '../../constants/constants.dart';
 import '../../model/remote/api_service/model/model.dart';
+import '../../model/remote/api_service/service/error_handling/errors.dart';
 import '../../modules/base_widgets/toast.dart';
 import '../../view/auth/login/login.dart';
 
@@ -52,17 +55,24 @@ class SignUpCubit extends Cubit<SignUpStates>
         }
       else{
         signUpButtonCont.error();
-        Future.delayed(
-          const Duration(milliseconds: 1500),
-          () {
-            signUpButtonCont.reset();
-            MyToast.showToast(
-              context,
-              msg: '${result.tryGetError()}',
-              color: Colors.red,
+
+        if(result.tryGetError() is NetworkError || result.tryGetError() is UnprocessableEntityError)
+          {
+            Future.delayed(
+              const Duration(milliseconds: 1500),
+                  () {
+                signUpButtonCont.reset();
+                MyToast.showToast(
+                  context,
+                  msg: '${result.tryGetError()}',
+                  color: Colors.red,
+                );
+              },
             );
-          },
-        );
+          }
+        else{
+          log(result.tryGetError()!.message!);
+        }
         emit(SignUpErrorState());
       }
     });

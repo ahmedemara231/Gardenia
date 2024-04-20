@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:gardenia/extensions/string.dart';
 import 'package:gardenia/model/local/shared_prefs.dart';
 import 'package:gardenia/model/remote/api_service/service/constants.dart';
@@ -88,9 +89,66 @@ class PostRepo
         return Result.success(Executer().factory(forgotPassResponse.getOrThrow()));
       }
     else{
+
       return Result.error(forgotPassResponse.tryGetError()!);
     }
   }
+
+
+  Future<Result<Model,CustomError>> sendOTPCode({
+    required String email,
+    required String code,
+  })async
+  {
+    Result<Response,CustomError> sendCodeResponse = await apiService.callApi(
+      request: RequestModel(
+          method: Methods.POST,
+          endPoint: ApiConstants.sendCode,
+          withToken: false,
+          data:
+          {
+            'email' : email,
+            'otp' : code,
+          }
+      ),
+    );
+    if(sendCodeResponse.isSuccess())
+    {
+      return Result.success(Executer().factory(sendCodeResponse.getOrThrow()));
+    }
+    else{
+      return Result.error(sendCodeResponse.tryGetError()!);
+    }
+  }
+
+  Future<Result<Model,CustomError>> resetPassword({
+    required String email,
+    required String newPass,
+    required String conformNewPass,
+  })async
+  {
+    Result<Response,CustomError> resetPassResponse = await apiService.callApi(
+      request: RequestModel(
+          method: Methods.POST,
+          endPoint: ApiConstants.resetPassword,
+          withToken: false,
+          data:
+          {
+            'email' : email,
+            'password' : newPass,
+            'password_confirm' : conformNewPass
+          }
+      ),
+    );
+    if(resetPassResponse.isSuccess())
+    {
+      return Result.success(Executer().factory(resetPassResponse.getOrThrow()));
+    }
+    else{
+      return Result.error(resetPassResponse.tryGetError()!);
+    }
+  }
+
 
   Future<Result<Model,CustomError>> refreshOrLogout({required Operation operation}) async
   {
@@ -157,7 +215,6 @@ class PostRepo
           data:
           {
             'content' : comment,
-            // 'user_id' : CacheHelper.getInstance().sharedPreferences.getStringList('userData')![0].toInt(),
             'post_id' : postId,
           }
         ),
@@ -170,5 +227,6 @@ class PostRepo
       return Result.error(createCommentResponse.tryGetError()!);
     }
   }
+
 
 }
