@@ -12,6 +12,11 @@ class GetPostsSuccessState extends HomeStates{}
 
 class GetPostsErrorState extends HomeStates{}
 
+class GetPostsNetworkErrorState extends HomeStates{
+  String message;
+  GetPostsNetworkErrorState({required this.message,});
+}
+
 class DeletePostSuccess extends HomeStates{}
 
 class DeletePostError extends HomeStates{}

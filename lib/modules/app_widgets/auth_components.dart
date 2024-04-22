@@ -79,7 +79,7 @@ class AuthComponents extends StatelessWidget {
                   SizedBox(
                     width: 75,
                     height: 55,
-                    child: Image.asset('images/google.png'),
+                    child: Image.asset(Constants.google),
                   ),
                   MyText(
                     text: 'Login with Google',

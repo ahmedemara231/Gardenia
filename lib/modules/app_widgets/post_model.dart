@@ -1,14 +1,18 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_expandable_text/flutter_expandable_text.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gardenia/constants/constants.dart';
 import 'package:gardenia/extensions/mediaQuery.dart';
 import 'package:gardenia/extensions/routes.dart';
+import 'package:gardenia/model/remote/api_service/service/constants.dart';
 import 'package:gardenia/modules/base_widgets/myText.dart';
+import 'package:gardenia/view_model/home/cubit.dart';
 import '../../view/edit_post/edit_post.dart';
+import '../../view/home/post_comments.dart';
 
 class Post extends StatelessWidget {
 
+  int? id;
   int currentUserId;
   int postManagerId;
   String? userImageUrl;
@@ -16,13 +20,11 @@ class Post extends StatelessWidget {
   String? caption;
   String? postImage;
   int commentsNumber;
-  void Function()? onPressed;
-  void Function()? onSave;
-  void Function()? onDelete;
   String time;
 
 
   Post({super.key,
+    this.id,
     required this.currentUserId,
     required this.postManagerId,
     required this.userImageUrl,
@@ -30,19 +32,21 @@ class Post extends StatelessWidget {
     required this.postImage,
     required this.caption,
     required this.commentsNumber,
-    required this.onPressed,
-    required this.onSave,
-    required this.onDelete,
-    required this.time
+    required this.time,
   });
 
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         ListTile(
           leading: CircleAvatar(
-            backgroundImage: NetworkImage(userImageUrl?? Constants.defaultProfileImage),
+            backgroundImage: NetworkImage(
+                userImageUrl == null?
+                Constants.defaultProfileImage :
+                '${ApiConstants.baseUrlForImages}$userImageUrl'
+            ),
             radius: 22.sp,
           ),
           title:  MyText(text: userName,fontSize: 16.sp,fontWeight: FontWeight.bold,),
@@ -54,18 +58,15 @@ class Post extends StatelessWidget {
             ),
             itemBuilder: (context)
             {
-              if(currentUserId == postManagerId){
-                print(true);
-              }
-              else{
-                print(false);
-                print(currentUserId);
-                print(postManagerId);
-              }
               return
                 [
                   PopupMenuItem(
-                    onTap: onSave,
+                    onTap: ()
+                    {
+                      // homeCubit.addToFavorites(
+                      //   homeCubit.fakePosts[index],
+                      // );
+                    },
                     child: Row(
                       children: [
                         Padding(
@@ -103,7 +104,12 @@ class Post extends StatelessWidget {
                     ),
                   if(currentUserId == postManagerId)
                     PopupMenuItem(
-                      onTap: onDelete,
+                      onTap: () async{
+                        await HomeCubit.getInstance(context).deletePost(
+                          context,
+                          postId: id!,
+                        );
+                      },
                       child: Row(
                         children: [
                           Padding(
@@ -126,21 +132,43 @@ class Post extends StatelessWidget {
         ),
         Padding(
           padding: EdgeInsets.symmetric(vertical: 16.0.h),
-          child: SizedBox(
+          child: postImage == null? const SizedBox() : SizedBox(
               width: context.setWidth(1.1),
-              child: Image.network('https://$postImage!'),
-              // child: Image.file( File(postImage??''),fit: BoxFit.fill,),
+              child: Image.network(
+                  '${ApiConstants.baseUrlForImages}$postImage',
+                  fit: BoxFit.fill,
+              ),
           ),
         ),
-        Align(
-          alignment: Alignment.centerLeft,
-          child: MyText(text: caption??'',fontSize: 16.sp),
+        ExpandableText(
+          caption?? '',
+          style: TextStyle(fontSize: 16.sp,color: Colors.black),
+          linkTextStyle: const TextStyle(color: Colors.blue),
+          trimType: TrimType.lines,
+          trim: 2,
+          readMoreText: 'show more',
+          readLessText: 'show less',
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             IconButton(
-              onPressed: onPressed,
+              onPressed: () async
+              {
+                context.normalNewRoute(
+                  PostComments(
+                    postId: id!,
+                    currentUserId: currentUserId,
+                    postManagerId: postManagerId,
+                    userImageUrl: userImageUrl,
+                    userName: userName,
+                    postImage: postImage,
+                    caption: caption!,
+                    commentsNumber: commentsNumber,
+                    time: time,
+                  ),
+                );
+              },
               icon: const Icon(Icons.mode_comment_outlined,color: Colors.grey,),
             ),
             MyText(text: '$commentsNumber',color: Colors.grey,),

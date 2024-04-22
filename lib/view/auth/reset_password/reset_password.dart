@@ -69,6 +69,7 @@ class ResetPassword extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.symmetric(vertical: 16.0.h),
                   child: AppButton(
+                      width: 1.2,
                       onPressed: () async
                       {
                         if(formKey.currentState!.validate())

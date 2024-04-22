@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -10,10 +9,6 @@ import 'package:gardenia/view/auth/forgot_password/forgetpassword.dart';
 import 'package:gardenia/view/auth/sign_up/sign_up.dart';
 import 'package:gardenia/view_model/Login/cubit.dart';
 import 'package:gardenia/view_model/Login/states.dart';
-import 'package:gardenia/view_model/create_post/cubit.dart';
-import '../../../model/local/flutter_secure_storage.dart';
-import '../../../model/local/shared_prefs.dart';
-import '../../../model/remote/api_service/service/dio_connection.dart';
 import '../../../modules/app_widgets/auth_components.dart';
 
 class Login extends StatelessWidget {
@@ -30,7 +25,7 @@ class Login extends StatelessWidget {
         actions: [
           IconButton(onPressed: () async{
 
-          }, icon: Icon(Icons.add))
+          }, icon: const Icon(Icons.add),)
         ],
       ),
       body: SingleChildScrollView(
@@ -114,7 +109,7 @@ class Login extends StatelessWidget {
                     children: [
                       BlocBuilder<LoginCubit,LoginStates>(
                         builder: (context, state) => Checkbox(
-                          value: LoginCubit.getInstance(context).rememberMe,
+                          value: LoginCubit.getInstance(context).remember,
                           onChanged: (value)
                           {
                             LoginCubit.getInstance(context).changeRememberMe();

@@ -80,9 +80,6 @@ class ShimmerEffect extends StatelessWidget {
                   caption: HomeCubit.getInstance(context).fakePosts[index].postCaption,
                   commentsNumber: HomeCubit.getInstance(context).fakePosts[index].commentsNumber,
                   time: '',
-                  onPressed: () {},
-                  onSave: () {},
-                  onDelete: () {},
                 )
               ),
             ),

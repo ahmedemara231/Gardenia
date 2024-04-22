@@ -30,13 +30,13 @@ class LoginCubit extends Cubit<LoginStates>
     emit(ChangePasswordVisibilityState());
   }
 
-  bool rememberMe = false;
+  bool remember = false;
   Future<void> changeRememberMe()async
   {
-    rememberMe = !rememberMe;
+    remember = !remember;
     await CacheHelper.getInstance().setData(
         key: 'rememberMe',
-        value: rememberMe
+        value: remember
     );
     emit(ChangeRememberMeState());
   }

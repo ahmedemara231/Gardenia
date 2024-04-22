@@ -6,7 +6,8 @@ import 'package:gardenia/extensions/routes.dart';
 import 'package:gardenia/extensions/string.dart';
 import 'package:gardenia/model/local/shared_prefs.dart';
 import 'package:gardenia/modules/data_types/post.dart';
-import 'package:gardenia/view/home/home.dart';
+import 'package:gardenia/modules/data_types/fake_posts_data.dart';
+import 'package:gardenia/view/bottomNavBar/bottom_nav_bar.dart';
 import 'package:gardenia/view_model/create_post/states.dart';
 import 'package:gardenia/view_model/home/cubit.dart';
 import 'package:image_picker/image_picker.dart';
@@ -20,7 +21,6 @@ class CreatePostCubit extends Cubit<CreatePostStates>
   factory CreatePostCubit.getInstance(context) => BlocProvider.of(context);
 
   final ImagePicker picker = ImagePicker();
-
   XFile? image;
   File? selectedImage;
   Future<void> pickImage({required ImageSource source})async
@@ -61,22 +61,10 @@ class CreatePostCubit extends Cubit<CreatePostStates>
       if(result.isSuccess())
         {
           createPostCont.success();
-          HomeCubit.getInstance(context).addPost(
-              Post(
-                  postId: result.getOrThrow().data?['id'],
-                  caption: result.getOrThrow().data?['caption'],
-                  image: result.getOrThrow().data?['image'],
-                  commentsCount: 0,
-                  creationTime:result.getOrThrow().data? ['created_at'],
-                  userId: (await CacheHelper.getInstance().getData('userData') as List<String>)[0].toInt(),
-                  userName: (await CacheHelper.getInstance().getData('userData') as List<String>)[1],
-                  userImage: Constants.defaultProfileImage
-              ),
-          );
           await Future.delayed(
             const Duration(milliseconds: 1500),
                 () {
-              Navigator.pop(context);
+              context.removeOldRoute(BottomNavBar());
               selectedImage = null;
             },
           );

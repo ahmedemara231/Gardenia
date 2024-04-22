@@ -42,6 +42,8 @@ dependencies:
   shimmer: ^3.0.0
   image_picker: ^1.0.7
   pinput: ^4.0.0
+  flutter_expandable_text: ^1.0.0
+  page_transition: "^2.1.0"
 
 
 
@@ -56,4 +58,5 @@ flutter:
   uses-material-design: true
 
   assets:
-    - images/
+    - assets/images/
+    - assets/icons/

@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gardenia/extensions/mediaQuery.dart';
 import '../../constants/constants.dart';
-import '../../modules/base_widgets/myText.dart';
+import '../base_widgets/myText.dart';
 
-class ItemModel extends StatelessWidget {
+class PlantModel extends StatelessWidget {
 
   String imageUrl;
   String plantName;
   String plantType;
 
-  ItemModel({super.key,
+  PlantModel({super.key,
     required this.imageUrl,
     required this.plantName,
     required this.plantType,
@@ -22,10 +22,23 @@ class ItemModel extends StatelessWidget {
       width: context.setWidth(2.7),
       child: Card(
         child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 12.0.h,horizontal: 16.w),
+          padding: EdgeInsets.symmetric(vertical: 8.h,horizontal: 5),
           child: Column(
             children: [
-              Expanded(child: Image.network(imageUrl)),
+              Expanded(
+                child: Container(
+                  padding: const EdgeInsets.only(bottom: 5),
+                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5)
+                  ),
+                  width: double.infinity,
+                  child: Image.network(
+                    imageUrl,
+                    fit: BoxFit.fill,
+                  ),
+                ),
+              ),
               MyText(
                 text: plantName,
                 color: Constants.appColor,

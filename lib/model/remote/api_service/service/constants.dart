@@ -1,7 +1,8 @@
 class ApiConstants
 {
   // base url
-  static const String baseUrl = 'https://ce34-45-246-233-71.ngrok-free.app/api/v1/';
+  static const String baseUrl = 'https://6013-45-246-231-22.ngrok-free.app/api/v1/';
+  static const String baseUrlForImages = 'https://6013-45-246-231-22.ngrok-free.app';
 
   // Auth
   static const String login = 'login';
@@ -23,6 +24,13 @@ class ApiConstants
   static const String createComment = 'posts/create_comments';
   static const String deleteComment = 'comments';
 
-  // categories
+  // plants
   static const String allCategories = 'AllCategories';
+  static const String popularPlants = 'plants/popular';
+  static const String plantsByCategory = 'plants';
+
+  // profile
+  static const String getProfileData = 'profile';
+  static const String updateProfile = 'update_profile';
+
 }

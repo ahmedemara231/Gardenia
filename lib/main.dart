@@ -13,6 +13,8 @@ import 'package:gardenia/view/categories/categories.dart';
 import 'package:gardenia/view/create_post/create_post.dart';
 import 'package:gardenia/view/home/home.dart';
 import 'package:gardenia/view/onBoarding/onBoarding_screen.dart';
+import 'package:gardenia/view/settting/setting.dart';
+import 'package:gardenia/view/profile/profile.dart';
 import 'package:gardenia/view_model/Login/cubit.dart';
 import 'package:gardenia/view_model/bloc_observer.dart';
 import 'package:gardenia/view_model/bottomNavBar/cubit.dart';
@@ -21,7 +23,9 @@ import 'package:gardenia/view_model/create_post/cubit.dart';
 import 'package:gardenia/view_model/forgot_reset_pass/cubit.dart';
 import 'package:gardenia/view_model/home/cubit.dart';
 import 'package:gardenia/view_model/onBoarding/cubit.dart';
+import 'package:gardenia/view_model/profile/cubit.dart';
 import 'package:gardenia/view_model/sign_up/cubit.dart';
+import 'package:gardenia/view_model/update_profile/cubit.dart';
 
 void main()async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -50,10 +54,12 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (context) =>  HomeCubit()),
           BlocProvider(create: (context) =>  CategoriesCubit()),
           BlocProvider(create: (context) =>  CreatePostCubit()),
+          BlocProvider(create: (context) =>  ProfileCubit()),
+          BlocProvider(create: (context) =>  UpdateProfileCubit()),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
-          home: Login(),
+          home: Home(),
         ),
       ),
     );

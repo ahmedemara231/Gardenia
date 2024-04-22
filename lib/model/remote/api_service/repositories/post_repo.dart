@@ -39,13 +39,10 @@ class PostRepo
           withToken: false
       ),
     );
-    if(loginResult.isSuccess())
-      {
-        return Result.success(Executer().factory(loginResult.getOrThrow()));
-      }
-    else{
-      return Result.error(loginResult.tryGetError()!);
-    }
+    return loginResult.when(
+          (success) => Result.success(Executer().factory(success)),
+          (error) => Result.error(error),
+    );
   }
 
   Future<Result<Model,CustomError>> signUp(UserData user)async
@@ -64,13 +61,10 @@ class PostRepo
           withToken: false
       ),
     );
-    if(signUpResult.isSuccess())
-      {
-        return Result.success(Executer().factory(signUpResult.getOrThrow()));
-      }
-    else{
-      return Result.error(signUpResult.tryGetError()!);
-    }
+    return signUpResult.when(
+          (success) => Result.success(Executer().factory(success)),
+          (error) => Result.error(error),
+    );
   }
 
 
@@ -84,14 +78,10 @@ class PostRepo
         data: {'email' : email},
       ),
     );
-    if(forgotPassResponse.isSuccess())
-      {
-        return Result.success(Executer().factory(forgotPassResponse.getOrThrow()));
-      }
-    else{
-
-      return Result.error(forgotPassResponse.tryGetError()!);
-    }
+    return forgotPassResponse.when(
+          (success) => Result.success(Executer().factory(success)),
+          (error) => Result.error(error),
+    );
   }
 
 
@@ -112,13 +102,10 @@ class PostRepo
           }
       ),
     );
-    if(sendCodeResponse.isSuccess())
-    {
-      return Result.success(Executer().factory(sendCodeResponse.getOrThrow()));
-    }
-    else{
-      return Result.error(sendCodeResponse.tryGetError()!);
-    }
+    return sendCodeResponse.when(
+          (success) => Result.success(Executer().factory(success)),
+          (error) => Result.error(error),
+    );
   }
 
   Future<Result<Model,CustomError>> resetPassword({
@@ -140,13 +127,10 @@ class PostRepo
           }
       ),
     );
-    if(resetPassResponse.isSuccess())
-    {
-      return Result.success(Executer().factory(resetPassResponse.getOrThrow()));
-    }
-    else{
-      return Result.error(resetPassResponse.tryGetError()!);
-    }
+    return resetPassResponse.when(
+          (success) => Result.success(Executer().factory(success)),
+          (error) => Result.error(error),
+    );
   }
 
 
@@ -162,13 +146,10 @@ class PostRepo
           withToken: true
       ),
     );
-    if(response.isSuccess())
-      {
-        return Result.success(Executer().factory(response.getOrThrow()));
-      }
-    else{
-      return Result.error(response.tryGetError()!);
-    }
+    return response.when(
+          (success) => Result.success(Executer().factory(success)),
+          (error) => Result.error(error),
+    );
   }
 
 
@@ -196,13 +177,10 @@ class PostRepo
         onSendProgress: onSendProgress
       ),
     );
-    if(createPostResponse.isSuccess())
-    {
-      return Result.success(Executer().factory(createPostResponse.getOrThrow()));
-    }
-    else{
-      return Result.error(createPostResponse.tryGetError()!);
-    }
+    return createPostResponse.when(
+          (success) => Result.success(Executer().factory(success)),
+          (error) => Result.error(error),
+    );
   }
 
   Future<Result<Model,CustomError>> createComment({required int postId,required String comment})async
@@ -219,13 +197,10 @@ class PostRepo
           }
         ),
     );
-    if(createCommentResponse.isSuccess())
-      {
-        return Result.success(Executer().factory(createCommentResponse.getOrThrow()));
-      }
-    else{
-      return Result.error(createCommentResponse.tryGetError()!);
-    }
+    return createCommentResponse.when(
+          (success) => Result.success(Executer().factory(success)),
+          (error) => Result.error(error),
+    );
   }
 
 

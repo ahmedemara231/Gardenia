@@ -1,4 +1,4 @@
-class Post
+class PostData2
 {
   int postId;
   int userId;
@@ -9,7 +9,7 @@ class Post
   String userName;
   String? userImage;
 
-  Post({
+  PostData2({
     required this.postId,
     required this.caption,
     required this.image,
@@ -18,5 +18,5 @@ class Post
     required this.userId,
     required this.userName,
     required this.userImage,
-});
+  });
 }

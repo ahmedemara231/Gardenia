@@ -1,12 +1,7 @@
 import 'dart:developer';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gardenia/constants/constants.dart';
-import 'package:gardenia/extensions/mediaQuery.dart';
 import 'package:gardenia/extensions/string.dart';
 import 'package:gardenia/model/local/flutter_secure_storage.dart';
 import 'package:gardenia/model/local/shared_prefs.dart';
@@ -16,13 +11,10 @@ import 'package:gardenia/model/remote/api_service/repositories/get_repo.dart';
 import 'package:gardenia/model/remote/api_service/repositories/post_repo.dart';
 import 'package:gardenia/model/remote/api_service/service/dio_connection.dart';
 import 'package:gardenia/model/remote/api_service/service/error_handling/errors.dart';
-import 'package:gardenia/model/remote/api_service/service/languages_and_methods.dart';
-import 'package:gardenia/model/remote/api_service/service/request_model.dart';
 import 'package:gardenia/modules/base_widgets/toast.dart';
 import 'package:gardenia/modules/data_types/comment.dart';
 import 'package:gardenia/modules/data_types/post.dart';
-import 'package:gardenia/modules/data_types/posts_data.dart';
-import 'package:gardenia/modules/app_widgets/comments_model.dart';
+import 'package:gardenia/modules/data_types/fake_posts_data.dart';
 import 'package:gardenia/view_model/home/states.dart';
 
 class HomeCubit extends Cubit<HomeStates>
@@ -36,24 +28,24 @@ class HomeCubit extends Cubit<HomeStates>
     return token;
   }
 
-  List<PostData> fakePosts =
+  List<FakePostData> fakePosts =
   [
-    PostData(userImageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKXYSs2F_0O04sLv8AjIH43Owr2rEIfkFEOA&usqp=CAU', userName: 'Ahmed Emara', postImage: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKXYSs2F_0O04sLv8AjIH43Owr2rEIfkFEOA&usqp=CAU', postCaption: 'Hello to everyone', commentsNumber: 15),
-    PostData(userImageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqQMwq_mZ2I9qpXPhmIeJ5on2jZTavrF65Kw&usqp=CAU', userName: 'abdallah saad', postImage: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqQMwq_mZ2I9qpXPhmIeJ5on2jZTavrF65Kw&usqp=CAU', postCaption: 'Hello Gyes', commentsNumber: 50),
-    PostData(userImageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAOk_Z2l6Qsdg6BO3fhHSJZs1O3Wv4QQknng&usqp=CAU', userName: 'Shrouk', postImage: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAOk_Z2l6Qsdg6BO3fhHSJZs1O3Wv4QQknng&usqp=CAU', postCaption: 'Hello everybody', commentsNumber: 20),
-    PostData(userImageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-eF2EPE0vA6B9cNIfTX_lnizV3OGwTdADaA&usqp=CAU', userName: 'Rewan Elmallah', postImage: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-eF2EPE0vA6B9cNIfTX_lnizV3OGwTdADaA&usqp=CAU', postCaption: 'Welcome', commentsNumber: 10),
-    PostData(userImageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlCovEjfkoAOO2lBxcLc1X9bakoJryadHWOQ&usqp=CAU', userName: 'Rahaf', postImage: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlCovEjfkoAOO2lBxcLc1X9bakoJryadHWOQ&usqp=CAU', postCaption: 'Welcome Guyes', commentsNumber: 30),
+    FakePostData(userImageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKXYSs2F_0O04sLv8AjIH43Owr2rEIfkFEOA&usqp=CAU', userName: 'Ahmed Emara', postImage: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKXYSs2F_0O04sLv8AjIH43Owr2rEIfkFEOA&usqp=CAU', postCaption: 'Hello to everyone', commentsNumber: 15),
+    FakePostData(userImageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqQMwq_mZ2I9qpXPhmIeJ5on2jZTavrF65Kw&usqp=CAU', userName: 'abdallah saad', postImage: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqQMwq_mZ2I9qpXPhmIeJ5on2jZTavrF65Kw&usqp=CAU', postCaption: 'Hello Gyes', commentsNumber: 50),
+    FakePostData(userImageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAOk_Z2l6Qsdg6BO3fhHSJZs1O3Wv4QQknng&usqp=CAU', userName: 'Shrouk', postImage: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAOk_Z2l6Qsdg6BO3fhHSJZs1O3Wv4QQknng&usqp=CAU', postCaption: 'Hello everybody', commentsNumber: 20),
+    FakePostData(userImageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-eF2EPE0vA6B9cNIfTX_lnizV3OGwTdADaA&usqp=CAU', userName: 'Rewan Elmallah', postImage: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-eF2EPE0vA6B9cNIfTX_lnizV3OGwTdADaA&usqp=CAU', postCaption: 'Welcome', commentsNumber: 10),
+    FakePostData(userImageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlCovEjfkoAOO2lBxcLc1X9bakoJryadHWOQ&usqp=CAU', userName: 'Rahaf', postImage: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlCovEjfkoAOO2lBxcLc1X9bakoJryadHWOQ&usqp=CAU', postCaption: 'Welcome Guyes', commentsNumber: 30),
   ];
 
-  List<PostData> favorites = [];
-  void addToFavorites(PostData post)
+  List<PostData2> favorites = [];
+  void addToFavorites(PostData2 post)
   {
     favorites.add(post);
     print(favorites);
     emit(AddToFavoritesState());
   }
 
-  void removeFromFavorites(PostData post)
+  void removeFromFavorites(PostData2 post)
   {
     favorites.remove(post);
     print(favorites);
@@ -63,13 +55,10 @@ class HomeCubit extends Cubit<HomeStates>
   GetRepo getRepo = GetRepo(apiService: DioConnection.getInstance());
 
   late Model postsResult;
-  List<Post> posts = [];
+  List<PostData2> posts = [];
   Future<void> getPosts()async
   {
     emit(GetPostsLoadingState());
-
-    // final cachedImage = await DefaultCacheManager().getSingleFile('http://Dl2XB8ZYdyrVWUtNm3CRYkfNoEczdBe5.png');
-    // print(cachedImage);
 
     await getRepo.getPosts().then((result)
     {
@@ -77,7 +66,7 @@ class HomeCubit extends Cubit<HomeStates>
         {
           postsResult = result.getOrThrow();
 
-          posts = ( postsResult.data!['posts'] as List ).map((e) => Post(
+          posts = ( postsResult.data!['posts'] as List ).map((e) => PostData2(
               postId: e['id'],
               caption: e['caption'],
               image: e['image'],
@@ -88,31 +77,13 @@ class HomeCubit extends Cubit<HomeStates>
               userImage: e['user']['image']
           ),).toList();
 
-          // posts.forEach((element) async{
-          //   if(element.image != null)
-          //     {
-          //       final cachedImage = await DefaultCacheManager().getSingleFile('http://${element.image!}');
-          //       print(cachedImage);
-          //     }
-          //   else{
-          //     return;
-          //   }
-          // });
-
           emit(GetPostsSuccessState());
-
         }
       else{
-        print('error is ${result.tryGetError()}');
+        log('error is ${result.tryGetError()}');
         emit(GetPostsErrorState());
       }
     });
-  }
-
-  void addPost(Post post)
-  {
-    posts.insert(0, post);
-    emit(GetPostsSuccessState());
   }
 
   DeleteRepo deleteRepo = DeleteRepo(apiService: DioConnection.getInstance());
@@ -139,6 +110,9 @@ class HomeCubit extends Cubit<HomeStates>
                 msg: 'Check your internet connection and try again',
                 color: Colors.red
             );
+            emit(GetPostsNetworkErrorState(
+                message: 'Check your internet connection and try again',
+            ));
           }
         emit(DeletePostError());
       }

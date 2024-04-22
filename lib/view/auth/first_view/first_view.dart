@@ -29,6 +29,7 @@ class FirstView extends StatelessWidget {
             Column(
               children: [
                 AppButton(
+                  width: 1.2,
                   onPressed: ()
                   {
                     Navigator.push(
@@ -42,6 +43,7 @@ class FirstView extends StatelessWidget {
                 ),
                 SizedBox(height: 12.h,),
                 AppButton(
+                  width: 1.2,
                   onPressed: ()
                   {
                     Navigator.push(

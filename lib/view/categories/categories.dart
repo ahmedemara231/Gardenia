@@ -3,14 +3,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gardenia/constants/constants.dart';
 import 'package:gardenia/extensions/mediaQuery.dart';
+import 'package:gardenia/modules/app_widgets/popular_plants.dart';
 import 'package:gardenia/modules/base_widgets/myText.dart';
 import 'package:gardenia/modules/base_widgets/textFormField.dart';
-import 'package:gardenia/view/categories/item_model.dart';
+import 'package:gardenia/modules/app_widgets/plant_model.dart';
 import 'package:gardenia/view_model/categories/cubit.dart';
 import 'package:gardenia/view_model/categories/states.dart';
 
 class Categories extends StatefulWidget {
-  Categories({super.key});
+  const Categories({super.key});
 
   @override
   State<Categories> createState() => _CategoriesState();
@@ -24,11 +25,14 @@ class _CategoriesState extends State<Categories> {
   void initState() {
     categoriesCubit = CategoriesCubit.getInstance(context);
     categoriesCubit.getAllCategories();
+    categoriesCubit.getPopularPlants();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
+      initialIndex: categoriesCubit.currentTap,
       length: 5,
       child: Scaffold(
           appBar: AppBar(
@@ -50,170 +54,159 @@ class _CategoriesState extends State<Categories> {
           ),
           body: Padding(
             padding: EdgeInsets.symmetric(horizontal: 10.0.w),
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                        vertical: 16.h,
-                        horizontal: 10.w
+            child: ListView(
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                      vertical: 16.h,
+                      horizontal: 10.w
+                  ),
+                  child: Container(
+                    height: 45.h,
+                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                    decoration: BoxDecoration(
+                        color: Constants.appColor,
+                        borderRadius: BorderRadius.circular(16)
                     ),
-                    child: Container(
-                      height: 45.h,
-                      clipBehavior: Clip.antiAliasWithSaveLayer,
-                      decoration: BoxDecoration(
-                          color: Constants.appColor,
+                    child: TFF(
+                      style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 20
+                      ),
+                      obscureText: false,
+                      controller: searchCont,
+                      hintText: 'Search',
+                      border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(16)
                       ),
-                      child: TFF(
-                        style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 20
-                        ),
-                        obscureText: false,
-                        controller: searchCont,
-                        hintText: 'Search',
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(16)
-                        ),
-                        hintStyle: const TextStyle(
-                          color: Colors.white70,
-                        ),
-                        prefixIcon: const Icon(Icons.search,color: Colors.grey,),
+                      hintStyle: const TextStyle(
+                        color: Colors.white70,
                       ),
+                      prefixIcon: const Icon(Icons.search,color: Colors.grey,),
                     ),
                   ),
-                  SizedBox(
-                    height: 70.h,
-                    child: TabBar(
-                      unselectedLabelColor: Colors.grey,
-                      labelColor: Colors.black87,
-                      tabs:  [
-                        Tab(
-                          child: MyText(text: 'All',color: Constants.appColor,fontSize: 12.sp,fontWeight: FontWeight.bold,),
-                        ),
-                        Tab(
-                          child: MyText(text: 'Indoor',color: Constants.appColor,fontSize: 12.sp,fontWeight: FontWeight.bold,),
-                        ),
-                        Tab(
-                          child: MyText(text: 'Outdoor',color: Constants.appColor,fontSize: 12.sp,fontWeight: FontWeight.bold,),
-                        ),
-                        Tab(
-                          child: MyText(text: 'Garden',color: Constants.appColor,fontSize: 12.sp,fontWeight: FontWeight.bold,),
-                        ),
-                        Tab(
-                          child: MyText(text: 'office',color: Constants.appColor,fontSize: 12.sp,fontWeight: FontWeight.bold,),
-                        ),
-                      ],
-                    ),
+                ),
+                SizedBox(
+                  height: 70.h,
+                  child: TabBar(
+                    unselectedLabelColor: Colors.grey,
+                    labelColor: Colors.black87,
+                    onTap: (newTap) => categoriesCubit.changeTap(newTap),
+                    tabs:  [
+                      Tab(
+                        child: MyText(text: 'All',color: Constants.appColor,fontSize: 12.sp,fontWeight: FontWeight.bold,),
+                      ),
+                      Tab(
+                        child: MyText(text: 'Indoor',color: Constants.appColor,fontSize: 12.sp,fontWeight: FontWeight.bold,),
+                      ),
+                      Tab(
+                        child: MyText(text: 'Outdoor',color: Constants.appColor,fontSize: 12.sp,fontWeight: FontWeight.bold,),
+                      ),
+                      Tab(
+                        child: MyText(text: 'Garden',color: Constants.appColor,fontSize: 12.sp,fontWeight: FontWeight.bold,),
+                      ),
+                      Tab(
+                        child: MyText(text: 'office',color: Constants.appColor,fontSize: 12.sp,fontWeight: FontWeight.bold,),
+                      ),
+                    ],
                   ),
+                ),
+                BlocBuilder<CategoriesCubit,CategoriesStates>(
+                  builder: (context, state) =>
+                  state is GetCategoriesLoadingState ||
+                  state is GetCategoriesLoadingState?
+                  const Align(
+                    alignment: Alignment.topCenter,
+                      child: Padding(
+                        padding: EdgeInsets.only(top: 50.0),
+                        child: CircularProgressIndicator(),
+                      ),
+                  ) :
                   SizedBox(
-                    height: context.setHeight(1),
-                    child: BlocBuilder<CategoriesCubit,CategoriesStates>(
-                      builder: (context, state) =>
-                      state is GetCategoriesLoadingState? const Center(child: CircularProgressIndicator(),):
-                      TabBarView(
-                        children:
-                        [
-                          ListView(
-                            children: [
-                              SizedBox(
-                                height: context.setHeight(5),
-                                child: ListView.separated(
-                                  scrollDirection: Axis.horizontal,
-                                  itemBuilder: (context, index) => ItemModel(
-                                    imageUrl: categoriesCubit.allCategories[index].image,
-                                    plantName: categoriesCubit.allCategories[index].name,
-                                    plantType: categoriesCubit.allCategories[index].type,
+                    height: context.setHeight(1.4),
+                    child: TabBarView(
+                      // controller: tapsCont,
+                      children:
+                      [
+                        Column(
+                          children: [
+                            SizedBox(
+                              height: context.setHeight(5),
+                              child: ListView.separated(                              scrollDirection: Axis.horizontal,
+                    
+                                itemBuilder: (context, index) => PlantModel(
+                                  imageUrl: categoriesCubit.firstHalfAllCategories[index].image,
+                                  plantName: categoriesCubit.firstHalfAllCategories[index].name,
+                                  plantType: categoriesCubit.firstHalfAllCategories[index].type,
+                                ),
+                                separatorBuilder: (context, index) => SizedBox(width: 10.w,),
+                                itemCount: categoriesCubit.firstHalfAllCategories.length,
+                              ),
+                            ),
+                            SizedBox(height: 16.h,),
+                            SizedBox(
+                              height: context.setHeight(5),
+                              child: ListView.separated(
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (context, index) => PlantModel(
+                                  imageUrl: categoriesCubit.secondHalfAllCategories[index].image,
+                                  plantName: categoriesCubit.secondHalfAllCategories[index].name,
+                                  plantType: categoriesCubit.secondHalfAllCategories[index].type,
+                                ),
+                                separatorBuilder: (context, index) => SizedBox(width: 10.w,),
+                                itemCount: categoriesCubit.secondHalfAllCategories.length,
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(vertical: 16.0.h),
+                              child: Row(
+                                children: [
+                                  MyText(
+                                      text: 'Popular',
+                                      color: Constants.appColor,
+                                      fontSize: 15.sp,
+                                      fontWeight: FontWeight.bold
                                   ),
-                                  separatorBuilder: (context, index) => SizedBox(width: 10.w,),
-                                  itemCount: categoriesCubit.allCategories.length,
-                                ),
-                              ),
-                              SizedBox(height: 16.h,),
-                              SizedBox(
-                                height: context.setHeight(5),
-                                child: ListView.separated(
-                                  scrollDirection: Axis.horizontal,
-                                  itemBuilder: (context, index) => ItemModel(imageUrl: 'images/plant1.png', plantName: 'plantName', plantType: 'plantType'),
-                                  separatorBuilder: (context, index) => SizedBox(width: 10.w,),
-                                  itemCount: 5,
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(vertical: 16.0.h),
-                                child: Row(
-                                  children: [
-                                    MyText(
-                                        text: 'Popular',
-                                        color: Constants.appColor,
+                                  const Spacer(),
+                                  TextButton(
+                                    onPressed: () {},
+                                    child: MyText(
+                                        text: 'See all',
+                                        color: Colors.black,
                                         fontSize: 15.sp,
                                         fontWeight: FontWeight.bold
                                     ),
-                                    const Spacer(),
-                                    TextButton(
-                                      onPressed: () {},
-                                      child: MyText(
-                                          text: 'See all',
-                                          color: Colors.black,
-                                          fontSize: 15.sp,
-                                          fontWeight: FontWeight.bold
-                                      ),
-                                    )
-                                  ],
-                                ),
+                                  )
+                                ],
                               ),
-                              SizedBox(
-                                height: context.setHeight(6),
-                                child: ListView.separated(
-                                  scrollDirection: Axis.horizontal,
-                                  itemBuilder: (context, index) => InkWell(
-                                    onTap: () {},
-                                    child: Card(
-                                      child: Padding(
-                                        padding: EdgeInsets.symmetric(vertical: 12.0.h,horizontal: 16.w),
-                                        child: Row(
-                                          children: [
-                                            Padding(
-                                              padding: EdgeInsets.symmetric(horizontal: 10.0.w),
-                                              child: Image.asset('images/plant1.png'),
-                                            ),
-                                            Column(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: [
-                                                MyText(
-                                                  text: 'Plant Name',
-                                                  color: Constants.appColor,
-                                                  fontWeight: FontWeight.bold,fontSize: 13.sp,
-                                                ),
-                                                MyText(
-                                                    text: 'Type',
-                                                    fontSize: 12.sp,
-                                                    fontWeight: FontWeight.w500
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  separatorBuilder: (context, index) => SizedBox(width: 10.w,),
-                                  itemCount: 5,
+                            ),
+                            SizedBox(
+                              height: context.setHeight(6),
+                              child: ListView.separated(
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (context, index) => InkWell(
+                                  onTap: () {},
+                                  child: PopularPlants(
+                                    image: categoriesCubit.popularPlants[index].image,
+                                    type: categoriesCubit.popularPlants[index].type,
+                                    plantName: categoriesCubit.popularPlants[index].name,
+                                  )
                                 ),
+                                separatorBuilder: (context, index) => SizedBox(width: 10.w,),
+                                itemCount: categoriesCubit.popularPlants.length,
                               ),
-                            ],
-                          ),
-                          MyText(text: 'mohamed'),
-                          MyText(text: 'ahmed'),
-                          MyText(text: 'y'),
-                          MyText(text: 'emara'),
-                        ],
-                      ),
+                            ),
+                          ],
+                        ),
+                        MyText(text: 'mohamed'),
+                        MyText(text: 'ahmed'),
+                        MyText(text: 'y'),
+                        MyText(text: 'emara'),
+                      ],
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           )
       ),

@@ -10,12 +10,14 @@ class AppButton extends StatelessWidget {
   String text;
   Color? buttonColor;
   Color? buttonTextColor;
+  double width;
 
   AppButton({super.key,
     required this.onPressed,
     required this.text,
     this.buttonColor,
     this.buttonTextColor,
+    required this.width,
   });
 
   @override
@@ -30,7 +32,7 @@ class AppButton extends StatelessWidget {
       ),
       child: SizedBox(
         height: 40.h,
-        width: context.setWidth(1.2),
+        width: context.setWidth(width),
         child: Center(
           child: MyText(
             text: text,

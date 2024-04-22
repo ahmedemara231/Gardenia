@@ -1,6 +1,6 @@
 import 'comment.dart';
 
-class PostData
+class FakePostData
 {
   String userImageUrl;
   String userName;
@@ -9,7 +9,7 @@ class PostData
   int commentsNumber;
   List<Comment>? comments;
 
-  PostData({
+  FakePostData({
     required this.userImageUrl,
     required this.userName,
     required this.postImage,
@@ -18,3 +18,4 @@ class PostData
     this.comments,
 });
 }
+

@@ -23,7 +23,7 @@ class ForgetPassword extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 16.0.w),
         child: Column(
           children: [
-            Image.asset('images/app_logo.png'),
+            Image.asset(Constants.appLogo),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 16.0),
               child: MyText(

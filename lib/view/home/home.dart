@@ -10,8 +10,8 @@ import 'package:gardenia/modules/base_widgets/divider.dart';
 import 'package:gardenia/modules/base_widgets/myText.dart';
 import 'package:gardenia/view/create_post/create_post.dart';
 import 'package:gardenia/modules/app_widgets/post_model.dart';
-import 'package:gardenia/view/home/post_comments.dart';
 import 'package:gardenia/view/home/shimmer_posts_effect.dart';
+import 'package:gardenia/view/profile/profile.dart';
 import 'package:gardenia/view_model/home/cubit.dart';
 import 'package:gardenia/view_model/home/states.dart';
 
@@ -24,8 +24,6 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
 
-
-  final scaffoldKey = GlobalKey<ScaffoldState>();
   late HomeCubit homeCubit;
 
   @override
@@ -37,126 +35,129 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: scaffoldKey,
       appBar: AppBar(
-        title: MyText(text: 'Posts',fontSize: 28.sp,fontWeight: FontWeight.bold,color: Constants.appColor,),
         centerTitle: true,
+        title: MyText(
+          text: 'Posts',fontSize: 25.sp,
+          color: Constants.appColor,
+          fontWeight: FontWeight.w500,
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: BlocBuilder<HomeCubit,HomeStates>(
-          builder: (context, state) => state is GetPostsLoadingState?
-          const ShimmerEffect():
-          ListView(
-            children: [
-              Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                    child:
-                    CircleAvatar(
-                        backgroundImage: const NetworkImage('WcDWUpFLuFQCjHSdv7uu7xhbXC3g0uAA.png'),
-                        radius: 20.sp,
-                      ),
-                  ),
-                  Expanded(
-                    child: InkWell(
-                      onTap: ()
-                      {
-                        context.normalNewRoute(CreatePost());
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30),
-                          border: Border(
-                            left: BorderSide(color: Constants.appColor),
-                            bottom: BorderSide(color: Constants.appColor),
-                            top: BorderSide(color: Constants.appColor),
-                            right: BorderSide(color: Constants.appColor),
+            builder: (context, state)
+            {
+              if(state is GetPostsLoadingState)
+              {
+                return const ShimmerEffect();
+              }
+              else{
+                if(state is GetPostsNetworkErrorState)
+                {
+                  return MyText(text: '');
+                  /*
+                    * Center(
+                      child: Column(
+                        children: [
+                          MyText(text: state.message),
+                          AppButton(
+                            onPressed: () => homeCubit.getPosts(),
+                            text: 'try again',
+                            width: 3,
                           ),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8),
-                          child: MyText(
-                            text: 'What’s on your mind?',
-                            color: Colors.grey,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 14.sp,
+                        ],
+                      ),
+                    );*/
+                }
+                else{
+                  return ListView(
+                    children: [
+                      Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                            child:
+                            InkWell(
+                              onTap: () => context.normalNewRoute(Profile()),
+                              child: CircleAvatar(
+                                backgroundImage: const NetworkImage(Constants.defaultProfileImage),
+                                radius: 20.sp,
+                              ),
+                            ),
                           ),
+                          Expanded(
+                            child: InkWell(
+                              onTap: ()
+                              {
+                                context.normalNewRoute(CreatePost());
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(30),
+                                  border: Border(
+                                    left: BorderSide(color: Constants.appColor),
+                                    bottom: BorderSide(color: Constants.appColor),
+                                    top: BorderSide(color: Constants.appColor),
+                                    right: BorderSide(color: Constants.appColor),
+                                  ),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8),
+                                  child: MyText(
+                                    text: 'What’s on your mind?',
+                                    color: Colors.grey,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 14.sp,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          IconButton(onPressed: () {}, icon: Icon(Icons.image,color: Constants.appColor,))
+                        ],
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 30.0.h),
+                        child: Row(
+                          children: [
+                            const Spacer(),
+                            SizedBox(
+                              width: context.setWidth(1.5),
+                              child: const MyDivider(),
+                            ),
+                            const Spacer(),
+                          ],
                         ),
                       ),
-                    ),
-                  ),
-                  IconButton(onPressed: () {}, icon: Icon(Icons.image,color: Constants.appColor,))
-                ],
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 30.0.h),
-                child: Row(
-                  children: [
-                    const Spacer(),
-                    SizedBox(
-                        width: context.setWidth(1.5),
-                        child: const MyDivider(),
-                    ),
-                    const Spacer(),
-                  ],
-                ),
-              ),
-
-              ListView.separated(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) => Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Post(
-                      currentUserId: CacheHelper.getInstance().sharedPreferences.getStringList('userData')![0].toInt(),
-                      postManagerId: homeCubit.posts[index].userId,
-                      userImageUrl: homeCubit.posts[index].userImage,
-                      userName: homeCubit.posts[index].userName ,
-                      postImage: homeCubit.posts[index].image?? '',
-                      caption: homeCubit.posts[index].caption?? '',
-                      commentsNumber: homeCubit.posts[index].commentsCount,
-                      time: homeCubit.posts[index].creationTime.substring(0,10),
-                      onPressed: () async
-                      {
-                        context.normalNewRoute(
-                            PostComments(
-                              postId: homeCubit.posts[index].postId,
+                      ListView.separated(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) => Card(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Post(
+                              id: homeCubit.posts[index].postId,
                               currentUserId: CacheHelper.getInstance().sharedPreferences.getStringList('userData')![0].toInt(),
                               postManagerId: homeCubit.posts[index].userId,
                               userImageUrl: homeCubit.posts[index].userImage,
-                              userName: homeCubit.posts[index].userName,
+                              userName: homeCubit.posts[index].userName ,
                               postImage: homeCubit.posts[index].image,
-                              caption: homeCubit.posts[index].caption!,
+                              caption: homeCubit.posts[index].caption,
                               commentsNumber: homeCubit.posts[index].commentsCount,
-                              time: homeCubit.posts[index].creationTime,
+                              time: homeCubit.posts[index].creationTime.substring(0,10),
                             ),
-                        );
-                      },
-                      onSave: ()
-                      {
-                        // homeCubit.addToFavorites(
-                        //   homeCubit.fakePosts[index],
-                        // );
-                      },
-                      onDelete: () async
-                      {
-                        await homeCubit.deletePost(
-                            context,
-                            postId: homeCubit.posts[index].postId,
-                        );
-                      },
-                    ),
-                  ),
-                ),
-                separatorBuilder: (context, index) => SizedBox(height: 25.h,),
-                itemCount: homeCubit.posts.length,
-              )
-            ],
-          ),
-        ),
+                          ),
+                        ),
+                        separatorBuilder: (context, index) => SizedBox(height: 25.h,),
+                        itemCount: homeCubit.posts.length,
+                      )
+                    ],
+                  );
+                }
+              }
+            }
+        )
       ),
     );
   }
