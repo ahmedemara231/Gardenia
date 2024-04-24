@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gardenia/constants/constants.dart';
+import 'package:gardenia/model/remote/api_service/service/constants.dart';
 import 'package:gardenia/modules/base_widgets/myText.dart';
 
 class CommentsModel extends StatelessWidget {
@@ -27,7 +28,10 @@ class CommentsModel extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: CircleAvatar(
-        backgroundImage: NetworkImage(userImage?? Constants.defaultProfileImage),
+        backgroundImage: NetworkImage(
+          userImage == null? Constants.defaultProfileImage :
+          '${ApiConstants.baseUrlForImages}$userImage'
+        ),
       ),
       title: MyText(
         text: userName,

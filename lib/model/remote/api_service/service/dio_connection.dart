@@ -81,7 +81,9 @@ class DioConnection implements ApiService
   }
 
   @override
-  Future<Result<Response,CustomError>> callApi({required RequestModel request}) async
+  Future<Result<Response,CustomError>> callApi({
+    required RequestModel request
+  }) async
   {
     final connectivityResult = await Connectivity().checkConnectivity();
 
@@ -128,7 +130,7 @@ class DioConnection implements ApiService
   CustomError _handleErrors(DioException e)
   {
     log('code : ${e.response?.statusCode}');
-    log('code : ${e.response?.data['message']}');
+    log('response error message : ${e.response?.data['message']}');
 
     switch(e.type)
     {

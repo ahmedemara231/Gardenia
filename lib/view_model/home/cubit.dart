@@ -1,7 +1,9 @@
 import 'dart:developer';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gardenia/constants/constants.dart';
+import 'package:gardenia/extensions/routes.dart';
 import 'package:gardenia/extensions/string.dart';
 import 'package:gardenia/model/local/flutter_secure_storage.dart';
 import 'package:gardenia/model/local/shared_prefs.dart';
@@ -15,7 +17,12 @@ import 'package:gardenia/modules/base_widgets/toast.dart';
 import 'package:gardenia/modules/data_types/comment.dart';
 import 'package:gardenia/modules/data_types/post.dart';
 import 'package:gardenia/modules/data_types/fake_posts_data.dart';
+import 'package:gardenia/view/bottomNavBar/bottom_nav_bar.dart';
+import 'package:gardenia/view/home/home.dart';
 import 'package:gardenia/view_model/home/states.dart';
+import 'package:rounded_loading_button/rounded_loading_button.dart';
+
+import '../../model/remote/api_service/repositories/put_patch_repo.dart';
 
 class HomeCubit extends Cubit<HomeStates>
 {
@@ -65,7 +72,6 @@ class HomeCubit extends Cubit<HomeStates>
       if(result.isSuccess())
         {
           postsResult = result.getOrThrow();
-
           posts = ( postsResult.data!['posts'] as List ).map((e) => PostData2(
               postId: e['id'],
               caption: e['caption'],
@@ -81,7 +87,53 @@ class HomeCubit extends Cubit<HomeStates>
         }
       else{
         log('error is ${result.tryGetError()}');
-        emit(GetPostsErrorState());
+        if(result.tryGetError() is NetworkError)
+        {
+          emit(
+              GetPostsNetworkErrorState(
+                message: result.tryGetError()!.message!,
+              )
+          );
+        }
+        else{
+          emit(GetPostsErrorState());
+        }
+      }
+    });
+  }
+
+  RoundedLoadingButtonController editPostBtnCont = RoundedLoadingButtonController();
+  PutRepo updateRepo = PutRepo(apiService: DioConnection.getInstance());
+
+  Future<void> editPost(BuildContext context,{
+    required int postId,
+    required int index,
+    required String newCaption,
+  })async
+  {
+    await updateRepo.editPost(
+        postId: postId,
+        newCaption: newCaption,
+        // image: File(path).
+    ).then((result)async
+    {
+      emit(EditPostLoadingState());
+
+      if(result.isSuccess())
+      {
+        editPostBtnCont.success();
+        await Future.delayed(
+          const Duration(milliseconds: 1500),
+          () {
+            posts[index].caption = newCaption;
+            Navigator.pop(context);
+          },
+        );
+        emit(EditPostSuccessState());
+      }
+      else{
+        editPostBtnCont.reset();
+        emit(EditPostErrorState());
       }
     });
   }
@@ -103,17 +155,7 @@ class HomeCubit extends Cubit<HomeStates>
           emit(DeletePostSuccess());
         }
       else{
-        if(result.tryGetError() is NetworkError)
-          {
-            MyToast.showToast(
-                context,
-                msg: 'Check your internet connection and try again',
-                color: Colors.red
-            );
-            emit(GetPostsNetworkErrorState(
-                message: 'Check your internet connection and try again',
-            ));
-          }
+
         emit(DeletePostError());
       }
     });
@@ -129,9 +171,9 @@ class HomeCubit extends Cubit<HomeStates>
         {
           comments.add(
               Comment(
-                userImageUrl: Constants.defaultProfileImage,
-                userId: (await CacheHelper.getInstance().getData('userData') as List<String>)[0].toInt(),
-                userName: (await CacheHelper.getInstance().getData('userData') as List<String>)[1],
+                userId: CacheHelper.getInstance().getUserData()![0].toInt(),
+                userName: CacheHelper.getInstance().getUserData()![1],
+                userImageUrl: CacheHelper.getInstance().getUserData()![3],
                 comment: result.getOrThrow().data?['content'],
                 time: result.getOrThrow().data?['created_at'],
                 id: result.getOrThrow().data?['id'],

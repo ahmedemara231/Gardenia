@@ -3,11 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gardenia/constants/constants.dart';
 import 'package:gardenia/extensions/mediaQuery.dart';
-import 'package:gardenia/view/categories/categories.dart';
 import 'package:gardenia/view/home/home.dart';
 import 'package:gardenia/view_model/bottomNavBar/cubit.dart';
 import 'package:gardenia/view_model/bottomNavBar/states.dart';
 import 'package:hexcolor/hexcolor.dart';
+import '../categories/base_screen/base_screen.dart';
 import '../favorites/favorites.dart';
 import '../profile/profile.dart';
 

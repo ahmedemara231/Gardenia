@@ -17,6 +17,12 @@ class GetPostsNetworkErrorState extends HomeStates{
   GetPostsNetworkErrorState({required this.message,});
 }
 
+class EditPostLoadingState extends HomeStates{}
+
+class EditPostSuccessState extends HomeStates{}
+
+class EditPostErrorState extends HomeStates{}
+
 class DeletePostSuccess extends HomeStates{}
 
 class DeletePostError extends HomeStates{}

@@ -67,6 +67,7 @@ class LoginCubit extends Cubit<LoginStates>
                 userId,
                 loginResult.data!['username'],
                 loginResult.data!['email'],
+                loginResult.data!['image']
               ]
           );
           await SecureStorage.getInstance().setData(
@@ -130,6 +131,13 @@ class LoginCubit extends Cubit<LoginStates>
         emit(LogoutErrorState());
       }
     });
+  }
+
+  int counter = 0;
+  void inc()
+  {
+    counter++;
+    emit(LoginSuccessState());
   }
 }
 

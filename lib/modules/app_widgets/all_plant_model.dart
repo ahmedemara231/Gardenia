@@ -4,13 +4,13 @@ import 'package:gardenia/extensions/mediaQuery.dart';
 import '../../constants/constants.dart';
 import '../base_widgets/myText.dart';
 
-class PlantModel extends StatelessWidget {
+class AllPlantsModel extends StatelessWidget {
 
   String imageUrl;
   String plantName;
   String plantType;
 
-  PlantModel({super.key,
+  AllPlantsModel({super.key,
     required this.imageUrl,
     required this.plantName,
     required this.plantType,

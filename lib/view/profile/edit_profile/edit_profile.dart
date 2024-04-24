@@ -30,8 +30,8 @@ class _EditProfileState extends State<EditProfile> {
   @override
   void initState() {
 
-    nameCont.text = CacheHelper.getInstance().sharedPreferences.getStringList('userData')![1];
-    emailCont.text = CacheHelper.getInstance().sharedPreferences.getStringList('userData')![2];
+    nameCont.text = CacheHelper.getInstance().getUserData()![1];
+    emailCont.text = CacheHelper.getInstance().getUserData()![2];
 
     data =
     [

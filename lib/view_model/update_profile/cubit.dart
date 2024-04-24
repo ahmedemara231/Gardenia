@@ -1,10 +1,9 @@
 import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gardenia/constants/constants.dart';
 import 'package:gardenia/extensions/routes.dart';
-import 'package:gardenia/model/remote/api_service/repositories/patch_repo.dart';
+import 'package:gardenia/model/remote/api_service/repositories/put_patch_repo.dart';
 import 'package:gardenia/model/remote/api_service/service/dio_connection.dart';
 import 'package:gardenia/modules/base_widgets/toast.dart';
 import 'package:gardenia/view/profile/edit_profile/confirm_image.dart';
@@ -41,11 +40,11 @@ class UpdateProfileCubit extends Cubit<UpdateProfileStates>
   }
 
   final RoundedLoadingButtonController updateImageBtnCont = RoundedLoadingButtonController();
-  PatchRepo patchRepo = PatchRepo(apiService: DioConnection.getInstance());
+  PutRepo updateRepo = PutRepo(apiService: DioConnection.getInstance());
 
   Future<void> updateProfileImage(context)async
   {
-    await patchRepo.updateProfileImage(newProfileImage!).then((result) async
+    await updateRepo.updateProfileImage(newProfileImage!).then((result) async
     {
       if(result.isSuccess())
         {

@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gardenia/model/remote/api_service/repositories/get_repo.dart';
 import 'package:gardenia/model/remote/api_service/service/dio_connection.dart';
 import 'package:gardenia/model/remote/api_service/service/error_handling/errors.dart';
+import 'package:gardenia/modules/base_widgets/toast.dart';
 import 'package:gardenia/modules/data_types/plant.dart';
 import 'package:gardenia/view_model/categories/states.dart';
 
@@ -13,80 +14,92 @@ class CategoriesCubit extends Cubit<CategoriesStates>
 
   GetRepo getRepo = GetRepo(apiService: DioConnection.getInstance());
 
-  late List<Plant> allCategories;
-  late List<Plant> firstHalfAllCategories = [];
-  late List<Plant> secondHalfAllCategories = [];
 
-  Future<void> getAllCategories()async
+  List<Plant> firstHalfAllCategories = [];
+  List<Plant> secondHalfAllCategories = [];
+
+  List<List<Plant>> allCategory = [[],[]];
+  Future<void> getAllCategories(context)async
   {
     emit(GetCategoriesLoadingState());
-    await getRepo.getAllCategories().then((result)
+    await Future.wait(
+        [
+          getRepo.getAllCategories(),
+          getRepo.getPopularPlants(),
+        ],
+    ).then((results)async
     {
-      if(result.isSuccess())
+      for(int i = 0; i <= results.length - 1; i++)
+      {
+        if(results[i].isSuccess())
         {
-          allCategories = result.tryGetSuccess()!;
-          firstHalfAllCategories = allCategories.sublist(0, allCategories.length ~/ 2);
-          secondHalfAllCategories = allCategories.sublist(allCategories.length ~/ 2, allCategories.length);
+          allCategory[i] = results[i].getOrThrow();
           emit(GetCategoriesSuccessState());
         }
-      else{
-        if(result.tryGetError() is NetworkError)
+        else{
+          if(results[i].tryGetError() is NetworkError)
           {
+            emit(
+                GetCategoryNetworkError(
+                  message: results[i].tryGetError()!.message!,
+                )
+            );
+          }
+          else{
+            MyToast.showToast(
+                context,
+                msg: results[i].tryGetError()!.message!
+            );
             emit(GetCategoriesErrorState());
           }
-      }
-    },);
-  }
-
-  List<Plant> popularPlants = [];
-  Future<void> getPopularPlants()async
-  {
-    emit(GetPopularPlantsLoadingState());
-    await getRepo.getPopularPlants().then((result)
-    {
-      if(result.isSuccess())
-      {
-        popularPlants = result.tryGetSuccess()!;
-        emit(GetPopularPlantsSuccessState());
-      }
-      else{
-        if(result.tryGetError() is NetworkError)
-        {
-          emit(GetPopularPlantsErrorState());
         }
       }
-    },);
+    });
   }
+
 
   List<String> categoriesNames = ['All', 'indoor', 'Outdoor', 'Garden', 'office'];
   Map<String, List<Plant>> categories = {};
 
   int currentTap = 0;
-  Future<void> changeTap(int newTap)async
+
+  void changeTab(int newTap)
   {
     currentTap = newTap;
     emit(ChangeTap());
-
-    emit(GetSpecificCategoryLoading());
-    await getRepo.getSpecificPlantsByCategory(newTap).then((result)
-    {
-      if(result.isSuccess())
-        {
-          categories[categoriesNames[newTap]] = result.getOrThrow();
-          emit(GetSpecificCategorySuccess());
-        }
-      else{
-        if(result.tryGetError() is NetworkError)
-          {
-            emit(
-                GetSpecificCategoryError(
-                    message: result.tryGetError()!.message,
-                ),
-            );
-          }
-        emit(GetSpecificCategoryError());
-      }
-    });
   }
 
+  Future<void> getSpecificCategory()async
+  {
+    if(categories[categoriesNames[currentTap]] == null || categories[categoriesNames[currentTap]]!.isEmpty)
+      {
+        emit(GetSpecificCategoryLoading());
+        await getRepo.getSpecificPlantsByCategory(currentTap).then((result)
+        {
+          if(result.isSuccess())
+          {
+            categories[categoriesNames[currentTap]] = [];
+            categories[categoriesNames[currentTap]] = result.getOrThrow();
+
+            emit(GetSpecificCategorySuccess());
+          }
+          else{
+            if(result.tryGetError() is NetworkError)
+            {
+              emit(
+                GetCategoryNetworkError(
+                  message: result.tryGetError()!.message!,
+                ),
+              );
+            }
+            else{
+              emit(GetCategoriesErrorState());
+            }
+          }
+        });
+      }
+    else{
+      return;
+    }
+  }
 }

@@ -42,9 +42,12 @@ class PostComments extends StatefulWidget {
 
 class _PostCommentsState extends State<PostComments> {
 
+  final scrollCont = ScrollController();
+
   final commentCont = TextEditingController();
 
   late HomeCubit homeCubit;
+
   @override
   void initState() {
     homeCubit = BlocProvider.of<HomeCubit>(context);
@@ -65,6 +68,7 @@ class _PostCommentsState extends State<PostComments> {
         Stack(
           children: [
             ListView(
+              controller: scrollCont,
               children: [
                 Padding(
                   padding: const EdgeInsets.all(20.0),
@@ -109,7 +113,7 @@ class _PostCommentsState extends State<PostComments> {
                             comment: homeCubit.comments[index].comment,
                             time: homeCubit.comments[index].time,
                             commentManagerId: homeCubit.comments[index].userId,
-                            currentUserId: CacheHelper.getInstance().sharedPreferences.getStringList('userData')![0].toInt(),
+                            currentUserId: CacheHelper.getInstance().getUserData()![0].toInt(),
                             onDelete: () async{
                               homeCubit.deleteComment(
                                   postId: widget.postId,

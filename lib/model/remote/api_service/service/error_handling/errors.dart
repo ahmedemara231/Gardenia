@@ -6,7 +6,7 @@ class CustomError implements Exception
 
   CustomError(this.message)
   {
-    print(message);
+    log(message??'error');
   }
 }
 
@@ -49,4 +49,3 @@ class CancelError extends CustomError {
 class UnknownError extends CustomError {
   UnknownError(super.message);
 }
-

@@ -4,9 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gardenia/constants/constants.dart';
 import 'package:gardenia/extensions/mediaQuery.dart';
 import 'package:gardenia/model/local/shared_prefs.dart';
-import 'package:gardenia/model/remote/api_service/service/dio_connection.dart';
+import 'package:gardenia/model/remote/api_service/service/constants.dart';
 import 'package:gardenia/modules/app_widgets/arrow_back_button.dart';
-import 'package:gardenia/modules/base_widgets/divider.dart';
 import 'package:gardenia/modules/base_widgets/myText.dart';
 import 'package:gardenia/modules/base_widgets/textFormField.dart';
 import 'package:gardenia/modules/base_widgets/toast.dart';
@@ -27,6 +26,7 @@ class CreatePost extends StatelessWidget {
         title: MyText(
           text: 'Create post',
           color: Constants.appColor,
+          fontWeight: FontWeight.w500,
           fontSize: 22.sp,
         ),
         centerTitle: true,
@@ -64,14 +64,14 @@ class CreatePost extends StatelessWidget {
 
               Row(
                 children: [
-                  // CircleAvatar(
-                  //   radius: 25,
-                  //   backgroundImage: NetworkImage(''),
-                  // ),
+                  CircleAvatar(
+                    radius: 25,
+                    backgroundImage: NetworkImage('${ApiConstants.baseUrlForImages}${CacheHelper.getInstance().getUserData()![3]}'),
+                  ),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 8.0.w),
                     child: MyText(
-                      text: CacheHelper.getInstance().sharedPreferences.getStringList('userData')![1],
+                      text: CacheHelper.getInstance().getUserData()![1],
                       fontSize: 18.sp,
                       fontWeight: FontWeight.w500,
                     ),
@@ -133,8 +133,6 @@ class CreatePost extends StatelessWidget {
                   borderRadius: 10,
                   width: context.setWidth(1),
                   onPressed: () async {
-                    // context.read<CreatePostCubit>().selectedImage;
-
                     if(CreatePostCubit.getInstance(context).selectedImage == null)
                       {
                         CreatePostCubit.getInstance(context).createPostCont.reset();

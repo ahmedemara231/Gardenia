@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_expandable_text/flutter_expandable_text.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gardenia/constants/constants.dart';
-import 'package:gardenia/extensions/mediaQuery.dart';
 import 'package:gardenia/extensions/routes.dart';
 import 'package:gardenia/model/remote/api_service/service/constants.dart';
 import 'package:gardenia/modules/base_widgets/myText.dart';
 import 'package:gardenia/view_model/home/cubit.dart';
-import '../../view/edit_post/edit_post.dart';
 import '../../view/home/post_comments.dart';
 
 class Post extends StatelessWidget {
@@ -21,7 +19,7 @@ class Post extends StatelessWidget {
   String? postImage;
   int commentsNumber;
   String time;
-
+  void Function()? onEditClick;
 
   Post({super.key,
     this.id,
@@ -33,6 +31,7 @@ class Post extends StatelessWidget {
     required this.caption,
     required this.commentsNumber,
     required this.time,
+    this.onEditClick,
   });
 
   @override
@@ -43,7 +42,7 @@ class Post extends StatelessWidget {
         ListTile(
           leading: CircleAvatar(
             backgroundImage: NetworkImage(
-                userImageUrl == null?
+                userImageUrl == null || userImageUrl!.isEmpty?
                 Constants.defaultProfileImage :
                 '${ApiConstants.baseUrlForImages}$userImageUrl'
             ),
@@ -85,7 +84,7 @@ class Post extends StatelessWidget {
                   ),
                   if(currentUserId == postManagerId)
                     PopupMenuItem(
-                      onTap: () => context.normalNewRoute(EditPost()),
+                      onTap: onEditClick,
                       child: Row(
                         children: [
                           Padding(
@@ -132,13 +131,38 @@ class Post extends StatelessWidget {
         ),
         Padding(
           padding: EdgeInsets.symmetric(vertical: 16.0.h),
-          child: postImage == null? const SizedBox() : SizedBox(
-              width: context.setWidth(1.1),
+          child: postImage == null? const SizedBox() :
+          SizedBox(
               child: Image.network(
-                  '${ApiConstants.baseUrlForImages}$postImage',
-                  fit: BoxFit.fill,
+                '${ApiConstants.baseUrlForImages}$postImage',
+                fit: BoxFit.fill,
+                loadingBuilder: (context, child, loadingProgress) {
+                  if(loadingProgress == null)
+                  {
+                    return child;
+                  }
+                  else{
+                    return Center(
+                      child: SizedBox(
+                          width: 25.w,
+                          height: 25.w,
+                          child: CircularProgressIndicator(
+                            value: loadingProgress.cumulativeBytesLoaded.toDouble() / loadingProgress.expectedTotalBytes!.toDouble(),
+                          )
+                      ),
+                    );
+                  }
+                },
+                errorBuilder: (context, error, stackTrace) =>
+                    Center(
+                      child: MyText(
+                        text: 'Try again later',
+                        color: Colors.red,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
               ),
-          ),
+          )
         ),
         ExpandableText(
           caption?? '',

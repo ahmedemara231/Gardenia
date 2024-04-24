@@ -1,0 +1,107 @@
+class MyPostScreen extends StatefulWidget {
+  final PostData postData;
+
+  const MyPostScreen({Key? key, required this.postData}) : super(key: key);
+
+  @override
+  _MyPostScreen createState() => _MyPostScreen();
+}
+
+class _MyPostScreen extends State<MyPostScreen> {
+  final _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    // Schedule scrolling to comments after a short delay (optional)
+    WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToComments());
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Post Details'),
+      ),
+      body: SingleChildScrollView(
+        controller: _scrollController, // Attach the scroll controller
+        child: Column(
+          children: [
+            // User information section
+            buildUserInfo(widget.postData.user),
+            // Divider (optional)
+            const Divider(thickness: 1.0),
+            // Post content section
+            buildPostContent(widget.postData),
+            // Divider (optional)
+            const Divider(thickness: 1.0),
+            // Comments section
+            buildCommentsList(widget.postData.comments),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _scrollToComments() {
+    // Get the height of the post and comment sections
+    final postHeight = context.findRenderObject() as RenderBox;
+    final commentListHeight = _findCommentListRenderBox()?.size.height ?? 0.0;
+
+    // Calculate the offset to scroll to the top of the comments
+    final scrollOffset = postHeight.size.height - commentListHeight;
+
+    // Animate the scrolling to the desired offset
+    _scrollController.animateTo(
+      scrollOffset,
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.easeInOut,
+    );
+  }
+
+  RenderBox? _findCommentListRenderBox() {
+    // Find the RenderBox of the comments list widget
+    return WidgetsBinding.instance.renderView.findRenderObjectByLocalKey(
+      ValueKey('comments-list'), // Assuming you have a key for the comments list
+    );
+  }
+}
+
+
+
+class MyPostScreen extends StatefulWidget {
+  final PostData postData;
+
+  const MyPostScreen({Key? key, required this.postData}) : super(key: key);
+
+  @override
+  _MyPostScreen createState() => _MyPostScreen();
+}
+
+class _MyPostScreen extends State<MyPostScreen> {
+  final _commentsListKey = GlobalKey();
+
+  @override
+  void initState() {
+    super.initState();
+    // Schedule scrolling to comments after a short delay (optional)
+    WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToComments());
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Post Details'),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            // User information section
+            buildUserInfo(widget

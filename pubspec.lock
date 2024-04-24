@@ -129,6 +129,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.0.6"
+  custom_refresh_indicator:
+    dependency: "direct main"
+    description:
+      name: custom_refresh_indicator
+      sha256: "841dd90ded708b6a73df3fcebbedc534bbb842b8c3a491570846b534cd0a2547"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "3.1.0"
   dbus:
     dependency: transitive
     description:
@@ -588,10 +596,10 @@ packages:
     dependency: "direct main"
     description:
       name: photo_view
-      sha256: "8036802a00bae2a78fc197af8a158e3e2f7b500561ed23b4c458107685e645bb"
+      sha256: "1fc3d970a91295fbd1364296575f854c9863f225505c28c46e0a03e48960c75e"
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.14.0"
+    version: "0.15.0"
   pinput:
     dependency: "direct main"
     description:

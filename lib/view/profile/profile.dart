@@ -55,67 +55,71 @@ class _ProfileState extends State<Profile> {
         const Center(
           child: CircularProgressIndicator()
         ) :
-        ListView(
-          children: [
-            Stack(
-              alignment: Alignment.bottomCenter,
-              children: [
-                SizedBox(
-                    width: double.infinity,
-                    height: context.setHeight(2.5),
-                    child: Padding(
-                      padding: EdgeInsets.only(bottom: 70.h),
-                      child: Image.asset(
-                        Constants.profileBackgroundImage,
-                        fit: BoxFit.fitWidth,
+        RefreshIndicator(
+          onRefresh: () =>  ProfileCubit.getInstance(context).getProfileData(),
+          color: Constants.appColor,
+          child: ListView(
+            children: [
+              Stack(
+                alignment: Alignment.bottomCenter,
+                children: [
+                  SizedBox(
+                      width: double.infinity,
+                      height: context.setHeight(2.5),
+                      child: Padding(
+                        padding: EdgeInsets.only(bottom: 70.h),
+                        child: Image.asset(
+                          Constants.profileBackgroundImage,
+                          fit: BoxFit.fitWidth,
+                        ),
                       ),
-                    ),
-                ),
-                Column(
-                  children: [
-                    CircleAvatar(
-                      radius : 50.sp,
-                      backgroundImage: NetworkImage(
-                          '${ApiConstants.baseUrlForImages}${ProfileCubit.getInstance(context).profileData.data?['image']}'
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(vertical: 10.w),
-                      child: MyText(
-                          text: ProfileCubit.getInstance(context).profileData.data?['username'],
-                          fontSize: 20.sp,
-                          fontWeight: FontWeight.w500,
-                          color: Constants.appColor
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                  vertical: 16.h,
-                  horizontal: 20
-              ),
-              child: ListView.separated(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) => Post(
-                    id: ProfileCubit.getInstance(context).userPosts[index].postId,
-                    currentUserId: CacheHelper.getInstance().sharedPreferences.getStringList('userData')![0].toInt(),
-                    postManagerId: CacheHelper.getInstance().sharedPreferences.getStringList('userData')![0].toInt(),
-                    userImageUrl: ProfileCubit.getInstance(context).profileData.data?['image'],
-                    userName: ProfileCubit.getInstance(context).profileData.data?['username'],
-                    postImage: ProfileCubit.getInstance(context).userPosts[index].image,
-                    caption: ProfileCubit.getInstance(context).userPosts[index].caption,
-                    time: ProfileCubit.getInstance(context).userPosts[index].creationTime.substring(0,10),
-                    commentsNumber: 0,
                   ),
-                  separatorBuilder: (context, index) => SizedBox(height: 25.h,),
-                  itemCount: ProfileCubit.getInstance(context).userPosts.length
+                  Column(
+                    children: [
+                      CircleAvatar(
+                        radius : 50.sp,
+                        backgroundImage: NetworkImage(
+                            '${ApiConstants.baseUrlForImages}${ProfileCubit.getInstance(context).profileData.data?['image']}'
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 10.w),
+                        child: MyText(
+                            text: ProfileCubit.getInstance(context).profileData.data?['username'],
+                            fontSize: 20.sp,
+                            fontWeight: FontWeight.w500,
+                            color: Constants.appColor
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
-            )
-          ],
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    vertical: 16.h,
+                    horizontal: 20
+                ),
+                child: ListView.separated(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemBuilder: (context, index) => Post(
+                      id: ProfileCubit.getInstance(context).userPosts[index].postId,
+                      currentUserId: CacheHelper.getInstance().getUserData()![0].toInt(),
+                      postManagerId: CacheHelper.getInstance().getUserData()![0].toInt(),
+                      userImageUrl: ProfileCubit.getInstance(context).profileData.data?['image'],
+                      userName: ProfileCubit.getInstance(context).profileData.data?['username'],
+                      postImage: ProfileCubit.getInstance(context).userPosts[index].image,
+                      caption: ProfileCubit.getInstance(context).userPosts[index].caption,
+                      time: ProfileCubit.getInstance(context).userPosts[index].creationTime.substring(0,10),
+                      commentsNumber: 0,
+                    ),
+                    separatorBuilder: (context, index) => SizedBox(height: 25.h,),
+                    itemCount: ProfileCubit.getInstance(context).userPosts.length
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

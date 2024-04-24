@@ -119,8 +119,7 @@ class GetRepo
 
   Future<Result<List<Plant>,CustomError>> getSpecificPlantsByCategory(int id)async
   {
-    Result<Response, CustomError> getCategoryPlansRes = await apiService
-        .callApi(
+    Result<Response, CustomError> getCategoryPlansRes = await apiService.callApi(
       request: RequestModel(
         method: Methods.GET,
         endPoint: ApiConstants.plantsByCategory,
@@ -131,7 +130,7 @@ class GetRepo
 
     return getCategoryPlansRes.when(
             (success) => Result.success(
-                (getCategoryPlansRes.getOrThrow().data['data'] as List).map((e) => Plant(
+                (success.data['data'] as List).map((e) => Plant(
                     id: e['id'],
                     name: e['name'],
                     image: e['image'],
@@ -161,7 +160,7 @@ class GetRepo
             queryParams:
             {
               'user_id' :
-              CacheHelper.getInstance().sharedPreferences.getStringList('userData')![0].toInt(),
+              CacheHelper.getInstance().getUserData()![0].toInt(),
             },
             withToken: false,
         ),

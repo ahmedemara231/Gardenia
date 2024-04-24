@@ -3,19 +3,20 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gardenia/model/local/flutter_secure_storage.dart';
 import 'package:gardenia/model/local/shared_prefs.dart';
-import 'package:gardenia/service_locator/get_it.dart';
-import 'package:gardenia/test/test.dart';
+import 'package:gardenia/modules/base_widgets/myText.dart';
 import 'package:gardenia/view/auth/login/login.dart';
 import 'package:gardenia/view/auth/otp_code/screen.dart';
 import 'package:gardenia/view/auth/sign_up/sign_up.dart';
 import 'package:gardenia/view/bottomNavBar/bottom_nav_bar.dart';
-import 'package:gardenia/view/categories/categories.dart';
+import 'package:gardenia/view/categories/all/categories.dart';
+import 'package:gardenia/view/categories/base_screen/base_screen.dart';
 import 'package:gardenia/view/create_post/create_post.dart';
 import 'package:gardenia/view/home/home.dart';
 import 'package:gardenia/view/onBoarding/onBoarding_screen.dart';
 import 'package:gardenia/view/settting/setting.dart';
 import 'package:gardenia/view/profile/profile.dart';
 import 'package:gardenia/view_model/Login/cubit.dart';
+import 'package:gardenia/view_model/Login/states.dart';
 import 'package:gardenia/view_model/bloc_observer.dart';
 import 'package:gardenia/view_model/bottomNavBar/cubit.dart';
 import 'package:gardenia/view_model/categories/cubit.dart';
@@ -59,9 +60,32 @@ class MyApp extends StatelessWidget {
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
-          home: Home(),
+          home: Categories(),
         ),
       ),
     );
   }
 }
+class Test extends StatelessWidget {
+  const Test({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          IconButton(
+              onPressed: () {
+                LoginCubit.getInstance(context).inc();
+              }, icon: Icon(Icons.add,size: 50,)),
+          BlocBuilder<LoginCubit,LoginStates>(
+            builder: (context, state) => MyText(text: '${LoginCubit.getInstance(context).counter}',fontSize: 50,)
+          ),
+        ],
+      )
+    );
+  }
+}
+

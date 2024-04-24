@@ -12,11 +12,11 @@ class CacheHelper
     return instance ??= CacheHelper();
   }
 
-  late SharedPreferences sharedPreferences;
+  late SharedPreferences shared;
 
   Future<void> cacheInit()async
   {
-    sharedPreferences = await SharedPreferences.getInstance();
+    shared = await SharedPreferences.getInstance();
     log('Done');
   }
 
@@ -28,24 +28,24 @@ class CacheHelper
     switch(value)
     {
       case String:
-        await sharedPreferences.setString(key, value);
+        await shared.setString(key, value);
 
       case int:
-        await sharedPreferences.setInt(key, value);
+        await shared.setInt(key, value);
 
       case bool:
-        await sharedPreferences.setBool(key, value);
+        await shared.setBool(key, value);
 
       case double :
-        await sharedPreferences.setDouble(key, value);
+        await shared.setDouble(key, value);
 
       default:
-        await sharedPreferences.setStringList(key, value);
+        await shared.setStringList(key, value);
     }
   }
 
-  dynamic getData(String key)async
+  List<String>? getUserData()
   {
-    return sharedPreferences.get(key);
+    return shared.getStringList('userData');
   }
 }

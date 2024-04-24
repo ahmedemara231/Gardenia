@@ -1,8 +1,8 @@
 class ApiConstants
 {
   // base url
-  static const String baseUrl = 'https://6013-45-246-231-22.ngrok-free.app/api/v1/';
-  static const String baseUrlForImages = 'https://6013-45-246-231-22.ngrok-free.app';
+  static const String baseUrl = 'https://085f-45-243-220-57.ngrok-free.app/api/v1/';
+  static const String baseUrlForImages = 'https://085f-45-243-220-57.ngrok-free.app';
 
   // Auth
   static const String login = 'login';
@@ -16,7 +16,7 @@ class ApiConstants
   // posts
   static const String getPosts = 'get_posts';
   static const String createPost = 'create_post';
-  static const String updatePost = 'posts';
+  static const String updatePost = 'update_post';
   static const String deletePost = 'delete_post';
 
   // comments

@@ -20,8 +20,12 @@ class GetSpecificCategoryLoading extends CategoriesStates{}
 
 class GetSpecificCategorySuccess extends CategoriesStates{}
 
-class GetSpecificCategoryError extends CategoriesStates{
-  String? message;
-  GetSpecificCategoryError({this.message});
+class GetCategoryNetworkError extends CategoriesStates{
+  String message;
+  GetCategoryNetworkError({required this.message});
+}
+
+class GetCategoryFailure extends GetCategoryNetworkError{
+  GetCategoryFailure({required super.message});
 }
 
