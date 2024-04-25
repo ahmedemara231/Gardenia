@@ -4,6 +4,8 @@ class CategoriesInitState extends CategoriesStates {}
 
 class ChangeTap extends CategoriesStates {}
 
+class ChangeCharTab extends CategoriesStates{}
+
 class GetCategoriesLoadingState extends CategoriesStates {}
 
 class GetCategoriesSuccessState extends CategoriesStates {}

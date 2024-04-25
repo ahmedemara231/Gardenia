@@ -14,64 +14,76 @@ class CategoriesCubit extends Cubit<CategoriesStates>
 
   GetRepo getRepo = GetRepo(apiService: DioConnection.getInstance());
 
-
-  List<Plant> firstHalfAllCategories = [];
-  List<Plant> secondHalfAllCategories = [];
-
   List<List<Plant>> allCategory = [[],[]];
+
   Future<void> getAllCategories(context)async
   {
-    emit(GetCategoriesLoadingState());
-    await Future.wait(
+    if(allCategory[0].isNotEmpty || allCategory[1].isNotEmpty)
+      {
+        return;
+      }
+    else{
+      emit(GetCategoriesLoadingState());
+      await Future.wait(
         [
           getRepo.getAllCategories(),
           getRepo.getPopularPlants(),
         ],
-    ).then((results)async
-    {
-      for(int i = 0; i <= results.length - 1; i++)
+      ).then((results)async
       {
-        if(results[i].isSuccess())
+        for(int i = 0; i <= results.length - 1; i++)
         {
-          allCategory[i] = results[i].getOrThrow();
-          emit(GetCategoriesSuccessState());
-        }
-        else{
-          if(results[i].tryGetError() is NetworkError)
+          if(results[i].isSuccess())
           {
-            emit(
-                GetCategoryNetworkError(
-                  message: results[i].tryGetError()!.message!,
-                )
-            );
+            allCategory[i] = results[i].getOrThrow();
           }
           else{
-            MyToast.showToast(
-                context,
-                msg: results[i].tryGetError()!.message!
-            );
-            emit(GetCategoriesErrorState());
+            if(results[i].tryGetError() is NetworkError)
+            {
+              emit(
+                  GetCategoryNetworkError(
+                    message: results[i].tryGetError()!.message!,
+                  )
+              );
+            }
+            else{
+              MyToast.showToast(
+                  context,
+                  msg: results[i].tryGetError()!.message!
+              );
+              emit(GetCategoriesErrorState());
+            }
           }
         }
-      }
-    });
+        emit(GetCategoriesSuccessState());
+      });
+    }
   }
 
 
   List<String> categoriesNames = ['All', 'indoor', 'Outdoor', 'Garden', 'office'];
   Map<String, List<Plant>> categories = {};
 
+  void open()
+  {
+    for(int i = 0; i < categoriesNames.length; i++)
+    {
+      categories[categoriesNames[i]] = [];
+    }
+  }
+
+
   int currentTap = 0;
 
-  void changeTab(int newTap)
+  void changeTab(int newTab)
   {
-    currentTap = newTap;
+    currentTap = newTab;
     emit(ChangeTap());
   }
 
   Future<void> getSpecificCategory()async
   {
-    if(categories[categoriesNames[currentTap]] == null || categories[categoriesNames[currentTap]]!.isEmpty)
+    if(categories[categoriesNames[currentTap]]!.isEmpty)
       {
         emit(GetSpecificCategoryLoading());
         await getRepo.getSpecificPlantsByCategory(currentTap).then((result)
@@ -101,5 +113,12 @@ class CategoriesCubit extends Cubit<CategoriesStates>
     else{
       return;
     }
+  }
+
+  int currentTab = 0;
+  void charTab(int newTab)
+  {
+    currentTab = newTab;
+    emit(ChangeCharTab());
   }
 }

@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:gardenia/view_model/categories/cubit.dart';
-
 import '../../modules/app_widgets/app_button.dart';
 import '../../modules/base_widgets/myText.dart';
 
 class ErrorBuilder extends StatelessWidget {
 
   final String message;
-  const ErrorBuilder({super.key,
+  void Function()? onPressed;
+
+  ErrorBuilder({super.key,
     required this.message,
+    required this.onPressed,
   });
 
   @override
@@ -23,12 +24,12 @@ class ErrorBuilder extends StatelessWidget {
             child: MyText(text: message),
           ),
           AppButton(
-            onPressed: () => CategoriesCubit.getInstance(context).getAllCategories(context),
+            onPressed: onPressed,
             text: 'try again',
             width: 5,
           ),
         ],
       ),
-    );;
+    );
   }
 }

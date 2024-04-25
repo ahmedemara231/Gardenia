@@ -7,7 +7,7 @@ class BottomNavCubit extends Cubit<BottomNavStates>
 
   factory BottomNavCubit.getInstance(context) => BlocProvider.of(context);
 
-  int currentIndex = 0;
+  int currentIndex = 1;
   void changeScreen(int newScreen)
   {
     currentIndex = newScreen;

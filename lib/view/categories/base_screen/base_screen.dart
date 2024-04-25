@@ -28,6 +28,7 @@ class _CategoriesState extends State<Categories> {
   @override
   void initState() {
     categoriesCubit = CategoriesCubit.getInstance(context);
+    categoriesCubit.open();
     super.initState();
   }
 
@@ -109,10 +110,10 @@ class _CategoriesState extends State<Categories> {
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: context.setHeight(1.4),
-                  child: BlocBuilder<CategoriesCubit,CategoriesStates>(
-                    builder: (context, state) => const TabBarView(
+                BlocBuilder<CategoriesCubit,CategoriesStates>(
+                  builder: (context, state) => SizedBox(
+                    height: context.setHeight(1.4),
+                    child: const TabBarView(
                       physics: NeverScrollableScrollPhysics(),
                       children:
                       [

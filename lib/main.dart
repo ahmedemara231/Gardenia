@@ -13,6 +13,7 @@ import 'package:gardenia/view/categories/base_screen/base_screen.dart';
 import 'package:gardenia/view/create_post/create_post.dart';
 import 'package:gardenia/view/home/home.dart';
 import 'package:gardenia/view/onBoarding/onBoarding_screen.dart';
+import 'package:gardenia/view/plant_details/plant_details.dart';
 import 'package:gardenia/view/settting/setting.dart';
 import 'package:gardenia/view/profile/profile.dart';
 import 'package:gardenia/view_model/Login/cubit.dart';
@@ -60,7 +61,7 @@ class MyApp extends StatelessWidget {
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
-          home: Categories(),
+          home: BottomNavBar(),
         ),
       ),
     );

@@ -12,14 +12,14 @@ import '../favorites/favorites.dart';
 import '../profile/profile.dart';
 
 class BottomNavBar extends StatelessWidget {
-  BottomNavBar({super.key});
+  const BottomNavBar({super.key});
 
   final List<Widget> screens =
-  [
-    const Home(),
+  const [
+    Home(),
     Categories(),
-    const Favorites(),
-    const Profile(),
+    Favorites(),
+    Profile(),
   ];
   @override
   Widget build(BuildContext context) {
