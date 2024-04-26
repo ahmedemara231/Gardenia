@@ -142,24 +142,26 @@ class PlantDetails extends StatelessWidget {
                       ),
                       CategoriesCubit.getInstance(context).selectScreen(
                           carfulData: CarfulData(
-                              leading1: plant.light!.contains('Full sun')?
+                              lightLeading: plant.light!.contains('Full sun')?
                               const Icon(Icons.sunny) : const Icon(Icons.dark_mode_outlined),
-                              title1: plant.light!.split("/")[0],
-                              subTitle1: plant.light!.split("/")[1],
+                              lightTitle: plant.light!.split("/")[0],
+                              lightSubTitle: plant.light!.split("/")[1],
 
-                              leading2: Image.asset(Constants.plantWater),
-                              title2: plant.careful!.split("/")[0],
-                              subTitle2: plant.careful!.split("/")[1],
+                              cateLeading: Image.asset(Constants.plantWater),
+                              careTitle: plant.careful!.split("/")[0],
+                              careSubTitle: plant.careful!.split("/")[1],
 
-                              leading4: MyText(text: '55555'),
-                              title4: 'aaaaaaa',
-                              subTitle4: 'aaaaaaa',
+                              fertilizerLeading: const Icon(
+                                Icons.group_work_rounded,
+                                color: Colors.white,
+                              ),
+                              fertilizerTitle: plant.liquid_fertilizer!,
 
-                              title5: 'title5',
-                              subTitle5: 'aaaaaaa',
-
-                              leading5: MyText(text: 'leading5'),
-                              title6: 'aaaaaaa'
+                              cleanLeading: const Icon(
+                                Icons.cleaning_services,
+                                color: Colors.white,
+                              ),
+                              cleanTitle: plant.clean!
                           ),
                       ),
 

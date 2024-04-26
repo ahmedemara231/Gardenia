@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gardenia/constants/constants.dart';
+import 'package:gardenia/modules/base_widgets/expandable_text.dart';
 import 'package:gardenia/modules/base_widgets/myText.dart';
 
 import '../../../../modules/data_types/carful_data_model.dart';
@@ -34,16 +35,16 @@ class Carful extends StatelessWidget {
                   leading: CircleAvatar(
                     backgroundColor: Constants.secondAppColor,
                     radius: 20.sp,
-                    child: carfulData.leading1,
+                    child: carfulData.lightLeading,
                   ),
                   title: MyText(
-                    text: carfulData.title1,
+                    text: carfulData.lightTitle,
                     color: Colors.white,
                     fontSize: 14.sp,
                     fontWeight: FontWeight.bold,
                   ),
                   subtitle:MyText(
-                    text: carfulData.subTitle1,
+                    text: carfulData.lightSubTitle,
                     color: Colors.white,
                     fontSize: 14.sp,
                   ) ,
@@ -71,16 +72,16 @@ class Carful extends StatelessWidget {
                   leading: CircleAvatar(
                     backgroundColor: Constants.secondAppColor,
                     radius: 20.sp,
-                    child: carfulData.leading2
+                    child: carfulData.cateLeading
                   ),
                   title: MyText(
-                    text: carfulData.title2,
+                    text: carfulData.careTitle,
                     color: Colors.white,
                     fontSize: 14.sp,
                     fontWeight: FontWeight.bold,
                   ),
                   subtitle:MyText(
-                    text: carfulData.subTitle2,
+                    text: carfulData.careSubTitle,
                     color: Colors.white,
                     fontSize: 14.sp,
                   ) ,
@@ -107,32 +108,13 @@ class Carful extends StatelessWidget {
                   leading: CircleAvatar(
                     backgroundColor: Constants.secondAppColor,
                     radius: 20.sp,
-                    child: carfulData.leading4
+                    child: carfulData.fertilizerLeading
                   ),
-                  title: MyText(
-                    text: carfulData.title4,
+                  title: MyExpandableText(
+                    text: carfulData.fertilizerTitle,
                     color: Colors.white,
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  subtitle:MyText(
-                    text: carfulData.subTitle4,
-                    color: Colors.white,
-                    fontSize: 14.sp,
-                  ) ,
-                ),
-                ListTile(
-                  title: MyText(
-                    text: carfulData.title5,
-                    color: Colors.white,
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  subtitle:MyText(
-                    text: carfulData.subTitle5,
-                    color: Colors.white,
-                    fontSize: 14.sp,
-                  ) ,
+                    size: 14.sp,
+                  )
                 ),
               ],
             ),
@@ -152,11 +134,13 @@ class Carful extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                 ),
-                Row(
-                  children: [
-                    carfulData.leading5,
-                    MyText(text: carfulData.title6,fontSize: 10.sp,fontWeight: FontWeight.w500,),
-                  ],
+                ListTile(
+                  leading: carfulData.cleanLeading,
+                  title: MyExpandableText(
+                    text: carfulData.cleanTitle,
+                    size: 14.sp,
+                    color: Colors.white,
+                  ),
                 ),
               ],
             ),
