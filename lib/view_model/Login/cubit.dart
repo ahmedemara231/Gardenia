@@ -10,7 +10,6 @@ import 'package:gardenia/model/remote/api_service/repositories/post_repo.dart';
 import 'package:gardenia/model/remote/api_service/service/dio_connection.dart';
 import 'package:gardenia/model/remote/api_service/service/error_handling/errors.dart';
 import 'package:gardenia/modules/base_widgets/toast.dart';
-import 'package:gardenia/view/auth/reset_password/reset_password.dart';
 import 'package:gardenia/view_model/Login/states.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 import '../../view/auth/login/login.dart';
@@ -67,7 +66,7 @@ class LoginCubit extends Cubit<LoginStates>
                 userId,
                 loginResult.data!['username'],
                 loginResult.data!['email'],
-                loginResult.data!['image']
+                loginResult.data!['image']?? Constants.defaultProfileImage
               ]
           );
           await SecureStorage.getInstance().setData(

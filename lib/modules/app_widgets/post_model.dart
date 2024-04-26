@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gardenia/constants/constants.dart';
 import 'package:gardenia/extensions/routes.dart';
 import 'package:gardenia/model/remote/api_service/service/constants.dart';
+import 'package:gardenia/modules/base_widgets/expandable_text.dart';
 import 'package:gardenia/modules/base_widgets/myText.dart';
 import 'package:gardenia/view_model/home/cubit.dart';
 import '../../view/home/post_comments.dart';
@@ -164,15 +165,7 @@ class Post extends StatelessWidget {
               ),
           )
         ),
-        ExpandableText(
-          caption?? '',
-          style: TextStyle(fontSize: 16.sp,color: Colors.black),
-          linkTextStyle: const TextStyle(color: Colors.blue),
-          trimType: TrimType.lines,
-          trim: 2,
-          readMoreText: 'show more',
-          readLessText: 'show less',
-        ),
+        MyExpandableText(text: caption),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [

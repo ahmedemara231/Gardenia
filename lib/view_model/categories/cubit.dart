@@ -1,9 +1,12 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gardenia/model/remote/api_service/repositories/get_repo.dart';
 import 'package:gardenia/model/remote/api_service/service/dio_connection.dart';
 import 'package:gardenia/model/remote/api_service/service/error_handling/errors.dart';
 import 'package:gardenia/modules/base_widgets/toast.dart';
+import 'package:gardenia/modules/data_types/carful_data_model.dart';
 import 'package:gardenia/modules/data_types/plant.dart';
+import 'package:gardenia/view/plant_details/characteristics/carful/carful.dart';
 import 'package:gardenia/view_model/categories/states.dart';
 
 class CategoriesCubit extends Cubit<CategoriesStates>
@@ -120,5 +123,18 @@ class CategoriesCubit extends Cubit<CategoriesStates>
   {
     currentTab = newTab;
     emit(ChangeCharTab());
+  }
+
+
+
+  Widget selectScreen({
+    required CarfulData carfulData,
+})
+  {
+    List<Widget> characteristics =
+    [
+      Carful(carfulData: carfulData),
+    ];
+    return characteristics[currentTab];
   }
 }

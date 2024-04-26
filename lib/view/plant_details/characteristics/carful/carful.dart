@@ -3,87 +3,47 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gardenia/constants/constants.dart';
 import 'package:gardenia/modules/base_widgets/myText.dart';
 
-class SpecificChar extends StatelessWidget {
+import '../../../../modules/data_types/carful_data_model.dart';
 
-  Widget leading1;
-  Widget leading2;
-  Widget leading3;
-  Widget leading4;
-  String title1;
-  String title2;
-  String title3;
-  String title4;
-  String subTitle1;
-  String subTitle2;
-  String subTitle3;
-  String subTitle4;
-  String containerTwoTitle;
-  String containerTwoText;
-  String containerThreeTitle;
+class Carful extends StatelessWidget {
 
-  SpecificChar({super.key,
-    required this.leading1,
-    required this.leading2,
-    required this.leading3,
-    required this.leading4,
-    required this.title1,
-    required this.title2,
-    required this.title3,
-    required this.title4,
-    required this.subTitle1,
-    required this.subTitle2,
-    required this.subTitle3,
-    required this.subTitle4,
-    required this.containerTwoTitle,
-    required this.containerTwoText,
-    required this.containerThreeTitle
+  CarfulData carfulData;
+
+  Carful({super.key,
+    required this.carfulData,
   });
+
+  Decoration containerDecoration = BoxDecoration(
+      borderRadius: BorderRadius.circular(16),
+      color: Constants.appColor
+  );
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
-            color: Constants.appColor
-          ),
+          decoration: containerDecoration,
           child: Padding(
             padding: const EdgeInsets.all(10.0),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                MyText(text: 'Light',fontSize: 14.sp,fontWeight: FontWeight.bold,color: Colors.white,),
                 ListTile(
                   leading: CircleAvatar(
                     backgroundColor: Constants.secondAppColor,
                     radius: 20.sp,
-                    child: leading1,
+                    child: carfulData.leading1,
                   ),
                   title: MyText(
-                    text: title1,
+                    text: carfulData.title1,
                     color: Colors.white,
                     fontSize: 14.sp,
                     fontWeight: FontWeight.bold,
                   ),
                   subtitle:MyText(
-                    text: subTitle1,
-                    color: Colors.white,
-                    fontSize: 14.sp,
-                  ) ,
-                ),
-                ListTile(
-                  leading: CircleAvatar(
-                    backgroundColor: Constants.secondAppColor,
-                    radius: 20.sp,
-                    child: leading2
-                  ),
-                  title: MyText(
-                    text: title2,
-                    color: Colors.white,
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  subtitle:MyText(
-                    text: subTitle2,
+                    text: carfulData.subTitle1,
                     color: Colors.white,
                     fontSize: 14.sp,
                   ) ,
@@ -94,43 +54,36 @@ class SpecificChar extends StatelessWidget {
         ),
         SizedBox(height: 16.h),
         Container(
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-              color: Constants.appColor
-          ),
+          decoration: containerDecoration,
           child: Padding(
             padding: const EdgeInsets.all(10.0),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 MyText(
-                  text: containerTwoTitle,
+                  text: 'Care',
                   fontSize: 14.sp,
                   fontWeight: FontWeight.bold,
+                  color: Colors.white,
                 ),
 
                 ListTile(
                   leading: CircleAvatar(
                     backgroundColor: Constants.secondAppColor,
                     radius: 20.sp,
-                    child: leading3
+                    child: carfulData.leading2
                   ),
                   title: MyText(
-                    text: title3,
+                    text: carfulData.title2,
                     color: Colors.white,
                     fontSize: 14.sp,
                     fontWeight: FontWeight.bold,
                   ),
                   subtitle:MyText(
-                    text: subTitle3,
+                    text: carfulData.subTitle2,
                     color: Colors.white,
                     fontSize: 14.sp,
                   ) ,
-                ),
-
-                MyText(
-                  text: containerTwoText,
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w500,
                 ),
               ],
             ),
@@ -138,36 +91,72 @@ class SpecificChar extends StatelessWidget {
         ),
         SizedBox(height: 16.h),
         Container(
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-              color: Constants.appColor
-          ),
+          decoration: containerDecoration,
           child: Padding(
             padding: const EdgeInsets.all(10.0),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 MyText(
-                  text: containerThreeTitle,
+                  text: 'Fertilizer',
                   fontSize: 14.sp,
                   fontWeight: FontWeight.bold,
+                  color: Colors.white,
                 ),
                 ListTile(
                   leading: CircleAvatar(
                     backgroundColor: Constants.secondAppColor,
                     radius: 20.sp,
-                    child: leading4
+                    child: carfulData.leading4
                   ),
                   title: MyText(
-                    text: title4,
+                    text: carfulData.title4,
                     color: Colors.white,
                     fontSize: 14.sp,
                     fontWeight: FontWeight.bold,
                   ),
                   subtitle:MyText(
-                    text: subTitle4,
+                    text: carfulData.subTitle4,
                     color: Colors.white,
                     fontSize: 14.sp,
                   ) ,
+                ),
+                ListTile(
+                  title: MyText(
+                    text: carfulData.title5,
+                    color: Colors.white,
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  subtitle:MyText(
+                    text: carfulData.subTitle5,
+                    color: Colors.white,
+                    fontSize: 14.sp,
+                  ) ,
+                ),
+              ],
+            ),
+          ),
+        ),
+        SizedBox(height: 16.h),
+        Container(
+          decoration: containerDecoration,
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                MyText(
+                  text: 'Clean',
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+                Row(
+                  children: [
+                    carfulData.leading5,
+                    MyText(text: carfulData.title6,fontSize: 10.sp,fontWeight: FontWeight.w500,),
+                  ],
                 ),
               ],
             ),

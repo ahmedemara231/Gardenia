@@ -31,7 +31,7 @@ class ConfirmImage extends StatelessWidget {
                 controller: RoundedLoadingButtonController(),
                 onPressed: () async
                 {
-
+                  await UpdateProfileCubit.getInstance(context).updateProfileImage(context);
                 },
                 borderRadius: 12,
                 child: SizedBox(

@@ -27,17 +27,17 @@ class DioConnection implements ApiService
       ..options.connectTimeout = const Duration(seconds: 15)
       ..options.receiveTimeout = const Duration(seconds: 15);
 
-    if(kDebugMode)
-      {
-        List<InterceptorsWrapper> myInterceptors =
-        [
-          UnknownErrorInterceptor(),
-          TimeoutInterceptor(dio),
-          BadResponseInterceptor(dio),
-        ];
-
-        dio.interceptors.addAll(myInterceptors);
-      }
+    // if(kDebugMode)
+    //   {
+    //     List<InterceptorsWrapper> myInterceptors =
+    //     [
+    //       UnknownErrorInterceptor(),
+    //       TimeoutInterceptor(dio),
+    //       BadResponseInterceptor(dio),
+    //     ];
+    //
+    //     dio.interceptors.addAll(myInterceptors);
+    //   }
   }
 
   static DioConnection? dioHelper;
@@ -53,7 +53,6 @@ class DioConnection implements ApiService
 
     headers[HttpHeaders.acceptHeader] = 'application/json';
     // headers['Content-Type'] = 'application/json';
-    // headers['lang'] = lang?? Languages.english;
 
     if(withToken)
     {

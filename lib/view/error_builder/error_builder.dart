@@ -6,9 +6,9 @@ import '../../modules/base_widgets/myText.dart';
 class ErrorBuilder extends StatelessWidget {
 
   final String message;
-  void Function()? onPressed;
+  final void Function()? onPressed;
 
-  ErrorBuilder({super.key,
+  const ErrorBuilder({super.key,
     required this.message,
     required this.onPressed,
   });
