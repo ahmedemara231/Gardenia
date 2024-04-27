@@ -21,7 +21,7 @@ class Careful extends StatelessWidget {
                 padding: EdgeInsets.symmetric(vertical: 5.h),
                 child: PhysicalModel(
                   color: Constants.appColor,
-                  elevation: 3,
+                  elevation: 7,
                   borderRadius: BorderRadius.circular(16),
                   clipBehavior: Clip.antiAliasWithSaveLayer,
                   child: Padding(

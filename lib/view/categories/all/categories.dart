@@ -3,11 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gardenia/constants/constants.dart';
 import 'package:gardenia/extensions/mediaQuery.dart';
+import 'package:gardenia/extensions/routes.dart';
 import 'package:gardenia/modules/app_widgets/popular_plants.dart';
 import 'package:gardenia/modules/base_widgets/myText.dart';
 import 'package:gardenia/modules/app_widgets/all_plant_model.dart';
 import 'package:gardenia/view/categories/shimmers/all_shimmer.dart';
 import 'package:gardenia/view/error_builder/error_builder.dart';
+import 'package:gardenia/view/plant_details/plant_details.dart';
 import 'package:gardenia/view_model/categories/cubit.dart';
 import 'package:gardenia/view_model/categories/states.dart';
 
@@ -56,10 +58,17 @@ class _AllCategoriesState extends State<AllCategories> {
                       height: context.setHeight(5),
                       child: ListView.separated(
                         scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) => AllPlantsModel(
-                          imageUrl: categoriesCubit.allCategory[0].sublist(0,categoriesCubit.allCategory[0].length ~/ 2)[index].image,
-                          plantName: categoriesCubit.allCategory[0].sublist(0,categoriesCubit.allCategory[0].length ~/ 2)[index].name,
-                          plantType: categoriesCubit.allCategory[0].sublist(0,categoriesCubit.allCategory[0].length ~/ 2)[index].type,
+                        itemBuilder: (context, index) => InkWell(
+                          onTap: () => context.normalNewRoute(
+                              PlantDetails(
+                                  plant: categoriesCubit.allCategory[0].sublist(0,categoriesCubit.allCategory[0].length ~/ 2)[index],
+                              ),
+                          ),
+                          child: AllPlantsModel(
+                            imageUrl: categoriesCubit.allCategory[0].sublist(0,categoriesCubit.allCategory[0].length ~/ 2)[index].image,
+                            plantName: categoriesCubit.allCategory[0].sublist(0,categoriesCubit.allCategory[0].length ~/ 2)[index].name,
+                            plantType: categoriesCubit.allCategory[0].sublist(0,categoriesCubit.allCategory[0].length ~/ 2)[index].type,
+                          ),
                         ),
                         separatorBuilder: (context, index) => SizedBox(width: 10.w,),
                         itemCount: categoriesCubit.allCategory[0].sublist(0,categoriesCubit.allCategory[0].length ~/ 2).length,
@@ -70,10 +79,17 @@ class _AllCategoriesState extends State<AllCategories> {
                       height: context.setHeight(5),
                       child: ListView.separated(
                         scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) => AllPlantsModel(
-                          imageUrl: categoriesCubit.allCategory[0].sublist(categoriesCubit.allCategory[0].length ~/ 2,categoriesCubit.allCategory[0].length)[index].image,
-                          plantName: categoriesCubit.allCategory[0].sublist(categoriesCubit.allCategory[0].length ~/ 2,categoriesCubit.allCategory[0].length)[index].name,
-                          plantType: categoriesCubit.allCategory[0].sublist(categoriesCubit.allCategory[0].length ~/ 2,categoriesCubit.allCategory[0].length)[index].type,
+                        itemBuilder: (context, index) => InkWell(
+                          onTap: () => context.normalNewRoute(
+                            PlantDetails(
+                              plant: categoriesCubit.allCategory[0].sublist(0,categoriesCubit.allCategory[0].length ~/ 2)[index],
+                            ),
+                          ),
+                          child: AllPlantsModel(
+                            imageUrl: categoriesCubit.allCategory[0].sublist(categoriesCubit.allCategory[0].length ~/ 2,categoriesCubit.allCategory[0].length)[index].image,
+                            plantName: categoriesCubit.allCategory[0].sublist(categoriesCubit.allCategory[0].length ~/ 2,categoriesCubit.allCategory[0].length)[index].name,
+                            plantType: categoriesCubit.allCategory[0].sublist(categoriesCubit.allCategory[0].length ~/ 2,categoriesCubit.allCategory[0].length)[index].type,
+                          ),
                         ),
                         separatorBuilder: (context, index) => SizedBox(width: 10.w,),
                         itemCount: categoriesCubit.allCategory[0].sublist(categoriesCubit.allCategory[0].length ~/ 2,categoriesCubit.allCategory[0].length).length,
@@ -112,10 +128,17 @@ class _AllCategoriesState extends State<AllCategories> {
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) => InkWell(
                         onTap: () {},
-                        child: PopularPlants(
-                          image: categoriesCubit.allCategory[1][index].image,
-                          type: categoriesCubit.allCategory[1][index].type,
-                          plantName: categoriesCubit.allCategory[1][index].name,
+                        child: InkWell(
+                          onTap: () => context.normalNewRoute(
+                            PlantDetails(
+                              plant: categoriesCubit.allCategory[1][index],
+                            ),
+                          ),
+                          child: PopularPlants(
+                            image: categoriesCubit.allCategory[1][index].image,
+                            type: categoriesCubit.allCategory[1][index].type,
+                            plantName: categoriesCubit.allCategory[1][index].name,
+                          ),
                         )
                     ),
                     separatorBuilder: (context, index) => SizedBox(width: 10.w,),

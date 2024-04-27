@@ -178,7 +178,9 @@ class PlantDetails extends StatelessWidget {
                               resistanceZone: plant.resistance_zone!,
                               idealTemperature: plant.ideal_temperature!,
                               suitableLocation: plant.suitable_location!
-                          )
+                          ),
+                          toxicity: plant.toxicity!,
+                          names: plant.names!
                         ),
                       ),
                     ],

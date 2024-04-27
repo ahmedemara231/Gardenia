@@ -60,7 +60,7 @@ class Place extends StatelessWidget {
           padding: EdgeInsets.symmetric(vertical: 10.h),
           child: PhysicalModel(
             color: Constants.appColor,
-            elevation: 3,
+            elevation: 7,
             borderRadius: BorderRadius.circular(16),
             clipBehavior: Clip.antiAliasWithSaveLayer,
             child: Padding(
@@ -86,7 +86,7 @@ class Place extends StatelessWidget {
 
         SuitableLocation(
           location: pLaceDataModel.suitableLocation,
-        )
+        ),
 
       ],
     );

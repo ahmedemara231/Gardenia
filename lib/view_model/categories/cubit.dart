@@ -6,6 +6,7 @@ import 'package:gardenia/model/remote/api_service/service/error_handling/errors.
 import 'package:gardenia/modules/base_widgets/toast.dart';
 import 'package:gardenia/modules/data_types/plant.dart';
 import 'package:gardenia/view/plant_details/characteristics/carful/carful.dart';
+import 'package:gardenia/view/plant_details/characteristics/characteristics/characteristics.dart';
 import 'package:gardenia/view/plant_details/characteristics/place/place.dart';
 import 'package:gardenia/view_model/categories/states.dart';
 
@@ -132,12 +133,15 @@ class CategoriesCubit extends Cubit<CategoriesStates>
   Widget selectScreen({
     required List<Map<String,dynamic>> carefulData,
     required PLaceDataModel pLaceDataModel,
+    required String toxicity,
+    required String names,
 })
   {
     List<Widget> characteristics =
     [
       Careful(carefulData: carefulData),
-      Place(pLaceDataModel: pLaceDataModel)
+      Place(pLaceDataModel: pLaceDataModel),
+      Characteristics(toxicity: toxicity, names: names)
     ];
     return characteristics[currentTab];
   }
