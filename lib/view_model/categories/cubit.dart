@@ -4,10 +4,12 @@ import 'package:gardenia/model/remote/api_service/repositories/get_repo.dart';
 import 'package:gardenia/model/remote/api_service/service/dio_connection.dart';
 import 'package:gardenia/model/remote/api_service/service/error_handling/errors.dart';
 import 'package:gardenia/modules/base_widgets/toast.dart';
-import 'package:gardenia/modules/data_types/carful_data_model.dart';
 import 'package:gardenia/modules/data_types/plant.dart';
 import 'package:gardenia/view/plant_details/characteristics/carful/carful.dart';
+import 'package:gardenia/view/plant_details/characteristics/place/place.dart';
 import 'package:gardenia/view_model/categories/states.dart';
+
+import '../../modules/data_types/place_data_model.dart';
 
 class CategoriesCubit extends Cubit<CategoriesStates>
 {
@@ -128,12 +130,14 @@ class CategoriesCubit extends Cubit<CategoriesStates>
 
 
   Widget selectScreen({
-    required CarfulData carfulData,
+    required List<Map<String,dynamic>> carefulData,
+    required PLaceDataModel pLaceDataModel,
 })
   {
     List<Widget> characteristics =
     [
-      Carful(carfulData: carfulData),
+      Careful(carefulData: carefulData),
+      Place(pLaceDataModel: pLaceDataModel)
     ];
     return characteristics[currentTab];
   }

@@ -1,7 +1,7 @@
 class ApiConstants
 {
   // base url
-  static const String baseUrlForImages = 'https://9ee8-45-246-235-137.ngrok-free.app';
+  static const String baseUrlForImages = 'https://0382-45-243-238-85.ngrok-free.app';
   static const String baseUrl = '$baseUrlForImages/api/v1/';
 
   // Auth
@@ -32,5 +32,4 @@ class ApiConstants
   // profile
   static const String getProfileData = 'profile';
   static const String updateProfile = 'update_profile';
-
 }

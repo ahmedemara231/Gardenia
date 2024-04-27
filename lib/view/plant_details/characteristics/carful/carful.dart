@@ -1,152 +1,64 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gardenia/constants/constants.dart';
-import 'package:gardenia/modules/base_widgets/expandable_text.dart';
 import 'package:gardenia/modules/base_widgets/myText.dart';
+import '../container_decoration.dart';
 
-import '../../../../modules/data_types/carful_data_model.dart';
+class Careful extends StatelessWidget {
 
-class Carful extends StatelessWidget {
+  List<Map<String,dynamic>> carefulData = [];
 
-  CarfulData carfulData;
-
-  Carful({super.key,
-    required this.carfulData,
+  Careful({super.key,
+    required this.carefulData,
   });
-
-  Decoration containerDecoration = BoxDecoration(
-      borderRadius: BorderRadius.circular(16),
-      color: Constants.appColor
-  );
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: [
-        Container(
-          decoration: containerDecoration,
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                MyText(text: 'Light',fontSize: 14.sp,fontWeight: FontWeight.bold,color: Colors.white,),
-                ListTile(
-                  leading: CircleAvatar(
-                    backgroundColor: Constants.secondAppColor,
-                    radius: 20.sp,
-                    child: carfulData.lightLeading,
-                  ),
-                  title: MyText(
-                    text: carfulData.lightTitle,
-                    color: Colors.white,
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  subtitle:MyText(
-                    text: carfulData.lightSubTitle,
-                    color: Colors.white,
-                    fontSize: 14.sp,
-                  ) ,
-                ),
-              ],
-            ),
-          ),
-        ),
-        SizedBox(height: 16.h),
-        Container(
-          decoration: containerDecoration,
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                MyText(
-                  text: 'Care',
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-
-                ListTile(
-                  leading: CircleAvatar(
-                    backgroundColor: Constants.secondAppColor,
-                    radius: 20.sp,
-                    child: carfulData.cateLeading
-                  ),
-                  title: MyText(
-                    text: carfulData.careTitle,
-                    color: Colors.white,
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  subtitle:MyText(
-                    text: carfulData.careSubTitle,
-                    color: Colors.white,
-                    fontSize: 14.sp,
-                  ) ,
-                ),
-              ],
-            ),
-          ),
-        ),
-        SizedBox(height: 16.h),
-        Container(
-          decoration: containerDecoration,
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                MyText(
-                  text: 'Fertilizer',
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-                ListTile(
-                  leading: CircleAvatar(
-                    backgroundColor: Constants.secondAppColor,
-                    radius: 20.sp,
-                    child: carfulData.fertilizerLeading
-                  ),
-                  title: MyExpandableText(
-                    text: carfulData.fertilizerTitle,
-                    color: Colors.white,
-                    size: 14.sp,
-                  )
-                ),
-              ],
-            ),
-          ),
-        ),
-        SizedBox(height: 16.h),
-        Container(
-          decoration: containerDecoration,
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                MyText(
-                  text: 'Clean',
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-                ListTile(
-                  leading: carfulData.cleanLeading,
-                  title: MyExpandableText(
-                    text: carfulData.cleanTitle,
-                    size: 14.sp,
-                    color: Colors.white,
+      children: List.generate(
+          carefulData.length,
+              (index) => Card(
+                elevation: 4,
+                child: Container(
+                  decoration: containerDecoration1,
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(left: 16.w),
+                          child: MyText(
+                            text: carefulData[index]['carefulSubTitle'],
+                            color: Colors.white,
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        ListTile(
+                          leading: CircleAvatar(
+                            backgroundColor: Constants.secondAppColor,
+                            radius: 20.sp,
+                            child: carefulData[index]['icon'],
+                          ),
+                          title: MyText(
+                            text: carefulData[index]['title'],
+                            color: Colors.white,
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          subtitle: MyText(
+                            text: carefulData[index]['subTitle']??'',
+                            color: Colors.white,
+                            fontSize: 14.sp,
+                          ) ,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ],
-            ),
-          ),
-        ),
-      ],
+              )
+      ),
     );
   }
 }

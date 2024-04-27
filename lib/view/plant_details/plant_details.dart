@@ -6,11 +6,10 @@ import 'package:gardenia/extensions/mediaQuery.dart';
 import 'package:gardenia/modules/app_widgets/arrow_back_button.dart';
 import 'package:gardenia/modules/base_widgets/expandable_text.dart';
 import 'package:gardenia/modules/base_widgets/myText.dart';
-import 'package:gardenia/modules/data_types/carful_data_model.dart';
+import 'package:gardenia/modules/data_types/place_data_model.dart';
 import 'package:gardenia/view_model/categories/cubit.dart';
 import 'package:gardenia/view_model/categories/states.dart';
 import 'package:hexcolor/hexcolor.dart';
-
 import '../../modules/data_types/plant.dart';
 
 class PlantDetails extends StatelessWidget {
@@ -140,31 +139,48 @@ class PlantDetails extends StatelessWidget {
                         text: characteristics[CategoriesCubit.getInstance(context).currentTab],
                         fontSize: 25.sp,
                       ),
-                      CategoriesCubit.getInstance(context).selectScreen(
-                          carfulData: CarfulData(
-                              lightLeading: plant.light!.contains('Full sun')?
-                              const Icon(Icons.sunny) : const Icon(Icons.dark_mode_outlined),
-                              lightTitle: plant.light!.split("/")[0],
-                              lightSubTitle: plant.light!.split("/")[1],
-
-                              cateLeading: Image.asset(Constants.plantWater),
-                              careTitle: plant.careful!.split("/")[0],
-                              careSubTitle: plant.careful!.split("/")[1],
-
-                              fertilizerLeading: const Icon(
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: 10.h),
+                        child: CategoriesCubit.getInstance(context).selectScreen(
+                          carefulData:
+                          [
+                            {
+                              'carefulSubTitle' : 'Light',
+                              'icon' : plant.light!.contains('Full sun')?
+                              const Icon(Icons.sunny,color: Colors.white) : const Icon(Icons.dark_mode_outlined,color: Colors.white),
+                              'title' : plant.light!.split("/")[0],
+                              'subTitle' : plant.light!.split("/")[1],
+                            },
+                            {
+                              'carefulSubTitle' : 'Care',
+                              'icon' : Image.asset(Constants.plantWater),
+                              'title' : plant.careful!.split("/")[0],
+                              'subTitle' : plant.careful!.split("/")[1],
+                            },
+                            {
+                              'carefulSubTitle' : ' Fertilizer',
+                              'icon' : const Icon(
                                 Icons.group_work_rounded,
                                 color: Colors.white,
                               ),
-                              fertilizerTitle: plant.liquid_fertilizer!,
-
-                              cleanLeading: const Icon(
+                              'title' : plant.liquid_fertilizer!,
+                            },
+                            {
+                              'carefulSubTitle' : ' Clean',
+                              'icon' : const Icon(
                                 Icons.cleaning_services,
                                 color: Colors.white,
                               ),
-                              cleanTitle: plant.clean!
-                          ),
+                              'title' : plant.clean!
+                            },
+                          ],
+                          pLaceDataModel: PLaceDataModel(
+                              resistanceZone: plant.resistance_zone!,
+                              idealTemperature: plant.ideal_temperature!,
+                              suitableLocation: plant.suitable_location!
+                          )
+                        ),
                       ),
-
                     ],
                   ),
                 ),
