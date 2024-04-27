@@ -3,7 +3,7 @@ import 'package:hexcolor/hexcolor.dart';
 
 class Constants
 {
-  static final Color appColor = HexColor('1B6438');
+  static final Color appColor = HexColor('036247');
   static final Color secondAppColor = HexColor('0ACF83');
 
   // images

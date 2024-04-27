@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gardenia/constants/constants.dart';
+import 'package:gardenia/modules/base_widgets/expandable_text.dart';
 import 'package:gardenia/modules/base_widgets/myText.dart';
-import '../container_decoration.dart';
 
 class Careful extends StatelessWidget {
 
@@ -17,10 +17,13 @@ class Careful extends StatelessWidget {
     return Column(
       children: List.generate(
           carefulData.length,
-              (index) => Card(
-                elevation: 4,
-                child: Container(
-                  decoration: containerDecoration1,
+              (index) => Padding(
+                padding: EdgeInsets.symmetric(vertical: 5.h),
+                child: PhysicalModel(
+                  color: Constants.appColor,
+                  elevation: 3,
+                  borderRadius: BorderRadius.circular(16),
+                  clipBehavior: Clip.antiAliasWithSaveLayer,
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: Column(
@@ -41,17 +44,19 @@ class Careful extends StatelessWidget {
                             radius: 20.sp,
                             child: carefulData[index]['icon'],
                           ),
-                          title: MyText(
+                          title: MyExpandableText(
                             text: carefulData[index]['title'],
                             color: Colors.white,
-                            fontSize: 14.sp,
+                            size: 14.sp,
                             fontWeight: FontWeight.bold,
                           ),
-                          subtitle: MyText(
+
+                          subtitle: MyExpandableText(
                             text: carefulData[index]['subTitle']??'',
                             color: Colors.white,
-                            fontSize: 14.sp,
-                          ) ,
+                            size: 14.sp,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ],
                     ),
