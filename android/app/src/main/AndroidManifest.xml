@@ -4,7 +4,9 @@
     <application
         android:label="gardenia"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/launcher_icon">
+        <meta-data android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyA0N7ZxCCPn-45gNcdxo5SPnJlMcD02L0Y"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"

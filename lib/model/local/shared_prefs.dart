@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CacheHelper
@@ -42,6 +41,12 @@ class CacheHelper
       default:
         await shared.setStringList(key, value);
     }
+  }
+
+  void clearCache()async
+  {
+    await shared.clear();
+    log('Cleared');
   }
 
   List<String>? getUserData()

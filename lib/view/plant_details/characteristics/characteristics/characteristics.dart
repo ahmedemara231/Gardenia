@@ -46,6 +46,7 @@ class Characteristics extends StatelessWidget {
             ),
           ),
         ),
+        SizedBox(height: 10.h),
         PhysicalModel(
           elevation: 3,
           color: Colors.white,

@@ -3,6 +3,7 @@ import 'package:hexcolor/hexcolor.dart';
 
 class Constants
 {
+  // Colors
   static final Color appColor = HexColor('036247');
   static final Color secondAppColor = HexColor('0ACF83');
 
@@ -11,6 +12,7 @@ class Constants
   static const String appLogo = 'assets/images/app_logo.png';
   static const String google = 'assets/images/google.png';
   static const String profileBackgroundImage = 'assets/images/profileBackgroundImage.png';
+  static const String customMapMarker = 'assets/images/custom_marker.png';
 
   // icons
   static const String penProfileIcon = 'assets/icons/pen_icon.png';

@@ -87,7 +87,14 @@ class PlantDetails extends StatelessWidget {
                       ),
                     ),
                     SizedBox(width: 16.w,),
-                    IconButton(onPressed: () {}, icon: Icon(Icons.favorite_border,color: HexColor('0ACF83'),))
+                    IconButton(
+                        onPressed: ()
+                        {
+                          CategoriesCubit.getInstance(context).addToFav(plant);
+                        },
+                        icon: Icon(Icons.favorite_border,color: HexColor('0ACF83'),
+                        ),
+                    )
                   ],
                 ),
                 BlocBuilder<CategoriesCubit,CategoriesStates>(

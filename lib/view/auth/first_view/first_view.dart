@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gardenia/view/auth/login/login.dart';
 import 'package:gardenia/view/auth/sign_up/sign_up.dart';
+import 'package:page_transition/page_transition.dart';
 import '../../../constants/constants.dart';
 import '../../../modules/app_widgets/app_button.dart';
 
@@ -20,7 +21,7 @@ class FirstView extends StatelessWidget {
             Column(
               children: [
                 Image.asset(Constants.appLogo),
-                Image.asset('images/app_name.png'),
+                Image.asset('assets/images/app_name.png'),
               ],
             ),
             SizedBox(
@@ -32,11 +33,12 @@ class FirstView extends StatelessWidget {
                   width: 1.2,
                   onPressed: ()
                   {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => Login(),
-                        ),
+                    Navigator.pushAndRemoveUntil(
+                      context, PageTransition(
+                      child: Login(),
+                      type: PageTransitionType.fade,
+                      duration: const Duration(milliseconds: 700),
+                    ), (route) => false,
                     );
                   },
                   text: 'Login',
@@ -46,11 +48,12 @@ class FirstView extends StatelessWidget {
                   width: 1.2,
                   onPressed: ()
                   {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const SignUp(),
-                      ),
+                    Navigator.pushAndRemoveUntil(
+                      context, PageTransition(
+                      child: const SignUp(),
+                      type: PageTransitionType.fade,
+                      duration: const Duration(milliseconds: 700),
+                    ), (route) => false,
                     );
                   },
                   text: 'Sign Up',

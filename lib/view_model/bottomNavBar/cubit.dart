@@ -14,3 +14,10 @@ class BottomNavCubit extends Cubit<BottomNavStates>
     emit(ChangeScreenState());
   }
 }
+
+int currentIndex = 0;
+int changeScreen(int newScreen)
+{
+  currentIndex = newScreen;
+  return currentIndex;
+}

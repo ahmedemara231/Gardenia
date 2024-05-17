@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:gardenia/model/remote/api_service/extensions/request_model.dart';
 
 class RequestModel
 {
@@ -6,6 +7,7 @@ class RequestModel
   String endPoint;
   bool withToken;
   dynamic data;
+  bool isFormData;
   Map<String,dynamic>? queryParams;
   ResponseType? responseType;
   void Function(int count, int total)? onSendProgress;
@@ -20,5 +22,12 @@ class RequestModel
     this.responseType,
     this.onSendProgress,
     this.onReceiveProgress,
+    this.isFormData = false,
 });
+
+  factory RequestModel.getInstance(RequestModel requestModel)
+  {
+    requestModel.prepareDataForRequest();
+    return requestModel;
+  }
 }

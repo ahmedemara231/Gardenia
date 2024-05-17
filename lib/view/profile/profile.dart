@@ -28,6 +28,8 @@ class _ProfileState extends State<Profile> {
     ProfileCubit.getInstance(context).getProfileData();
     super.initState();
   }
+
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ProfileCubit,ProfileStates>(
@@ -47,6 +49,7 @@ class _ProfileState extends State<Profile> {
           [
             IconButton(
                 onPressed: () {context.normalNewRoute(Setting());},
+
                 icon: Icon(Icons.tune_sharp,color: Constants.appColor,),
             )
           ],
@@ -95,10 +98,12 @@ class _ProfileState extends State<Profile> {
                   ),
                 ],
               ),
+
+
               Padding(
                 padding: EdgeInsets.symmetric(
                     vertical: 16.h,
-                    horizontal: 20
+                    horizontal: 20..w
                 ),
                 child: ListView.separated(
                     shrinkWrap: true,
@@ -114,6 +119,9 @@ class _ProfileState extends State<Profile> {
                       time: ProfileCubit.getInstance(context).userPosts[index].creationTime.substring(0,10),
                       commentsNumber: 0,
                     ),
+
+                    // Post(currentUserId: 5, postManagerId: 2, userImageUrl: '', userName: 'Shrouk', postImage: '', caption: 'Test', commentsNumber: 5, time: ''),
+
                     separatorBuilder: (context, index) => SizedBox(height: 25.h,),
                     itemCount: ProfileCubit.getInstance(context).userPosts.length
                 ),

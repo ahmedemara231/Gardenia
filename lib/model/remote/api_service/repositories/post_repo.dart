@@ -11,7 +11,7 @@ import 'package:multiple_result/multiple_result.dart';
 import '../../../../modules/data_types/user_data.dart';
 import '../factory_method.dart';
 import '../model/model.dart';
-import '../service/api_requests.dart';
+import '../service/api_request.dart';
 
 
 enum Operation {logout , refresh}

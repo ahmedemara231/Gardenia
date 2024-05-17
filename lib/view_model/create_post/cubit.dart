@@ -1,15 +1,9 @@
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gardenia/constants/constants.dart';
 import 'package:gardenia/extensions/routes.dart';
-import 'package:gardenia/extensions/string.dart';
-import 'package:gardenia/model/local/shared_prefs.dart';
-import 'package:gardenia/modules/data_types/post.dart';
-import 'package:gardenia/modules/data_types/fake_posts_data.dart';
 import 'package:gardenia/view/bottomNavBar/bottom_nav_bar.dart';
 import 'package:gardenia/view_model/create_post/states.dart';
-import 'package:gardenia/view_model/home/cubit.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 import '../../model/remote/api_service/repositories/post_repo.dart';
@@ -64,7 +58,7 @@ class CreatePostCubit extends Cubit<CreatePostStates>
           await Future.delayed(
             const Duration(milliseconds: 1500),
                 () {
-              context.removeOldRoute(BottomNavBar());
+              context.removeOldRoute(const BottomNavBar());
               selectedImage = null;
             },
           );

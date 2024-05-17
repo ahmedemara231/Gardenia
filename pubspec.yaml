@@ -31,6 +31,8 @@ dependencies:
   multiple_result: ^5.1.0
 
   #  UI
+  flutter_launcher_icons: ^0.13.1
+  flutter_native_splash: ^2.3.10
   cupertino_icons: ^1.0.2
   fluttertoast: ^8.2.4
   animated_text_kit: ^4.2.2
@@ -45,7 +47,10 @@ dependencies:
   page_transition: ^2.1.0
   photo_view: ^0.15.0
   custom_refresh_indicator: ^3.1.0
-  flutter_native_splash: ^2.3.10
+
+  #  maps
+  google_maps_flutter: ^2.5.3
+  location: ^5.0.0
 
 flutter_native_splash:
   color: "#ffffff"
@@ -53,6 +58,12 @@ flutter_native_splash:
   background_image: assets/images/app_logo.png
   android_12:
     image: assets/images/app_logo.png
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/app_logo.png"
+  min_sdk_android: 21
 
 
 
@@ -69,3 +80,4 @@ flutter:
   assets:
     - assets/images/
     - assets/icons/
+    - assets/map_styles/

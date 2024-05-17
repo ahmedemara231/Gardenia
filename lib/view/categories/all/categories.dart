@@ -82,7 +82,7 @@ class _AllCategoriesState extends State<AllCategories> {
                         itemBuilder: (context, index) => InkWell(
                           onTap: () => context.normalNewRoute(
                             PlantDetails(
-                              plant: categoriesCubit.allCategory[0].sublist(0,categoriesCubit.allCategory[0].length ~/ 2)[index],
+                              plant: categoriesCubit.allCategory[0].sublist(categoriesCubit.allCategory[0].length ~/ 2,categoriesCubit.allCategory[0].length)[index],
                             ),
                           ),
                           child: AllPlantsModel(

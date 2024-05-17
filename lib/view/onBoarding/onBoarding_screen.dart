@@ -6,6 +6,7 @@ import 'package:gardenia/extensions/routes.dart';
 import 'package:gardenia/view/onBoarding/screen_model.dart';
 import 'package:gardenia/view_model/onBoarding/cubit.dart';
 import 'package:gardenia/view_model/onBoarding/states.dart';
+import 'package:page_transition/page_transition.dart';
 import '../../constants/constants.dart';
 import '../../modules/base_widgets/myText.dart';
 import '../auth/first_view/first_view.dart';
@@ -60,7 +61,13 @@ class OnBoarding extends StatelessWidget {
                   TextButton(
                     onPressed: ()
                     {
-                      context.removeOldRoute(const FirstView());
+                      Navigator.pushAndRemoveUntil(
+                        context, PageTransition(
+                        child: const FirstView(),
+                        type: PageTransitionType.fade,
+                        duration: const Duration(milliseconds: 700),
+                      ), (route) => false,
+                      );
                     },
                     child: MyText(
                       text: 'Skip',
@@ -74,7 +81,13 @@ class OnBoarding extends StatelessWidget {
                     {
                       if(OnBoardingCubit.getInstance(context).pageIndex == 2)
                         {
-                          context.removeOldRoute(const FirstView());
+                          Navigator.pushAndRemoveUntil(
+                            context, PageTransition(
+                            child: const FirstView(),
+                            type: PageTransitionType.fade,
+                            duration: const Duration(milliseconds: 700),
+                          ), (route) => false,
+                          );
                         }
                       else{
                         onBoardingCont.nextPage(

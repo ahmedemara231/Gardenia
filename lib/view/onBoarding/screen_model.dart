@@ -26,7 +26,7 @@ class ScreenModel extends StatelessWidget {
             children: [
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 30.h),
-                child: Image.asset('images/plant$image.png'),
+                child: Image.asset('assets/images/plant$image.png'),
               ),
               Positioned(
                 right: 20,

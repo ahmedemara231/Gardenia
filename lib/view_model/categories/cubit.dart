@@ -61,6 +61,8 @@ class CategoriesCubit extends Cubit<CategoriesStates>
             }
           }
         }
+        // List<Plant> firstSection = allCategory[0].sublist(0,allCategory.length ~/2);
+        // List<Plant> secondSection = allCategory[0].sublist(allCategory.length ~/2,allCategory.length);
         emit(GetCategoriesSuccessState());
       });
     }
@@ -144,5 +146,18 @@ class CategoriesCubit extends Cubit<CategoriesStates>
       Characteristics(toxicity: toxicity, names: names)
     ];
     return characteristics[currentTab];
+  }
+
+  List<Plant> favList = [];
+  void addToFav(Plant plant)
+  {
+    favList.add(plant);
+    emit(AddPlantToFavState());
+  }
+
+  void removeFromFav(Plant plant)
+  {
+    favList.remove(plant);
+    emit(RemovePlantFromFavState());
   }
 }

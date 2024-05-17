@@ -9,7 +9,7 @@ import 'package:gardenia/model/remote/api_service/service/languages_and_methods.
 import 'package:gardenia/model/remote/api_service/service/request_model.dart';
 import 'package:gardenia/modules/data_types/plant.dart';
 import 'package:multiple_result/multiple_result.dart';
-import '../service/api_requests.dart';
+import '../service/api_request.dart';
 
 class GetRepo
 {

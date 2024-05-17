@@ -16,7 +16,7 @@ class SecureStorage
   );
   void init()
   {
-    FlutterSecureStorage.setMockInitialValues({});
+    // FlutterSecureStorage.setMockInitialValues({});
     _secureStorage = FlutterSecureStorage(
       aOptions: _getAndroidOptions(),
     );

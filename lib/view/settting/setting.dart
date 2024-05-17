@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gardenia/constants/constants.dart';
 import 'package:gardenia/extensions/mediaQuery.dart';
 import 'package:gardenia/extensions/routes.dart';
+import 'package:gardenia/modules/app_widgets/arrow_back_button.dart';
 import 'package:gardenia/modules/base_widgets/myText.dart';
 import 'package:gardenia/view/profile/edit_profile/edit_profile.dart';
 import 'package:gardenia/view_model/update_profile/cubit.dart';
@@ -35,6 +36,7 @@ class Setting extends StatelessWidget {
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
+        leading: const ArrowBackButton(),
         title: MyText(
           text: 'Setting',
           color: Constants.appColor,
@@ -99,6 +101,7 @@ class Setting extends StatelessWidget {
               ),
             ],
           ),
+
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 10.w),
             child: Column(

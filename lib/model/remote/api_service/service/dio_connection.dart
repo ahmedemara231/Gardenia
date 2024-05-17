@@ -6,7 +6,8 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:gardenia/model/local/flutter_secure_storage.dart';
-import 'package:gardenia/model/remote/api_service/service/api_requests.dart';
+import 'package:gardenia/model/remote/api_service/extensions/request_model.dart';
+import 'package:gardenia/model/remote/api_service/service/api_request.dart';
 import 'package:gardenia/model/remote/api_service/service/constants.dart';
 import 'package:gardenia/model/remote/api_service/service/error_handling/errors.dart';
 import 'package:gardenia/model/remote/api_service/service/error_handling/interceptors/bad_response.dart';
@@ -14,7 +15,6 @@ import 'package:gardenia/model/remote/api_service/service/error_handling/interce
 import 'package:gardenia/model/remote/api_service/service/error_handling/interceptors/unknown.dart';
 import 'package:gardenia/model/remote/api_service/service/request_model.dart';
 import 'package:multiple_result/multiple_result.dart';
-import 'languages_and_methods.dart';
 
 class DioConnection implements ApiService
 {
@@ -43,6 +43,7 @@ class DioConnection implements ApiService
   {
     return dioHelper ??= DioConnection();
   }
+
 
   Future<Map<String,dynamic>> _getHeaders(bool withToken, {String? lang})async
   {
@@ -76,6 +77,7 @@ class DioConnection implements ApiService
       cancelRequest.cancel('canceled');
   }
 
+
   @override
   Future<Result<Response,CustomError>> callApi({
     required RequestModel request
@@ -99,12 +101,14 @@ class DioConnection implements ApiService
               method: request.method,
               headers: await _getHeaders(request.withToken),
             ),
-            data: request.data,
+            data: request.isFormData?
+            FormData.fromMap(request.data) : request.data,
             queryParameters: request.queryParams,
             onSendProgress: request.onSendProgress,
             onReceiveProgress: request.onReceiveProgress,
             cancelToken: cancelRequest,
           );
+
           // String prettyJson = const JsonEncoder.withIndent('  ').convert(response.data);
           // log(prettyJson);
 

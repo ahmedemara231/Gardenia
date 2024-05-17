@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:multiple_result/multiple_result.dart';
 import '../factory_method.dart';
 import '../model/model.dart';
-import '../service/api_requests.dart';
+import '../service/api_request.dart';
 import '../service/constants.dart';
 import '../service/error_handling/errors.dart';
 import '../service/languages_and_methods.dart';
