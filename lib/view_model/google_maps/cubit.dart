@@ -11,11 +11,11 @@ class MapsCubit extends Cubit<GoogleMapsStates>
   factory MapsCubit.getInstance(context) => BlocProvider.of(context);
 
   Set<Marker> markers = {};
-  Future<void> initMarkers()async
+  Future<void> initOurStoreMarker()async
   {
     // final customMarker = await BitmapDescriptor.fromAssetImage(
     //   const ImageConfiguration(),
-    //   Constants.customMapMarker,
+    //   Constants.userMarker,
     // );
     //
     // Marker myLocationMarker = Marker(
@@ -78,21 +78,26 @@ class MapsCubit extends Cubit<GoogleMapsStates>
 
   late GoogleMapController myMapCont;
 
-  void getLocation()
+  Future<void> getLocation()async
   {
-    location.changeSettings(
+    await location.changeSettings(
         distanceFilter: 2
     );
-    location.onLocationChanged.listen((newLocationData) {
+    location.onLocationChanged.listen((newLocationData) async{
+
+      final customMarker = await BitmapDescriptor.fromAssetImage(
+        const ImageConfiguration(),
+        Constants.userMarker,
+      );
+
       Marker userMarker = Marker(
           markerId: const MarkerId('2'),
-          position: LatLng(newLocationData.latitude!, newLocationData.longitude!)
+          position: LatLng(newLocationData.latitude!, newLocationData.longitude!),
+          icon: customMarker
       );
       markers.add(userMarker);
 
-      emit(InitMarkers());
-
-      myMapCont.animateCamera(
+       await myMapCont.animateCamera(
         CameraUpdate.newLatLng(
           LatLng(newLocationData.latitude!, newLocationData.longitude!),
         ),
@@ -102,14 +107,15 @@ class MapsCubit extends Cubit<GoogleMapsStates>
 
   Future<void> getLocationProcess(context)async
   {
-    var isLocationServiceEnabled = await checkAndRequestToEnableLocationService();
+    bool isLocationServiceEnabled = await checkAndRequestToEnableLocationService();
     if(isLocationServiceEnabled)
       {
-        await requestLocationPermission().then((permissionResult)
+        await requestLocationPermission().then((permissionResult)async
         {
           if(permissionResult)
           {
-            getLocation();
+            await getLocation();
+            emit(UserLocationSelected());
           }
           else{}
         });

@@ -12,7 +12,7 @@ class Constants
   static const String appLogo = 'assets/images/app_logo.png';
   static const String google = 'assets/images/google.png';
   static const String profileBackgroundImage = 'assets/images/profileBackgroundImage.png';
-  static const String customMapMarker = 'assets/images/custom_marker.png';
+  static const String userMarker = 'assets/images/user_marker.png';
 
   // icons
   static const String penProfileIcon = 'assets/icons/pen_icon.png';
