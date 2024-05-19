@@ -6,5 +6,14 @@ class InitMarkers extends GoogleMapsStates {}
 
 class InitPolyLines extends GoogleMapsStates {}
 
-class UserLocationSelected extends GoogleMapsStates {}
+class GetStreamLocationSuccess extends GoogleMapsStates {}
+
+class GetLocationSuccess extends GoogleMapsStates {}
+
+class GetSuggestionsLoading extends GoogleMapsStates {}
+
+class GetSuggestionsSuccess extends GoogleMapsStates {}
+
+class ClearSuggestionsList extends GoogleMapsStates {}
+
 

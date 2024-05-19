@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gardenia/model/remote/api_service/model/google_maps_model.dart';
+import 'package:gardenia/model/remote/api_service/repositories/google_maps_repo.dart';
 import 'package:gardenia/view_model/google_maps/states.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
@@ -76,9 +78,32 @@ class MapsCubit extends Cubit<GoogleMapsStates>
     }
   }
 
+
+
+  Set<Marker> routeTrackingAppMarkers = {};
+  Future<LocationData> getLocation()async
+  {
+    return await location.getLocation().then((userLocationData)
+    {
+      LatLng userLatLng = LatLng(userLocationData.latitude!, userLocationData.longitude!);
+      Marker userLocationMarker = Marker(
+        markerId: const MarkerId('3'),
+        position: userLatLng
+      );
+
+      routeTrackingAppMarkers.add(userLocationMarker);
+      myMapCont.animateCamera(
+          CameraUpdate.newLatLng(
+              userLatLng
+          ),
+      );
+      return userLocationData;
+    });
+  }
+
   late GoogleMapController myMapCont;
 
-  Future<void> getLocation()async
+  Future<void> getStreamLocation()async
   {
     await location.changeSettings(
         distanceFilter: 2
@@ -105,7 +130,9 @@ class MapsCubit extends Cubit<GoogleMapsStates>
     });
   }
 
-  Future<void> getLocationProcess(context)async
+
+
+  Future<void> getStreamLocationProcess(context)async
   {
     bool isLocationServiceEnabled = await checkAndRequestToEnableLocationService();
     if(isLocationServiceEnabled)
@@ -114,14 +141,53 @@ class MapsCubit extends Cubit<GoogleMapsStates>
         {
           if(permissionResult)
           {
-            await getLocation();
-            emit(UserLocationSelected());
+            await getStreamLocation();
+            emit(GetStreamLocationSuccess());
           }
-          else{}
+          else{return;}
         });
       }
     else{
       Navigator.pop(context);
+    }
+  }
+  Future<void> getLocationProcess(context)async
+  {
+    bool isLocationServiceEnabled = await checkAndRequestToEnableLocationService();
+    if(isLocationServiceEnabled)
+    {
+      await requestLocationPermission().then((permissionResult)async
+      {
+        if(permissionResult)
+        {
+          await getLocation();
+          emit(GetLocationSuccess());
+        }
+        else{}
+      });
+    }
+    else{
+      Navigator.pop(context);
+    }
+  }
+  
+  GoogleMapsRepo googleMapsRepo = GoogleMapsRepo();
+  late MapModel mapModel;
+  Future<void> getSuggestions(String input)async
+  {
+    emit(GetSuggestionsLoading());
+
+    if(input.isEmpty)
+      {
+        mapModel.predictions.clear();
+        emit(ClearSuggestionsList());
+      }
+    else{
+      await googleMapsRepo.getSuggestions(input).then((suggestionsResult)
+      {
+        mapModel = suggestionsResult;
+        emit(GetSuggestionsSuccess());
+      });
     }
   }
 }

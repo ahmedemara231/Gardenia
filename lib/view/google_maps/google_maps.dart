@@ -56,7 +56,7 @@ class _MyMapState extends State<MyMap> {
               zoomControlsEnabled: false,
               onMapCreated: (controller)async {
                 MapsCubit.getInstance(context).myMapCont = controller;
-                await MapsCubit.getInstance(context).getLocationProcess(context);
+                await MapsCubit.getInstance(context).getStreamLocationProcess(context);
                 // await initNightStyle();
               },
               initialCameraPosition: const CameraPosition(

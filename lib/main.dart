@@ -9,6 +9,7 @@ import 'package:gardenia/modules/methods/check_internet_connection.dart';
 import 'package:gardenia/view/auth/login/login.dart';
 import 'package:gardenia/view/auth/sign_up/sign_up.dart';
 import 'package:gardenia/view/google_maps/google_maps.dart';
+import 'package:gardenia/view/google_maps/route_tracking_app.dart';
 import 'package:gardenia/view/home/home.dart';
 import 'package:gardenia/view/onBoarding/onBoarding_screen.dart';
 import 'package:gardenia/view_model/Login/cubit.dart';
@@ -91,7 +92,7 @@ class _GardeniaState extends State<Gardenia> {
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           home:
-          MyMap(),
+          RouteTrackingApp(),
           // token == null?
           // OnBoarding() : const Home(),
         ),
