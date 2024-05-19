@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gardenia/model/remote/api_service/repositories/get_repo.dart';
-import 'package:gardenia/model/remote/api_service/service/dio_connection.dart';
+import 'package:gardenia/model/remote/api_service/service/connections/dio_connection.dart';
 import 'package:gardenia/model/remote/api_service/service/error_handling/errors.dart';
 import 'package:gardenia/modules/base_widgets/toast.dart';
 import 'package:gardenia/modules/data_types/plant.dart';

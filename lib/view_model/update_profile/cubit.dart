@@ -5,7 +5,7 @@ import 'package:gardenia/constants/constants.dart';
 import 'package:gardenia/extensions/routes.dart';
 import 'package:gardenia/model/remote/api_service/model/model.dart';
 import 'package:gardenia/model/remote/api_service/repositories/put_patch_repo.dart';
-import 'package:gardenia/model/remote/api_service/service/dio_connection.dart';
+import 'package:gardenia/model/remote/api_service/service/connections/dio_connection.dart';
 import 'package:gardenia/modules/base_widgets/toast.dart';
 import 'package:gardenia/view/profile/edit_profile/confirm_image.dart';
 import 'package:gardenia/view_model/update_profile/states.dart';

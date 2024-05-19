@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gardenia/extensions/routes.dart';
 import 'package:gardenia/model/remote/api_service/repositories/post_repo.dart';
-import 'package:gardenia/model/remote/api_service/service/dio_connection.dart';
+import 'package:gardenia/model/remote/api_service/service/connections/dio_connection.dart';
 import 'package:gardenia/modules/data_types/user_data.dart';
 import 'package:gardenia/view_model/sign_up/states.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';

@@ -1,8 +1,15 @@
 class ApiConstants
 {
+  // api key
+  static const String apiKey = 'AIzaSyCSNqKNa1x4sMId5ouQ08JUX88npwSUl7U';
+
   // base url
+  static const String googleMapsBaseUrl = 'https://maps.googleapis.com/maps/api/place/';
   static const String baseUrlForImages = 'https://ee24-196-134-149-217.ngrok-free.app';
   static const String baseUrl = '$baseUrlForImages/api/v1/';
+
+  // timeout durations
+  static Duration timeoutDuration = const Duration(seconds: 15);
 
   // Auth
   static const String login = 'login';

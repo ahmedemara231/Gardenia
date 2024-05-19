@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gardenia/constants/constants.dart';
 import 'package:gardenia/extensions/routes.dart';
 import 'package:gardenia/model/remote/api_service/repositories/post_repo.dart';
-import 'package:gardenia/model/remote/api_service/service/dio_connection.dart';
+import 'package:gardenia/model/remote/api_service/service/connections/dio_connection.dart';
 import 'package:gardenia/modules/base_widgets/toast.dart';
 import 'package:gardenia/view/auth/login/login.dart';
 import 'package:gardenia/view/auth/reset_password/reset_password.dart';

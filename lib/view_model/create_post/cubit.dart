@@ -7,7 +7,7 @@ import 'package:gardenia/view_model/create_post/states.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 import '../../model/remote/api_service/repositories/post_repo.dart';
-import '../../model/remote/api_service/service/dio_connection.dart';
+import '../../model/remote/api_service/service/connections/dio_connection.dart';
 
 class CreatePostCubit extends Cubit<CreatePostStates>
 {

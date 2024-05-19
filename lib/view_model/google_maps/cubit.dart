@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gardenia/model/remote/api_service/model/google_maps_model.dart';
 import 'package:gardenia/model/remote/api_service/repositories/google_maps_repo.dart';
+import 'package:gardenia/model/remote/api_service/service/connections/maps_api_connection.dart';
 import 'package:gardenia/view_model/google_maps/states.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
@@ -171,7 +172,7 @@ class MapsCubit extends Cubit<GoogleMapsStates>
     }
   }
   
-  GoogleMapsRepo googleMapsRepo = GoogleMapsRepo();
+  GoogleMapsRepo googleMapsRepo = GoogleMapsRepo(googleMapsConnection: GoogleMapsConnection.getInstance());
   late MapModel mapModel;
   Future<void> getSuggestions(String input)async
   {
@@ -185,7 +186,10 @@ class MapsCubit extends Cubit<GoogleMapsStates>
     else{
       await googleMapsRepo.getSuggestions(input).then((suggestionsResult)
       {
-        mapModel = suggestionsResult;
+        if(suggestionsResult.isSuccess())
+          {
+            mapModel = suggestionsResult.getOrThrow();
+          }
         emit(GetSuggestionsSuccess());
       });
     }
