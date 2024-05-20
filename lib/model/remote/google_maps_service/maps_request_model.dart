@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:gardenia/model/remote/api_service/extensions/request_model.dart';
 
-class RequestModel
+class MapsRequestModel
 {
   String method;
   String endPoint;
@@ -14,7 +13,7 @@ class RequestModel
   void Function(int count, int total)? onSendProgress;
   void Function(int count, int total)? onReceiveProgress;
 
-  RequestModel({
+  MapsRequestModel({
     required this.method,
     required this.endPoint,
     required this.withToken,
@@ -25,11 +24,5 @@ class RequestModel
     this.onSendProgress,
     this.onReceiveProgress,
     this.isFormData = false,
-});
-
-  factory RequestModel.getInstance(RequestModel requestModel)
-  {
-    requestModel.prepareDataForRequest();
-    return requestModel;
-  }
+  });
 }

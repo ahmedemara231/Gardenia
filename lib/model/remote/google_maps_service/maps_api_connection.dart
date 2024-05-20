@@ -8,7 +8,7 @@ import 'package:gardenia/model/remote/api_service/service/constants.dart';
 import 'package:gardenia/model/remote/api_service/service/error_handling/errors.dart';
 import 'package:gardenia/model/remote/api_service/service/request_model.dart';
 import 'package:multiple_result/multiple_result.dart';
-import '../error_handling/handle_errors.dart';
+import '../api_service/service/error_handling/handle_errors.dart';
 
 class GoogleMapsConnection implements ApiService
 {
@@ -17,7 +17,6 @@ class GoogleMapsConnection implements ApiService
   GoogleMapsConnection()
   {
     dio = Dio()
-      ..options.baseUrl = ApiConstants.googleMapsBaseUrl
       ..options.connectTimeout = ApiConstants.timeoutDuration
       ..options.receiveTimeout = ApiConstants.timeoutDuration;
   }
@@ -32,7 +31,7 @@ class GoogleMapsConnection implements ApiService
 
   @override
   Future<Result<Response,CustomError>> callApi({
-    required RequestModel request
+    required RequestModel request,
   }) async
   {
     final connectivityResult = await Connectivity().checkConnectivity();
@@ -48,6 +47,7 @@ class GoogleMapsConnection implements ApiService
           final Response response = await dio.request(
             request.endPoint,
             options: Options(
+              headers: request.headers,
               receiveDataWhenStatusError: true,
               responseType: request.responseType?? ResponseType.json,
               method: request.method,

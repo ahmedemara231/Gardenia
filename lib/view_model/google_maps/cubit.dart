@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gardenia/model/remote/api_service/model/google_maps_models/autoCompleteModel.dart';
-import 'package:gardenia/model/remote/api_service/model/google_maps_models/place_details.dart';
-import 'package:gardenia/model/remote/api_service/repositories/google_maps_repo.dart';
-import 'package:gardenia/model/remote/api_service/service/connections/maps_api_connection.dart';
+import 'package:gardenia/model/remote/google_maps_service/repositories/google_maps_repo.dart';
+import 'package:gardenia/model/remote/google_maps_service/maps_api_connection.dart';
 import 'package:gardenia/view_model/google_maps/states.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import '../../constants/constants.dart';
+import '../../model/remote/google_maps_service/google_maps_models/autoCompleteModel.dart';
+import '../../model/remote/google_maps_service/google_maps_models/place_details.dart';
 
 class MapsCubit extends Cubit<GoogleMapsStates>
 {
