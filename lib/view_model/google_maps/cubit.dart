@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gardenia/model/remote/api_service/model/google_maps_model.dart';
+import 'package:gardenia/model/remote/api_service/model/google_maps_models/autoCompleteModel.dart';
+import 'package:gardenia/model/remote/api_service/model/google_maps_models/place_details.dart';
 import 'package:gardenia/model/remote/api_service/repositories/google_maps_repo.dart';
 import 'package:gardenia/model/remote/api_service/service/connections/maps_api_connection.dart';
 import 'package:gardenia/view_model/google_maps/states.dart';
@@ -173,14 +174,14 @@ class MapsCubit extends Cubit<GoogleMapsStates>
   }
   
   GoogleMapsRepo googleMapsRepo = GoogleMapsRepo(googleMapsConnection: GoogleMapsConnection.getInstance());
-  late MapModel mapModel;
+  late AutoCompleteModel autoCompleteModel;
   Future<void> getSuggestions(String input)async
   {
     emit(GetSuggestionsLoading());
 
     if(input.isEmpty)
       {
-        mapModel.predictions.clear();
+        autoCompleteModel.predictions.clear();
         emit(ClearSuggestionsList());
       }
     else{
@@ -188,10 +189,39 @@ class MapsCubit extends Cubit<GoogleMapsStates>
       {
         if(suggestionsResult.isSuccess())
           {
-            mapModel = suggestionsResult.getOrThrow();
+            autoCompleteModel = suggestionsResult.getOrThrow();
+            emit(GetSuggestionsSuccess());
           }
-        emit(GetSuggestionsSuccess());
+        else{
+          emit(
+              GetSuggestionsError(
+                  message: suggestionsResult.tryGetError()?.message
+              ),
+          );
+        }
       });
     }
+  }
+
+  late PlaceDetailsModel placeDetailsModel;
+  Future<void> getPlaceDetails(String placeId)async
+  {
+    emit(GetPlaceDetailsLoading());
+
+    await googleMapsRepo.getPlaceDetails(placeId).then((getDetailsResult)
+    {
+      if(getDetailsResult.isSuccess())
+        {
+          placeDetailsModel = getDetailsResult.getOrThrow();
+          emit(GetPlaceDetailsSuccess());
+        }
+      else{
+        emit(
+            GetPlaceDetailsError(
+              message: getDetailsResult.tryGetError()?.message
+            ),
+        );
+      }
+    });
   }
 }

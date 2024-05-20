@@ -1,8 +1,5 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
-import 'package:gardenia/extensions/string.dart';
-import 'package:gardenia/model/local/shared_prefs.dart';
 import 'package:gardenia/model/remote/api_service/service/constants.dart';
 import 'package:gardenia/model/remote/api_service/service/error_handling/errors.dart';
 import 'package:gardenia/model/remote/api_service/service/languages_and_methods.dart';
@@ -12,7 +9,6 @@ import '../../../../modules/data_types/user_data.dart';
 import '../factory_method.dart';
 import '../model/model.dart';
 import '../service/api_request.dart';
-
 
 enum Operation {logout , refresh}
 

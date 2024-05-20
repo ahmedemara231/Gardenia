@@ -1,9 +1,7 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:gardenia/model/remote/api_service/repositories/google_maps_repo.dart';
+import 'package:gardenia/constants/constants.dart';
 import 'package:gardenia/modules/base_widgets/divider.dart';
 import 'package:gardenia/modules/base_widgets/myText.dart';
 import 'package:gardenia/modules/base_widgets/textFormField.dart';
@@ -80,15 +78,50 @@ class _RouteTrackingAppState extends State<RouteTrackingApp> {
                   ),
 
                   if(state is GetSuggestionsSuccess)
-                    ListView.separated(
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) => MyText(
-                        text: MapsCubit.getInstance(context).mapModel.predictions[index].description,
-                        color: Colors.red,
+                    Container(
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(20)
                       ),
-                      separatorBuilder: (context, index) => const MyDivider(),
-                      itemCount: MapsCubit.getInstance(context).mapModel.predictions.length,
-                  )
+                      child: ListView.separated(
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) => InkWell(
+                          onTap: () async
+                          {
+                            await MapsCubit.getInstance(context).getPlaceDetails(
+                                MapsCubit.getInstance(context).autoCompleteModel.predictions[index].placeId
+                            );
+                          },
+
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 8.0.w,
+                                vertical: 3.h
+                            ),
+                            child: ListTile(
+                              leading: Icon(
+                                  Icons.location_on_outlined,
+                                  color: Constants.appColor
+                              ),
+                              title: MyText(
+                                text: MapsCubit.getInstance(context).autoCompleteModel.predictions[index].description,
+                              ),
+                              trailing: const Icon(Icons.arrow_forward_ios_outlined),
+                            ),
+                          ),
+                        ),
+                        separatorBuilder: (context, index) => const MyDivider(height: 0),
+                        itemCount: MapsCubit.getInstance(context).autoCompleteModel.predictions.length,
+                      ),
+                    ),
+                  if(state is GetSuggestionsError)
+                    Container(
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(20)
+                      ),
+                      child: MyText(text: state.message!)
+                    )
                 ],
               ),
             )

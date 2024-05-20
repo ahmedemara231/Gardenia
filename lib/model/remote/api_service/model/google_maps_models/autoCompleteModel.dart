@@ -1,16 +1,16 @@
-class MapModel
+class AutoCompleteModel
 {
   String status;
   List<Prediction> predictions;
   
-  MapModel({
+  AutoCompleteModel({
     required this.status,
     required this.predictions,
 });
   
-  factory MapModel.fromJson(Map<String,dynamic> placeData)
+  factory AutoCompleteModel.fromJson(Map<String,dynamic> placeData)
   {
-    return MapModel(
+    return AutoCompleteModel(
         status: placeData['status'],
         predictions: (placeData['predictions'] as List<dynamic>)
             .map((e) => Prediction.fromJson(e))
