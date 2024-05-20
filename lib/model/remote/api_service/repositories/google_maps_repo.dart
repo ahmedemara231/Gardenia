@@ -14,12 +14,16 @@ class GoogleMapsRepo
   late ApiService googleMapsConnection;
   GoogleMapsRepo({required this.googleMapsConnection});
 
-  Future<Result<AutoCompleteModel,CustomError>> getSuggestions(String input)async
+  Future<Result<AutoCompleteModel,CustomError>> getSuggestions({
+    required String input,
+    required String sessionToken,
+})async
   {
     Map<String,dynamic> params =
     {
       'input' : input,
       'key' : ApiConstants.apiKey,
+      'sessiontoken' : sessionToken,
     };
 
    Result<Response,CustomError> suggestionsResponse = await googleMapsConnection.callApi(
@@ -36,12 +40,16 @@ class GoogleMapsRepo
    );
   }
 
-  Future<Result<PlaceDetailsModel,CustomError>> getPlaceDetails(String placeId)async
+  Future<Result<PlaceDetailsModel,CustomError>> getPlaceDetails({
+    required String placeId,
+    required String sessionToken,
+  })async
   {
     final params =
     {
       'key' : ApiConstants.apiKey,
       'place_id' : placeId,
+      'sessiontoken' : sessionToken,
     };
 
     Result<Response,CustomError> placeDetailsResponse = await googleMapsConnection.callApi(

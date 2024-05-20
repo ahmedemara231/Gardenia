@@ -52,6 +52,7 @@ dependencies:
   #  maps
   google_maps_flutter: ^2.5.3
   location: ^5.0.0
+  uuid: ^4.4.0
 
 flutter_native_splash:
   color: "#ffffff"

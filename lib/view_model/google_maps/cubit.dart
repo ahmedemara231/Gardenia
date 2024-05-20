@@ -175,7 +175,10 @@ class MapsCubit extends Cubit<GoogleMapsStates>
   
   GoogleMapsRepo googleMapsRepo = GoogleMapsRepo(googleMapsConnection: GoogleMapsConnection.getInstance());
   late AutoCompleteModel autoCompleteModel;
-  Future<void> getSuggestions(String input)async
+  Future<void> getSuggestions({
+    required String input,
+    required String sessionToken,
+})async
   {
     emit(GetSuggestionsLoading());
 
@@ -185,7 +188,10 @@ class MapsCubit extends Cubit<GoogleMapsStates>
         emit(ClearSuggestionsList());
       }
     else{
-      await googleMapsRepo.getSuggestions(input).then((suggestionsResult)
+      await googleMapsRepo.getSuggestions(
+        input: input,
+        sessionToken: sessionToken
+      ).then((suggestionsResult)
       {
         if(suggestionsResult.isSuccess())
           {
@@ -204,11 +210,17 @@ class MapsCubit extends Cubit<GoogleMapsStates>
   }
 
   late PlaceDetailsModel placeDetailsModel;
-  Future<void> getPlaceDetails(String placeId)async
+  Future<void> getPlaceDetails({
+    required String placeId,
+    required String sessionToken,
+})async
   {
     emit(GetPlaceDetailsLoading());
 
-    await googleMapsRepo.getPlaceDetails(placeId).then((getDetailsResult)
+    await googleMapsRepo.getPlaceDetails(
+        placeId: placeId,
+        sessionToken: sessionToken
+    ).then((getDetailsResult)
     {
       if(getDetailsResult.isSuccess())
         {

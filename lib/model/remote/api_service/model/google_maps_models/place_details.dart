@@ -41,6 +41,4 @@ class DetailsResult
         geometry: detailsResult['geometry']
     );
   }
-  
-  
 }

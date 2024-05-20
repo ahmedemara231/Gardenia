@@ -1,14 +1,19 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gardenia/constants/constants.dart';
+import 'package:gardenia/model/remote/api_service/service/constants.dart';
 import 'package:gardenia/modules/base_widgets/divider.dart';
 import 'package:gardenia/modules/base_widgets/myText.dart';
 import 'package:gardenia/modules/base_widgets/textFormField.dart';
+import 'package:gardenia/modules/methods/generate_session_token.dart';
 import 'package:gardenia/view_model/google_maps/cubit.dart';
 import 'package:gardenia/view_model/google_maps/states.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+import 'package:uuid/uuid.dart';
 
 class RouteTrackingApp extends StatefulWidget {
   const RouteTrackingApp({super.key});
@@ -20,6 +25,7 @@ class RouteTrackingApp extends StatefulWidget {
 class _RouteTrackingAppState extends State<RouteTrackingApp> {
 
   late TextEditingController searchCont;
+  String? sessionToken;
 
   @override
   void initState() {
@@ -63,9 +69,15 @@ class _RouteTrackingAppState extends State<RouteTrackingApp> {
                     hintText: 'Search here',
                     contentPadding: const EdgeInsets.symmetric(horizontal: 16),
                     controller: searchCont,
-                    onChanged: (searchedPlace)
+                    onChanged: (searchedPlace)async
                     {
-                      MapsCubit.getInstance(context).getSuggestions(searchedPlace);
+                      sessionToken ??= generateNewSessionToken();
+
+                      log(sessionToken!);
+                      await MapsCubit.getInstance(context).getSuggestions(
+                        input: searchedPlace,
+                        sessionToken: sessionToken!,
+                      );
                     },
                     fillColor: Colors.white,
                     filled: true,
@@ -88,9 +100,13 @@ class _RouteTrackingAppState extends State<RouteTrackingApp> {
                         itemBuilder: (context, index) => InkWell(
                           onTap: () async
                           {
+                            searchCont.text = MapsCubit.getInstance(context).autoCompleteModel.predictions[index].description;
                             await MapsCubit.getInstance(context).getPlaceDetails(
-                                MapsCubit.getInstance(context).autoCompleteModel.predictions[index].placeId
+                              placeId: MapsCubit.getInstance(context).autoCompleteModel.predictions[index].placeId,
+                              sessionToken: sessionToken!,
                             );
+                            log(sessionToken!);
+                            sessionToken = null;
                           },
 
                           child: Padding(
