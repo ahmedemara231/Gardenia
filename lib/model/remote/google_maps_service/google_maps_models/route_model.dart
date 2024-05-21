@@ -1,5 +1,5 @@
 class RouteModel {
-  double distanceMeters;
+  int distanceMeters;
   String duration;
   Map<String, dynamic> polyline;
 

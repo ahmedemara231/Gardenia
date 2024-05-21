@@ -48,6 +48,7 @@ class TFF extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onTap: onPressed,
       keyboardType: keyboardType,
       obscureText: obscureText,
       controller: controller,

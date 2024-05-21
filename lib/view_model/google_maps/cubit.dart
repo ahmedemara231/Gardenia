@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gardenia/model/remote/google_maps_service/google_maps_models/route_model.dart';
 import 'package:gardenia/model/remote/google_maps_service/repositories/google_maps_repo.dart';
 import 'package:gardenia/model/remote/google_maps_service/maps_api_connection.dart';
 import 'package:gardenia/view_model/google_maps/states.dart';
@@ -8,12 +9,14 @@ import 'package:location/location.dart';
 import '../../constants/constants.dart';
 import '../../model/remote/google_maps_service/google_maps_models/autoCompleteModel.dart';
 import '../../model/remote/google_maps_service/google_maps_models/place_details.dart';
+import '../../modules/data_types/google_maps/ori_des_location.dart';
 
 class MapsCubit extends Cubit<GoogleMapsStates>
 {
   MapsCubit() : super(MapsInitialState());
   factory MapsCubit.getInstance(context) => BlocProvider.of(context);
 
+  String name = 'aaaa';
   Set<Marker> markers = {};
   Future<void> initOurStoreMarker()async
   {
@@ -82,10 +85,11 @@ class MapsCubit extends Cubit<GoogleMapsStates>
 
 
 
+  late LocationData userLocation;
   Set<Marker> routeTrackingAppMarkers = {};
-  Future<LocationData> getLocation()async
+  Future<void> getLocation()async
   {
-    return await location.getLocation().then((userLocationData)
+     await location.getLocation().then((userLocationData)
     {
       LatLng userLatLng = LatLng(userLocationData.latitude!, userLocationData.longitude!);
       Marker userLocationMarker = Marker(
@@ -99,6 +103,7 @@ class MapsCubit extends Cubit<GoogleMapsStates>
               userLatLng
           ),
       );
+      userLocation = userLocationData;
       return userLocationData;
     });
   }
@@ -232,6 +237,34 @@ class MapsCubit extends Cubit<GoogleMapsStates>
             GetPlaceDetailsError(
               message: getDetailsResult.tryGetError()?.message
             ),
+        );
+      }
+    });
+  }
+
+
+  late List<LatLng> routeModel;
+  Future<void> getRouteForLocation({
+    required PlaceLocation originLocation,
+    required PlaceLocation desLocation,
+  })async
+  {
+    emit(GetLocationRouteLoading());
+    await googleMapsRepo.getRoute(
+        originLocation: originLocation,
+        desLocation: desLocation
+    ).then((getRouteResult)
+    {
+      if(getRouteResult.isSuccess())
+        {
+          routeModel = getRouteResult.getOrThrow();
+          emit(GetLocationRouteSuccess());
+        }
+      else{
+        emit(
+            GetLocationRouteError(
+              message: getRouteResult.tryGetError()?.message
+            )
         );
       }
     });

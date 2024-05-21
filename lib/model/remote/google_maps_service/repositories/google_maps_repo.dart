@@ -1,9 +1,11 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:gardenia/model/remote/api_service/service/api_request.dart';
-import 'package:gardenia/model/remote/api_service/service/constants.dart';
 import 'package:gardenia/model/remote/api_service/service/languages_and_methods.dart';
 import 'package:gardenia/model/remote/api_service/service/request_model.dart';
 import 'package:gardenia/model/remote/google_maps_service/google_maps_api_constants.dart';
+import 'package:gardenia/modules/data_types/google_maps/ori_des_location.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:multiple_result/multiple_result.dart';
 import '../../api_service/service/error_handling/errors.dart';
 import '../google_maps_models/autoCompleteModel.dart';
@@ -76,52 +78,65 @@ class GoogleMapsRepo
     'X-Goog-FieldMask' : 'routes.duration,routes.distanceMeters,routes.polyline.encodedPolyline'
   };
 
-  // Future<Result<List<RouteModel>,CustomError>> getRoute()async
-  // {
-  //
-  //   final getRouteBody =
-  //   {
-  //     "origin":{
-  //       "location":{
-  //         "latLng":{
-  //           "latitude": originLat,
-  //           "longitude": originLng
-  //         }
-  //       }
-  //     },
-  //     "destination":{
-  //       "location":{
-  //         "latLng":{
-  //           "latitude": desLat,
-  //           "longitude": desLng
-  //         }
-  //       }
-  //     },
-  //     "routeModifiers": {
-  //       "avoidTolls": false,
-  //       "avoidHighways": false,
-  //       "avoidFerries": false
-  //     },
-  //     "travelMode": "DRIVE",
-  //     "routingPreference": "TRAFFIC_AWARE",
-  //     "computeAlternativeRoutes": false,
-  //     "languageCode": "en-US",
-  //     "units": "IMPERIAL"
-  //   };
-  //
-  //   Result<Response,CustomError> getRouteResponse = await googleMapsConnection.callApi(
-  //     request: RequestModel(
-  //         method: Methods.POST,
-  //         endPoint: MapsConstants.googleMapsRouteBaseUrl,
-  //         data: getRouteBody,
-  //         headers: getRouteHeaders,
-  //         withToken: false,
-  //         responseType: ResponseType.json,
-  //       ),
-  //   );
-  //   final route = getRouteResponse.getOrThrow().data['routes'];
-  //
-  //
-  // }
+  Future<Result<List<LatLng>,CustomError>> getRoute({
+    required PlaceLocation originLocation,
+    required PlaceLocation desLocation,
+})async
+  {
+    final getRouteBody =
+    {
+      "origin":{
+        "location":{
+          "latLng":{
+            "latitude": originLocation.lat,
+            "longitude": originLocation.long
+          }
+        }
+      },
+      "destination":{
+        "location":{
+          "latLng":{
+            "latitude": desLocation.lat,
+            "longitude": desLocation.long,
+          }
+        }
+      },
+      "travelMode": "DRIVE",
+      "routingPreference": "TRAFFIC_AWARE",
+      "computeAlternativeRoutes": false,
+      "routeModifiers": {
+        "avoidTolls": false,
+        "avoidHighways": false,
+        "avoidFerries": false
+      },
+      "languageCode": "en-US",
+      "units": "IMPERIAL"
+    };
+
+    Result<Response,CustomError> getRouteResponse = await googleMapsConnection.callApi(
+      request: RequestModel(
+          method: Methods.POST,
+          endPoint: MapsConstants.googleMapsRouteBaseUrl,
+          data: getRouteBody,
+          headers: getRouteHeaders,
+          withToken: false,
+        ),
+    );
+
+    if(getRouteResponse.isSuccess())
+      {
+        final List route = getRouteResponse.getOrThrow().data['routes'];
+        List<RouteModel> routeList = route.map((e) => RouteModel.fromJson(e)).toList();
+
+        PolylinePoints polylinePoints = PolylinePoints();
+        List<PointLatLng> result = polylinePoints.decodePolyline(routeList.first.polyline['encodedPolyline'] as String);
+        List<LatLng> points = result.map((e) => LatLng(e.latitude, e.longitude)).toList();
+
+        return Result.success(points);
+      }
+    else{
+      return Result.error(getRouteResponse.tryGetError()!);
+    }
+  }
 
 }

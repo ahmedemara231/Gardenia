@@ -1,19 +1,19 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gardenia/constants/constants.dart';
-import 'package:gardenia/model/remote/api_service/service/constants.dart';
+import 'package:gardenia/model/remote/google_maps_service/maps_api_connection.dart';
+import 'package:gardenia/model/remote/google_maps_service/repositories/google_maps_repo.dart';
 import 'package:gardenia/modules/base_widgets/divider.dart';
 import 'package:gardenia/modules/base_widgets/myText.dart';
 import 'package:gardenia/modules/base_widgets/textFormField.dart';
+import 'package:gardenia/modules/data_types/google_maps/ori_des_location.dart';
 import 'package:gardenia/modules/methods/generate_session_token.dart';
 import 'package:gardenia/view_model/google_maps/cubit.dart';
 import 'package:gardenia/view_model/google_maps/states.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
-import 'package:uuid/uuid.dart';
 
 class RouteTrackingApp extends StatefulWidget {
   const RouteTrackingApp({super.key});
@@ -27,6 +27,7 @@ class _RouteTrackingAppState extends State<RouteTrackingApp> {
   late TextEditingController searchCont;
   String? sessionToken;
 
+  final scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   void initState() {
     MapsCubit.getInstance(context).location = Location();
@@ -43,6 +44,7 @@ class _RouteTrackingAppState extends State<RouteTrackingApp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
       body: BlocBuilder<MapsCubit,GoogleMapsStates>(
         builder: (context, state) => Stack(
           children: [
@@ -50,7 +52,11 @@ class _RouteTrackingAppState extends State<RouteTrackingApp> {
               zoomControlsEnabled: false,
               onMapCreated: (controller) {
                 MapsCubit.getInstance(context).myMapCont = controller;
-                MapsCubit.getInstance(context).getLocationProcess(context);
+                MapsCubit.getInstance(context).getLocationProcess(context).then((value)
+                {
+                  log(MapsCubit.getInstance(context).userLocation.latitude!.toString());
+                  log(MapsCubit.getInstance(context).userLocation.longitude!.toString());
+                });
               },
               markers: MapsCubit.getInstance(context).routeTrackingAppMarkers,
               initialCameraPosition: const CameraPosition(
@@ -79,6 +85,7 @@ class _RouteTrackingAppState extends State<RouteTrackingApp> {
                         sessionToken: sessionToken!,
                       );
                     },
+
                     fillColor: Colors.white,
                     filled: true,
                     border: OutlineInputBorder(
@@ -101,14 +108,38 @@ class _RouteTrackingAppState extends State<RouteTrackingApp> {
                           onTap: () async
                           {
                             searchCont.text = MapsCubit.getInstance(context).autoCompleteModel.predictions[index].description;
+
                             await MapsCubit.getInstance(context).getPlaceDetails(
                               placeId: MapsCubit.getInstance(context).autoCompleteModel.predictions[index].placeId,
                               sessionToken: sessionToken!,
                             );
                             log(sessionToken!);
                             sessionToken = null;
+
+                            // MapsCubit.getInstance(scaffoldKey.currentContext).getRouteForLocation(
+                            //   originLocation: PlaceLocation(
+                            //     lat: MapsCubit.getInstance(scaffoldKey.currentContext).userLocation.latitude!,
+                            //     long: MapsCubit.getInstance(scaffoldKey.currentContext).userLocation.longitude!,
+                            //   ),
+                            //   desLocation: PlaceLocation(
+                            //     lat: MapsCubit.getInstance(scaffoldKey.currentContext).placeDetailsModel.result.geometry['location']['lat'],
+                            //     long: MapsCubit.getInstance(scaffoldKey.currentContext).placeDetailsModel.result.geometry['location']['lng'],
+                            //   ),
+                            // );
+
+                            MapsCubit.getInstance(scaffoldKey.currentContext).getRouteForLocation(
+                              originLocation: PlaceLocation(
+                                lat: MapsCubit.getInstance(scaffoldKey.currentContext).userLocation.latitude!,
+                                long: MapsCubit.getInstance(scaffoldKey.currentContext).userLocation.longitude!,
+                              ),
+                              desLocation: PlaceLocation(
+                                lat: MapsCubit.getInstance(scaffoldKey.currentContext).placeDetailsModel.result.geometry['location']['lat'],
+                                long: MapsCubit.getInstance(scaffoldKey.currentContext).placeDetailsModel.result.geometry['location']['lng'],
+                              ),
+                            );
                           },
 
+                          // new context name
                           child: Padding(
                             padding: EdgeInsets.symmetric(
                                 horizontal: 8.0.w,

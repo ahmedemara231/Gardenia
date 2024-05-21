@@ -65,6 +65,8 @@ class GoogleMapsConnection implements ApiService
           return Result.success(response);
         }on DioException catch(e)
         {
+          String prettyJson = const JsonEncoder.withIndent('  ').convert(e.response?.data);
+          log(prettyJson);
           return Result.error(handleErrors(e));
         }
       case ConnectivityResult.none:

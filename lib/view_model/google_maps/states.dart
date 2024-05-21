@@ -31,3 +31,10 @@ class GetPlaceDetailsError extends GoogleMapsStates {
   GetPlaceDetailsError({required this.message});
 }
 
+class GetLocationRouteLoading extends GoogleMapsStates {}
+class GetLocationRouteSuccess extends GoogleMapsStates {}
+class GetLocationRouteError extends GoogleMapsStates {
+  String? message;
+  GetLocationRouteError({required this.message});
+}
+
