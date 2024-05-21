@@ -3,10 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gardenia/constants/constants.dart';
 import 'package:gardenia/extensions/mediaQuery.dart';
+import 'package:gardenia/extensions/routes.dart';
 import 'package:gardenia/modules/app_widgets/arrow_back_button.dart';
 import 'package:gardenia/modules/base_widgets/expandable_text.dart';
 import 'package:gardenia/modules/base_widgets/myText.dart';
 import 'package:gardenia/modules/data_types/place_data_model.dart';
+import 'package:gardenia/view/google_maps/route_tracking_app.dart';
 import 'package:gardenia/view_model/categories/cubit.dart';
 import 'package:gardenia/view_model/categories/states.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -46,15 +48,31 @@ class PlantDetails extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10.w),
+            padding: EdgeInsets.symmetric(
+                horizontal: 10.w,
+                vertical: 10.h
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                MyText(
-                  text: plant.name,
-                  fontSize: 25.sp,
-                  fontWeight: FontWeight.bold,
-                  color: Constants.appColor,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    MyText(
+                      text: plant.name,
+                      fontSize: 25.sp,
+                      fontWeight: FontWeight.bold,
+                      color: Constants.appColor,
+                    ),
+                    CircleAvatar(
+                      radius: 20.sp,
+                      backgroundColor: Constants.secondAppColor.withOpacity(.5),
+                      child: IconButton(
+                          onPressed: () => context.normalNewRoute(const RouteTrackingApp()),
+                          icon: Icon(Icons.location_on,color: Constants.appColor)
+                      ),
+                    )
+                  ],
                 ),
                 Row(
                   children: [

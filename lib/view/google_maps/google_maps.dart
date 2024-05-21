@@ -22,7 +22,6 @@ class _MyMapState extends State<MyMap> {
     MapsCubit.getInstance(context).location = Location();
 
     MapsCubit.getInstance(context).initOurStoreMarker();
-    MapsCubit.getInstance(context).initPolyLines();
 
     super.initState();
   }

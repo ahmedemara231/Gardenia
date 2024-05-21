@@ -1,8 +1,6 @@
-import 'package:uuid/uuid.dart';
-
 class ApiConstants
 {
-  static const String baseUrlForImages = 'https://41b5-45-246-130-36.ngrok-free.app';
+  static const String baseUrlForImages = 'https://c271-45-244-45-80.ngrok-free.app';
   static const String baseUrl = '$baseUrlForImages/api/v1/';
 
   // timeout durations

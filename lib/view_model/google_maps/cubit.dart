@@ -36,23 +36,6 @@ class MapsCubit extends Cubit<GoogleMapsStates>
     // emit(InitMarkers());
   }
 
-  Set<Polyline> polyLines = {};
-  void initPolyLines()
-  {
-    Polyline firstLine = const Polyline(
-      width: 5,
-      endCap: Cap.roundCap,
-      polylineId: PolylineId('1'),
-      color: Colors.red,
-      points: [
-        LatLng(30.81640788509372, 30.973692999151062),
-        LatLng(30.120258706066462, 18.108394775410037),
-      ],
-    );
-    polyLines.add(firstLine);
-    emit(InitPolyLines());
-  }
-
   late Location location;
 
   // check enabling location service in settings
@@ -243,7 +226,10 @@ class MapsCubit extends Cubit<GoogleMapsStates>
   }
 
 
+
   late List<LatLng> routeModel;
+  late Polyline routePolyLine;
+  Set<Polyline> polyLines = {};
   Future<void> getRouteForLocation({
     required PlaceLocation originLocation,
     required PlaceLocation desLocation,
@@ -258,6 +244,12 @@ class MapsCubit extends Cubit<GoogleMapsStates>
       if(getRouteResult.isSuccess())
         {
           routeModel = getRouteResult.getOrThrow();
+          routePolyLine = Polyline(
+            polylineId: const PolylineId('1'),
+            color: Colors.blue,
+            points: routeModel
+          );
+          polyLines.add(routePolyLine);
           emit(GetLocationRouteSuccess());
         }
       else{

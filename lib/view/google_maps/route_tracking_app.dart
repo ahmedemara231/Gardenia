@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gardenia/constants/constants.dart';
-import 'package:gardenia/model/remote/google_maps_service/maps_api_connection.dart';
-import 'package:gardenia/model/remote/google_maps_service/repositories/google_maps_repo.dart';
 import 'package:gardenia/modules/base_widgets/divider.dart';
 import 'package:gardenia/modules/base_widgets/myText.dart';
 import 'package:gardenia/modules/base_widgets/textFormField.dart';
@@ -45,6 +43,10 @@ class _RouteTrackingAppState extends State<RouteTrackingApp> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+      ),
       body: BlocBuilder<MapsCubit,GoogleMapsStates>(
         builder: (context, state) => Stack(
           children: [
@@ -58,6 +60,7 @@ class _RouteTrackingAppState extends State<RouteTrackingApp> {
                   log(MapsCubit.getInstance(context).userLocation.longitude!.toString());
                 });
               },
+              polylines: MapsCubit.getInstance(context).polyLines,
               markers: MapsCubit.getInstance(context).routeTrackingAppMarkers,
               initialCameraPosition: const CameraPosition(
                   target: LatLng(0,0),
@@ -65,7 +68,7 @@ class _RouteTrackingAppState extends State<RouteTrackingApp> {
               ),
             ),
             Positioned(
-              top: 40.h,
+              top: 75.h,
               left: 16.w,
               right: 16.w,
               child: Column(
@@ -115,17 +118,6 @@ class _RouteTrackingAppState extends State<RouteTrackingApp> {
                             );
                             log(sessionToken!);
                             sessionToken = null;
-
-                            // MapsCubit.getInstance(scaffoldKey.currentContext).getRouteForLocation(
-                            //   originLocation: PlaceLocation(
-                            //     lat: MapsCubit.getInstance(scaffoldKey.currentContext).userLocation.latitude!,
-                            //     long: MapsCubit.getInstance(scaffoldKey.currentContext).userLocation.longitude!,
-                            //   ),
-                            //   desLocation: PlaceLocation(
-                            //     lat: MapsCubit.getInstance(scaffoldKey.currentContext).placeDetailsModel.result.geometry['location']['lat'],
-                            //     long: MapsCubit.getInstance(scaffoldKey.currentContext).placeDetailsModel.result.geometry['location']['lng'],
-                            //   ),
-                            // );
 
                             MapsCubit.getInstance(scaffoldKey.currentContext).getRouteForLocation(
                               originLocation: PlaceLocation(
