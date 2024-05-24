@@ -15,6 +15,9 @@ class GetSuggestionsLoading extends GoogleMapsStates {}
 class GetSuggestionsSuccess extends GoogleMapsStates {}
 
 
+class LocationSelectedSuccess extends GoogleMapsStates {}
+
+
 class GetSuggestionsError extends GoogleMapsStates {
   String? message;
   GetSuggestionsError({required this.message});

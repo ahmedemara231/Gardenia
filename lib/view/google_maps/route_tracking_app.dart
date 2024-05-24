@@ -54,17 +54,13 @@ class _RouteTrackingAppState extends State<RouteTrackingApp> {
               zoomControlsEnabled: false,
               onMapCreated: (controller) {
                 MapsCubit.getInstance(context).myMapCont = controller;
-                MapsCubit.getInstance(context).getLocationProcess(context).then((value)
-                {
-                  log(MapsCubit.getInstance(context).userLocation.latitude!.toString());
-                  log(MapsCubit.getInstance(context).userLocation.longitude!.toString());
-                });
+                MapsCubit.getInstance(context).getStreamLocationProcess(context);
               },
               polylines: MapsCubit.getInstance(context).polyLines,
               markers: MapsCubit.getInstance(context).routeTrackingAppMarkers,
               initialCameraPosition: const CameraPosition(
                   target: LatLng(0,0),
-                  zoom: 14
+                  zoom: 16
               ),
             ),
             Positioned(
@@ -119,14 +115,12 @@ class _RouteTrackingAppState extends State<RouteTrackingApp> {
                             log(sessionToken!);
                             sessionToken = null;
 
-                            MapsCubit.getInstance(scaffoldKey.currentContext).getRouteForLocation(
-                              originLocation: PlaceLocation(
-                                lat: MapsCubit.getInstance(scaffoldKey.currentContext).userLocation.latitude!,
-                                long: MapsCubit.getInstance(scaffoldKey.currentContext).userLocation.longitude!,
-                              ),
+                            MapsCubit.getInstance(scaffoldKey.currentContext).isAnotherRouteCalculated = true;
+
+                            MapsCubit.getInstance(scaffoldKey.currentContext).getStreamLocation(
                               desLocation: PlaceLocation(
-                                lat: MapsCubit.getInstance(scaffoldKey.currentContext).placeDetailsModel.result.geometry['location']['lat'],
-                                long: MapsCubit.getInstance(scaffoldKey.currentContext).placeDetailsModel.result.geometry['location']['lng'],
+                                lat: MapsCubit.getInstance(scaffoldKey.currentContext).placeDetailsModel.result.geometry.placeLocation.lat,
+                                long: MapsCubit.getInstance(scaffoldKey.currentContext).placeDetailsModel.result.geometry.placeLocation.long,
                               ),
                             );
                           },

@@ -92,7 +92,7 @@ class _GardeniaState extends State<Gardenia> {
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           home:
-          Login(),
+          RouteTrackingApp(),
           // token == null?
           // OnBoarding() : const Home(),
         ),

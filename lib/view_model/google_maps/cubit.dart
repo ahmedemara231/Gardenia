@@ -1,6 +1,6 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gardenia/model/remote/google_maps_service/google_maps_models/route_model.dart';
 import 'package:gardenia/model/remote/google_maps_service/repositories/google_maps_repo.dart';
 import 'package:gardenia/model/remote/google_maps_service/maps_api_connection.dart';
 import 'package:gardenia/view_model/google_maps/states.dart';
@@ -16,25 +16,8 @@ class MapsCubit extends Cubit<GoogleMapsStates>
   MapsCubit() : super(MapsInitialState());
   factory MapsCubit.getInstance(context) => BlocProvider.of(context);
 
-  String name = 'aaaa';
   Set<Marker> markers = {};
-  Future<void> initOurStoreMarker()async
-  {
-    // final customMarker = await BitmapDescriptor.fromAssetImage(
-    //   const ImageConfiguration(),
-    //   Constants.userMarker,
-    // );
-    //
-    // Marker myLocationMarker = Marker(
-    //     markerId: const MarkerId('1'),
-    //     position: const LatLng(30.979237752287634, 31.176984724435957),
-    //     infoWindow: const InfoWindow(title: 'Test'),
-    //     icon: customMarker
-    // );
-    // markers.add(myLocationMarker);
-    //
-    // emit(InitMarkers());
-  }
+
 
   late Location location;
 
@@ -67,8 +50,21 @@ class MapsCubit extends Cubit<GoogleMapsStates>
   }
 
 
+  void initOurStoreMarker()
+  {
+    Marker ourStoreMarker = const Marker(
+      infoWindow: InfoWindow(
+        title: 'Gardenia Store',
+      ),
 
-  late LocationData userLocation;
+      markerId: MarkerId('1'),
+      position: LatLng(30.979353519902393, 31.1769525074946),
+    );
+    routeTrackingAppMarkers.add(ourStoreMarker);
+    emit(InitMarkers());
+  }
+
+  late LocationData currentUserLocation;
   Set<Marker> routeTrackingAppMarkers = {};
   Future<void> getLocation()async
   {
@@ -86,31 +82,72 @@ class MapsCubit extends Cubit<GoogleMapsStates>
               userLatLng
           ),
       );
-      userLocation = userLocationData;
+      currentUserLocation = userLocationData;
       return userLocationData;
     });
   }
 
-  late GoogleMapController myMapCont;
 
-  Future<void> getStreamLocation()async
+  late GoogleMapController myMapCont;
+  late Marker userMarker;
+  bool isAnotherRouteCalculated = false;
+  Future<void> getStreamLocation({
+    PlaceLocation? desLocation
+})async
   {
+    initOurStoreMarker();
     await location.changeSettings(
         distanceFilter: 2
     );
     location.onLocationChanged.listen((newLocationData) async{
+      currentUserLocation = newLocationData;
+
+      if(!isAnotherRouteCalculated)
+        {
+          getRouteForLocation(
+            originLocation: PlaceLocation(
+              lat: newLocationData.latitude!,
+              long: newLocationData.longitude!,
+            ),
+            desLocation: PlaceLocation(
+              lat: 30.979353519902393,
+              long: 31.1769525074946,
+            ),
+          );
+        }
+      else{
+        getRouteForLocation(
+          originLocation: PlaceLocation(
+            lat: newLocationData.latitude!,
+            long: newLocationData.longitude!,
+          ),
+          desLocation: desLocation!
+        );
+      }
+
+      if(newLocationData.latitude == desLocation?.lat || newLocationData.longitude == desLocation?.long)
+        {
+          playArriveSound().then((value) {
+            routePolyLine = null;
+          });
+
+        }
 
       final customMarker = await BitmapDescriptor.fromAssetImage(
         const ImageConfiguration(),
         Constants.userMarker,
       );
 
-      Marker userMarker = Marker(
+      userMarker = Marker(
           markerId: const MarkerId('2'),
-          position: LatLng(newLocationData.latitude!, newLocationData.longitude!),
+          position: LatLng(
+              newLocationData.latitude!,
+              newLocationData.longitude!
+          ),
           icon: customMarker
       );
-      markers.add(userMarker);
+      routeTrackingAppMarkers.add(userMarker);
+      emit(GetStreamLocationSuccess());
 
        await myMapCont.animateCamera(
         CameraUpdate.newLatLng(
@@ -121,8 +158,7 @@ class MapsCubit extends Cubit<GoogleMapsStates>
   }
 
 
-
-  Future<void> getStreamLocationProcess(context)async
+  Future<void> getStreamLocationProcess(context,{PlaceLocation? desLocation})async
   {
     bool isLocationServiceEnabled = await checkAndRequestToEnableLocationService();
     if(isLocationServiceEnabled)
@@ -131,16 +167,23 @@ class MapsCubit extends Cubit<GoogleMapsStates>
         {
           if(permissionResult)
           {
-            await getStreamLocation();
+            await getStreamLocation(
+              desLocation: desLocation
+            );
             emit(GetStreamLocationSuccess());
           }
-          else{return;}
+          else
+          {
+            Navigator.pop(context);
+          }
         });
       }
     else{
       Navigator.pop(context);
     }
   }
+
+
   Future<void> getLocationProcess(context)async
   {
     bool isLocationServiceEnabled = await checkAndRequestToEnableLocationService();
@@ -226,9 +269,24 @@ class MapsCubit extends Cubit<GoogleMapsStates>
   }
 
 
+  // Future<void> selectThePlace()async
+  // {
+  //   LatLng desLocation = LatLng(
+  //       placeDetailsModel.result.geometry.placeLocation.lat,
+  //       placeDetailsModel.result.geometry.placeLocation.long
+  //   );
+  //   Marker desLocationMarker = Marker(
+  //     markerId: const MarkerId('5'),
+  //     position: desLocation,
+  //   );
+  //
+  //   routeTrackingAppMarkers.add(desLocationMarker);
+  //   await myMapCont.animateCamera(CameraUpdate.newLatLng(desLocation));
+  //   emit(LocationSelectedSuccess());
+  // }
 
   late List<LatLng> routeModel;
-  late Polyline routePolyLine;
+  Polyline? routePolyLine;
   Set<Polyline> polyLines = {};
   Future<void> getRouteForLocation({
     required PlaceLocation originLocation,
@@ -249,7 +307,14 @@ class MapsCubit extends Cubit<GoogleMapsStates>
             color: Colors.blue,
             points: routeModel
           );
-          polyLines.add(routePolyLine);
+          polyLines.add(routePolyLine!);
+
+          Marker desMarker = Marker(
+            markerId: const MarkerId('4'),
+            position: LatLng(desLocation.lat, desLocation.long),
+          );
+
+          routeTrackingAppMarkers.add(desMarker);
           emit(GetLocationRouteSuccess());
         }
       else{
@@ -260,5 +325,11 @@ class MapsCubit extends Cubit<GoogleMapsStates>
         );
       }
     });
+  }
+
+  Future<void> playArriveSound()async
+  {
+    final player = AudioPlayer();
+    await player.play(UrlSource('https://example.com/my-audio.wav'));
   }
 }
