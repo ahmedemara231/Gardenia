@@ -7,10 +7,28 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
 import 'package:gardenia/main.dart';
 
 void main() {
+  // test('calculates area of rectangle correctly', () {
+  //   // Arrange
+  //   final newScreen = 1;
+  //
+  //   final currentScreen = changeScreen(newScreen);
+  //
+  //   expect(currentScreen, equals(1));  // Expected area is 6.0
+  // });
+
+  // testWidgets(
+  //   'test widget',
+  //       (widgetTester)async
+  //   {
+  //     // await widgetTester.pumpWidget(const MyApp());
+  //     final tff = find.byType(TFF);
+  //     expect(tff, findsOneWidget);
+  //   },
+  // );
+
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
     await tester.pumpWidget(const Gardenia());

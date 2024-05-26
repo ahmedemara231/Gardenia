@@ -1,77 +1,20 @@
-import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
-import 'package:gardenia/model/remote/api_service/service/api_request.dart';
 import 'package:gardenia/model/remote/api_service/service/languages_and_methods.dart';
 import 'package:gardenia/model/remote/api_service/service/request_model.dart';
-import 'package:gardenia/model/remote/google_maps_service/google_maps_api_constants.dart';
+import 'package:gardenia/model/remote/google_maps_service/error_handling/errors.dart';
+import 'package:gardenia/model/remote/google_maps_service/service/google_api_request.dart';
+import 'package:gardenia/model/remote/google_maps_service/service/google_maps_api_constants.dart';
 import 'package:gardenia/modules/data_types/google_maps/ori_des_location.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:multiple_result/multiple_result.dart';
-import '../../api_service/service/error_handling/errors.dart';
-import '../google_maps_models/autoCompleteModel.dart';
-import '../google_maps_models/place_details.dart';
 import '../google_maps_models/route_model.dart';
-
 
 class GoogleMapsRepo
 {
-  late ApiService googleMapsConnection;
+  late GoogleApiService googleMapsConnection;
   GoogleMapsRepo({required this.googleMapsConnection});
 
-  Future<Result<AutoCompleteModel,CustomError>> getSuggestions({
-    required String input,
-    required String sessionToken,
-})async
-  {
-    Map<String,dynamic> params =
-    {
-      'input' : input,
-      'key' : MapsConstants.apiKey,
-      'sessiontoken' : sessionToken,
-    };
-
-   Result<Response,CustomError> suggestionsResponse = await googleMapsConnection.callApi(
-        request: RequestModel(
-            method: Methods.GET,
-            endPoint: '${MapsConstants.googleMapsPlacesBaseUrl}autocomplete/json',
-            queryParams: params,
-            withToken: false,
-        ),
-    );
-   return suggestionsResponse.when(
-           (success) => Result.success(AutoCompleteModel.fromJson(success.data)),
-           (error) => Result.error(error),
-   );
-  }
-
-  Future<Result<PlaceDetailsModel,CustomError>> getPlaceDetails({
-    required String placeId,
-    required String sessionToken,
-  })async
-  {
-    final params =
-    {
-      'key' : MapsConstants.apiKey,
-      'place_id' : placeId,
-      'sessiontoken' : sessionToken,
-    };
-
-    Result<Response,CustomError> placeDetailsResponse = await googleMapsConnection.callApi(
-        request: RequestModel(
-            method: Methods.GET,
-            endPoint: '${MapsConstants.googleMapsPlacesBaseUrl}details/json',
-            queryParams: params,
-            withToken: false,
-        ),
-    );
-
-    return placeDetailsResponse.when(
-            (success) => Result.success(PlaceDetailsModel.fromJson(success.data)),
-            (error) => Result.error(error),
-    );
-  }
 
   final getRouteHeaders =
   {
@@ -80,7 +23,7 @@ class GoogleMapsRepo
     'X-Goog-FieldMask' : 'routes.duration,routes.distanceMeters,routes.polyline.encodedPolyline'
   };
 
-  Future<Result<List<LatLng>,CustomError>> getRoute({
+  Future<Result<List<LatLng>,GoogleMapsError>> getRoute({
     required PlaceLocation originLocation,
     required PlaceLocation desLocation,
 })async
@@ -115,7 +58,7 @@ class GoogleMapsRepo
       "units": "IMPERIAL"
     };
 
-    Result<Response,CustomError> getRouteResponse = await googleMapsConnection.callApi(
+    Result<Response,GoogleMapsError> getRouteResponse = await googleMapsConnection.callGoogleApi(
       request: RequestModel(
           method: Methods.POST,
           endPoint: MapsConstants.googleMapsRouteBaseUrl,

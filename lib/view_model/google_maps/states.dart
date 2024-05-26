@@ -41,3 +41,5 @@ class GetLocationRouteError extends GoogleMapsStates {
   GetLocationRouteError({required this.message});
 }
 
+class FinishAndReturn extends GoogleMapsStates {}
+

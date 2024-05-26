@@ -8,7 +8,7 @@ import 'package:gardenia/modules/app_widgets/arrow_back_button.dart';
 import 'package:gardenia/modules/base_widgets/expandable_text.dart';
 import 'package:gardenia/modules/base_widgets/myText.dart';
 import 'package:gardenia/modules/data_types/place_data_model.dart';
-import 'package:gardenia/view/google_maps/route_tracking_app.dart';
+import 'package:gardenia/view/google_maps/map_view.dart';
 import 'package:gardenia/view_model/categories/cubit.dart';
 import 'package:gardenia/view_model/categories/states.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -68,7 +68,7 @@ class PlantDetails extends StatelessWidget {
                       radius: 20.sp,
                       backgroundColor: Constants.secondAppColor.withOpacity(.5),
                       child: IconButton(
-                          onPressed: () => context.normalNewRoute(const RouteTrackingApp()),
+                          onPressed: () => context.normalNewRoute(const MapView()),
                           icon: Icon(Icons.location_on,color: Constants.appColor)
                       ),
                     )
