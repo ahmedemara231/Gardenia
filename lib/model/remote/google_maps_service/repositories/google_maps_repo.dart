@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:gardenia/model/remote/api_service/service/languages_and_methods.dart';
-import 'package:gardenia/model/remote/api_service/service/request_model.dart';
+import 'package:gardenia/model/remote/api_service/service/request_models/request_model.dart';
 import 'package:gardenia/model/remote/google_maps_service/error_handling/errors.dart';
 import 'package:gardenia/model/remote/google_maps_service/service/google_api_request.dart';
 import 'package:gardenia/model/remote/google_maps_service/service/google_maps_api_constants.dart';

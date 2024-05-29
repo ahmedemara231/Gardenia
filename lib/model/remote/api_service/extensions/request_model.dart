@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:gardenia/model/remote/api_service/service/request_model.dart';
+import 'package:gardenia/model/remote/api_service/service/request_models/request_model.dart';
 
 extension RequestExtension on RequestModel
 {

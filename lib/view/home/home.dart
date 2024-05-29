@@ -17,7 +17,6 @@ import 'package:gardenia/view/profile/profile.dart';
 import 'package:gardenia/view_model/home/cubit.dart';
 import 'package:gardenia/view_model/home/states.dart';
 import 'package:page_transition/page_transition.dart';
-
 import '../../modules/app_widgets/app_button.dart';
 
 class Home extends StatefulWidget {

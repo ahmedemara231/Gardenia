@@ -1,12 +1,17 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_expandable_text/flutter_expandable_text.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gardenia/constants/constants.dart';
 import 'package:gardenia/extensions/routes.dart';
+import 'package:gardenia/model/remote/api_service/service/connections/dio_connection.dart';
 import 'package:gardenia/model/remote/api_service/service/constants.dart';
 import 'package:gardenia/modules/base_widgets/expandable_text.dart';
 import 'package:gardenia/modules/base_widgets/myText.dart';
 import 'package:gardenia/view_model/home/cubit.dart';
+import 'package:multiple_result/multiple_result.dart';
+import 'package:path_provider/path_provider.dart';
+import '../../model/remote/api_service/service/error_handling/errors.dart';
+import '../../model/remote/api_service/service/request_models/download_request_model.dart';
 import '../../view/home/post_comments.dart';
 
 class Post extends StatelessWidget {
@@ -61,11 +66,26 @@ class Post extends StatelessWidget {
               return
                 [
                   PopupMenuItem(
-                    onTap: ()
+                    onTap: ()async
                     {
-                      // homeCubit.addToFavorites(
-                      //   homeCubit.fakePosts[index],
-                      // );
+                      final directory = await getApplicationDocumentsDirectory();
+                      print(directory);
+                      String fileName = 'downloaded_image.jpg';
+                      final imagePath = directory.path+fileName;
+
+                      print(imagePath);
+                      Result<Response,CustomError> downloadImageResponse = await DioConnection().downloadFromApi(
+                        request:  DownloadModel(
+                          urlPath: '${ApiConstants.baseUrlForImages}$postImage',
+                          savePath:  imagePath,
+                          onReceiveProgress: (received, total) {},
+                        ),
+                      );
+                      return downloadImageResponse.when(
+                            (success) => Result.success(success.data),
+                            (error) => Result.error(error),
+                      );
+                      // HomeCubit.getInstance(context).downloadPostImage(postImage!);
                     },
                     child: Row(
                       children: [

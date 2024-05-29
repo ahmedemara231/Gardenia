@@ -10,15 +10,15 @@ import 'package:gardenia/model/remote/api_service/service/error_handling/errors.
 import 'package:gardenia/model/remote/api_service/service/error_handling/interceptors/bad_response.dart';
 import 'package:gardenia/model/remote/api_service/service/error_handling/interceptors/timeout.dart';
 import 'package:gardenia/model/remote/api_service/service/error_handling/interceptors/unknown.dart';
-import 'package:gardenia/model/remote/api_service/service/request_model.dart';
+import 'package:gardenia/model/remote/api_service/service/request_models/download_request_model.dart';
+import 'package:gardenia/model/remote/api_service/service/request_models/request_model.dart';
 import 'package:multiple_result/multiple_result.dart';
-
 import '../error_handling/handle_errors.dart';
 
 class DioConnection implements ApiService
 {
   late Dio dio;
-
+  late Dio dioForDownload;
   DioConnection()
   {
     dio = Dio()
@@ -28,12 +28,14 @@ class DioConnection implements ApiService
 
         List<InterceptorsWrapper> myInterceptors =
         [
-          UnknownErrorInterceptor(),
           TimeoutInterceptor(dio),
           BadResponseInterceptor(dio),
+          UnknownErrorInterceptor(),
         ];
 
         dio.interceptors.addAll(myInterceptors);
+
+    dioForDownload = Dio();
   }
 
   static DioConnection? dioHelper;
@@ -124,5 +126,28 @@ class DioConnection implements ApiService
               ),
           );
     }
+  }
+  
+  @override
+  Future<Result<Response, CustomError>> downloadFromApi({
+    required DownloadModel request
+  }) async
+  {
+    try{
+      Response response = await dioForDownload.download(
+        request.urlPath,
+        request.savePath,
+        onReceiveProgress: request.onReceiveProgress,
+        options: Options(
+            responseType: ResponseType.bytes
+        ),
+      );
+      print('res data is ${response.data}');
+      return Result.success(response);
+    }on DioException catch(e)
+    {
+      return Result.error(handleErrors(e));
+    }
+
   }
 }

@@ -7,7 +7,7 @@ import '../service/api_request.dart';
 import '../service/constants.dart';
 import '../service/error_handling/errors.dart';
 import '../service/languages_and_methods.dart';
-import '../service/request_model.dart';
+import '../service/request_models/request_model.dart';
 
 class PutRepo
 {

@@ -11,6 +11,7 @@ import 'package:gardenia/modules/base_widgets/textFormField.dart';
 import 'package:gardenia/modules/base_widgets/toast.dart';
 import 'package:gardenia/view_model/create_post/cubit.dart';
 import 'package:gardenia/view_model/create_post/states.dart';
+import 'package:gardenia/view_model/profile/cubit.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
@@ -106,7 +107,8 @@ class CreatePost extends StatelessWidget {
                         child: IconButton(
                           onPressed: ()async
                           {
-                            await CreatePostCubit.getInstance(context).pickImage(
+                            await CreatePostCubit.getInstance(context).handleImagePicking(
+                                context,
                                 source: ImageSource.camera
                             );
                           },

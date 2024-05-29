@@ -12,8 +12,6 @@ class TimeoutInterceptor extends InterceptorsWrapper
   @override
   void onError(DioException err, ErrorInterceptorHandler handler)async {
     {
-      log(err.type.name);
-
       if(err.type == DioExceptionType.sendTimeout ||
           err.type == DioExceptionType.connectionTimeout ||
           err.type == DioExceptionType.receiveTimeout ||

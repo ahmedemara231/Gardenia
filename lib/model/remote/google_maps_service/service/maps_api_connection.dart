@@ -4,7 +4,7 @@ import 'dart:developer';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:gardenia/model/remote/api_service/service/constants.dart';
-import 'package:gardenia/model/remote/api_service/service/request_model.dart';
+import 'package:gardenia/model/remote/api_service/service/request_models/request_model.dart';
 import 'package:gardenia/model/remote/google_maps_service/error_handling/errors.dart';
 import 'package:multiple_result/multiple_result.dart';
 import '../error_handling/handle_errors.dart';

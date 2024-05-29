@@ -1,9 +1,7 @@
 import 'dart:developer';
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gardenia/constants/constants.dart';
-import 'package:gardenia/extensions/routes.dart';
 import 'package:gardenia/extensions/string.dart';
 import 'package:gardenia/model/local/flutter_secure_storage.dart';
 import 'package:gardenia/model/local/shared_prefs.dart';
@@ -12,16 +10,18 @@ import 'package:gardenia/model/remote/api_service/repositories/delete_repo.dart'
 import 'package:gardenia/model/remote/api_service/repositories/get_repo.dart';
 import 'package:gardenia/model/remote/api_service/repositories/post_repo.dart';
 import 'package:gardenia/model/remote/api_service/service/connections/dio_connection.dart';
+import 'package:gardenia/model/remote/api_service/service/constants.dart';
 import 'package:gardenia/model/remote/api_service/service/error_handling/errors.dart';
+import 'package:gardenia/model/remote/api_service/service/request_models/download_request_model.dart';
 import 'package:gardenia/modules/base_widgets/toast.dart';
 import 'package:gardenia/modules/data_types/comment.dart';
+import 'package:gardenia/modules/data_types/permission_process.dart';
 import 'package:gardenia/modules/data_types/post.dart';
 import 'package:gardenia/modules/data_types/fake_posts_data.dart';
-import 'package:gardenia/view/bottomNavBar/bottom_nav_bar.dart';
-import 'package:gardenia/view/home/home.dart';
+import 'package:gardenia/modules/methods/check_permission.dart';
 import 'package:gardenia/view_model/home/states.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
-
 import '../../model/remote/api_service/repositories/put_patch_repo.dart';
 
 class HomeCubit extends Cubit<HomeStates>
@@ -100,6 +100,48 @@ class HomeCubit extends Cubit<HomeStates>
         }
       }
     });
+  }
+
+  Future<void> handleStoragePermission(
+      context,{required String postImage})async
+  {
+    await checkPermission(
+        PermissionProcessModel(
+          permissionClient: PermissionClient.storage,
+          onPermissionGranted: () => downloadPostImage(postImage) ,
+          onPermissionDenied: () => Navigator.pop(context),
+        ),
+    );
+  }
+
+  Future<String> getPathToSaveImage(String imageLastSegment)async
+  {
+    final directory = await getApplicationDocumentsDirectory();
+    String fileName = imageLastSegment;
+    final imagePath = directory.path+fileName;
+    return imagePath;
+  }
+  Future<void> downloadPostImage(String postImage)async
+  {
+    log('loading');
+    getRepo.downloadPostImage(
+        DownloadModel(
+            urlPath: '${ApiConstants.baseUrlForImages}$postImage',
+            savePath: await getPathToSaveImage(postImage.split('/').last),
+            onReceiveProgress: (received, total) {},
+        ),
+    ).then((result)
+    {
+      if(result.isSuccess())
+        {
+          log('downloaded');
+        }
+      else{
+        log('error');
+      }
+    });
+    // FileInfo file = await DefaultCacheManager().downloadFile(url);
+    // log('${file.validTill}');
   }
 
   RoundedLoadingButtonController editPostBtnCont = RoundedLoadingButtonController();

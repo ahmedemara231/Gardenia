@@ -9,7 +9,6 @@ import 'package:gardenia/modules/base_widgets/myText.dart';
 import 'package:gardenia/view/profile/edit_profile/edit_profile.dart';
 import 'package:gardenia/view_model/update_profile/cubit.dart';
 import 'package:gardenia/view_model/update_profile/states.dart';
-
 import '../../model/remote/api_service/service/constants.dart';
 import '../../modules/app_widgets/setting.dart';
 import '../../view_model/profile/cubit.dart';
@@ -141,7 +140,16 @@ class Setting extends StatelessWidget {
                   child: Column(
                     children: List.generate(
                         settings.sublist(4,7).length,
-                            (index) => settings.sublist(4,7)[index]
+                            (index) => InkWell(
+                              onTap: ()
+                              {
+                                switch(index)
+                                {
+                                  case 6:
+                                    ProfileCubit.getInstance(context).handleCallingStore();
+                                }
+                              }, child: settings.sublist(4,7)[index],
+                            )
                     ),
                   ),
                 ),

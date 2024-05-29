@@ -2,7 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:gardenia/model/local/flutter_secure_storage.dart';
-import 'package:gardenia/model/remote/api_service/service/request_model.dart';
+import 'package:gardenia/model/remote/api_service/service/request_models/request_model.dart';
 import '../../languages_and_methods.dart';
 
 class BadResponseInterceptor extends InterceptorsWrapper

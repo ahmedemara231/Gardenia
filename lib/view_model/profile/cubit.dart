@@ -3,8 +3,11 @@ import 'package:gardenia/model/remote/api_service/model/model.dart';
 import 'package:gardenia/model/remote/api_service/repositories/get_repo.dart';
 import 'package:gardenia/model/remote/api_service/service/connections/dio_connection.dart';
 import 'package:gardenia/model/remote/api_service/service/error_handling/errors.dart';
+import 'package:gardenia/modules/data_types/permission_process.dart';
 import 'package:gardenia/modules/data_types/user_posts.dart';
+import 'package:gardenia/modules/methods/check_permission.dart';
 import 'package:gardenia/view_model/profile/states.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ProfileCubit extends Cubit<ProfileStates>
 {
@@ -40,5 +43,21 @@ class ProfileCubit extends Cubit<ProfileStates>
         emit(GetProfileError());
       }
     });
+  }
+
+
+  Future<void> handleCallingStore()async
+  {
+    checkPermission(
+        PermissionProcessModel(
+          permissionClient: PermissionClient.contacts,
+          onPermissionGranted: () => callTheStore(),
+          onPermissionDenied: (){return;},
+        )
+    );
+  }
+
+  Future<void> callTheStore() async {
+    await launchUrl(Uri.parse('tel:+1-555-010-999'));
   }
 }

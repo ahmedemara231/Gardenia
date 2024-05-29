@@ -16,8 +16,7 @@ class UnknownErrorInterceptor extends InterceptorsWrapper
         log(requestPath);
 
         log('${err.requestOptions.data}');
-        print(err.response?.statusCode);
-        print(err.response?.statusMessage);
+        log(err.response?.statusMessage?? 'unknown');
       }
     else{
       handler.next(err);

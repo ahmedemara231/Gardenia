@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:dio/dio.dart';
 import 'package:gardenia/extensions/string.dart';
 import 'package:gardenia/model/local/shared_prefs.dart';
@@ -6,7 +8,8 @@ import 'package:gardenia/model/remote/api_service/model/model.dart';
 import 'package:gardenia/model/remote/api_service/service/constants.dart';
 import 'package:gardenia/model/remote/api_service/service/error_handling/errors.dart';
 import 'package:gardenia/model/remote/api_service/service/languages_and_methods.dart';
-import 'package:gardenia/model/remote/api_service/service/request_model.dart';
+import 'package:gardenia/model/remote/api_service/service/request_models/download_request_model.dart';
+import 'package:gardenia/model/remote/api_service/service/request_models/request_model.dart';
 import 'package:gardenia/modules/data_types/plant.dart';
 import 'package:multiple_result/multiple_result.dart';
 import '../service/api_request.dart';
@@ -32,6 +35,17 @@ class GetRepo
     );
   }
 
+  Future<Result<Uint8List,CustomError>> downloadPostImage(DownloadModel request)async
+  {
+    Result<Response,CustomError> downloadImageResponse = await apiService.downloadFromApi(
+        request: request,
+    );
+    return downloadImageResponse.when(
+            (success) => Result.success(success.data),
+            (error) => Result.error(error),
+    );
+  }
+  
   Future<Result<Model,CustomError>> getCommentsForPost(int postId)async
   {
     Result<Response, CustomError> getCommentsResponse = await apiService.callApi(

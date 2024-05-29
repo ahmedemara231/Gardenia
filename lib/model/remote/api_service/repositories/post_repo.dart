@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:gardenia/model/remote/api_service/service/constants.dart';
 import 'package:gardenia/model/remote/api_service/service/error_handling/errors.dart';
 import 'package:gardenia/model/remote/api_service/service/languages_and_methods.dart';
-import 'package:gardenia/model/remote/api_service/service/request_model.dart';
+import 'package:gardenia/model/remote/api_service/service/request_models/request_model.dart';
 import 'package:multiple_result/multiple_result.dart';
 import '../../../../modules/data_types/user_data.dart';
 import '../factory_method.dart';
