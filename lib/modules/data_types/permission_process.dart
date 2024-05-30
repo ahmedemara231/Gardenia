@@ -1,4 +1,4 @@
-enum PermissionClient {camera, storage, contacts}
+enum PermissionClient {camera, storage, contacts, notification}
 
 class PermissionProcessModel
 {

@@ -16,6 +16,9 @@ Future<void> checkPermission(PermissionProcessModel processModel)async
     case PermissionClient.contacts:
       permission = Permission.contacts;
 
+    case PermissionClient.notification:
+      permission = Permission.notification;
+
     default:
       return;
   }
@@ -32,6 +35,7 @@ Future<void> askForPermission({
 })async
 {
   bool status = await permission.status.isGranted;
+  print(status);
   if(!status)
     {
       PermissionStatus status = await permission.request();

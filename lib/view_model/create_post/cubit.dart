@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gardenia/extensions/routes.dart';
 import 'package:gardenia/modules/data_types/permission_process.dart';
@@ -11,6 +12,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 import '../../model/remote/api_service/repositories/post_repo.dart';
 import '../../model/remote/api_service/service/connections/dio_connection.dart';
+import '../../modules/base_widgets/toast.dart';
 
 class CreatePostCubit extends Cubit<CreatePostStates>
 {
@@ -25,7 +27,14 @@ class CreatePostCubit extends Cubit<CreatePostStates>
         PermissionProcessModel(
           permissionClient: PermissionClient.camera,
           onPermissionGranted: () => pickImage(source: source),
-          onPermissionDenied: () => Navigator.pop(context),
+          onPermissionDenied: () {
+            Navigator.pop(context);
+            MyToast.showToast(
+              context,
+              msg: 'Enable Camera to can post',
+              color: Colors.red
+            );
+          },
         )
     );
   }

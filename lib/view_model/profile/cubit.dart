@@ -44,20 +44,4 @@ class ProfileCubit extends Cubit<ProfileStates>
       }
     });
   }
-
-
-  Future<void> handleCallingStore()async
-  {
-    checkPermission(
-        PermissionProcessModel(
-          permissionClient: PermissionClient.contacts,
-          onPermissionGranted: () => callTheStore(),
-          onPermissionDenied: (){return;},
-        )
-    );
-  }
-
-  Future<void> callTheStore() async {
-    await launchUrl(Uri.parse('tel:+1-555-010-999'));
-  }
 }

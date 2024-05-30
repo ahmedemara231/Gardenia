@@ -7,6 +7,9 @@ import 'package:gardenia/view/bottomNavBar/bottom_nav_bar.dart';
 import 'package:gardenia/view/create_post/create_post.dart';
 import 'package:gardenia/view/home/home.dart';
 import 'package:gardenia/view/onBoarding/onBoarding_screen.dart';
+import 'package:gardenia/view/settting/setting.dart';
+import 'package:gardenia/view/settting/setting/notifications.dart';
+import 'package:gardenia/view/settting/setting/privacy_policy.dart';
 import 'package:gardenia/view_model/Login/cubit.dart';
 import 'package:gardenia/view_model/bloc_observer.dart';
 import 'package:gardenia/view_model/bottomNavBar/cubit.dart';
@@ -17,8 +20,12 @@ import 'package:gardenia/view_model/google_maps/cubit.dart';
 import 'package:gardenia/view_model/home/cubit.dart';
 import 'package:gardenia/view_model/onBoarding/cubit.dart';
 import 'package:gardenia/view_model/profile/cubit.dart';
+import 'package:gardenia/view_model/setting/cubit.dart';
 import 'package:gardenia/view_model/sign_up/cubit.dart';
 import 'package:gardenia/view_model/update_profile/cubit.dart';
+
+import 'modules/data_types/permission_process.dart';
+import 'modules/methods/check_permission.dart';
 
 void main()async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -43,6 +50,13 @@ class _GardeniaState extends State<Gardenia> {
     SecureStorage.getInstance().readData(key: 'userToken').then((value) {
       token = value;
     });
+    checkPermission(
+      PermissionProcessModel(
+        permissionClient: PermissionClient.notification,
+        onPermissionGranted: () {},
+        onPermissionDenied: () {},
+      ),
+    );
     super.initState();
   }
   @override
@@ -64,11 +78,12 @@ class _GardeniaState extends State<Gardenia> {
           BlocProvider(create: (context) =>  ProfileCubit()),
           BlocProvider(create: (context) =>  UpdateProfileCubit()),
           BlocProvider(create: (context) =>  MapsCubit()),
+          BlocProvider(create: (context) =>  SettingCubit()),
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           home:
-          // CreatePost()
+          // Setting()
           token == null?
           OnBoarding() : const BottomNavBar(),
         ),

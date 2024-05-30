@@ -7,19 +7,38 @@ import 'package:gardenia/extensions/routes.dart';
 import 'package:gardenia/modules/app_widgets/arrow_back_button.dart';
 import 'package:gardenia/modules/base_widgets/myText.dart';
 import 'package:gardenia/view/profile/edit_profile/edit_profile.dart';
-import 'package:gardenia/view_model/update_profile/cubit.dart';
+import 'package:gardenia/view/settting/setting/notifications.dart';
+import 'package:gardenia/view/settting/setting/privacy_policy.dart';
+import 'package:gardenia/view_model/setting/cubit.dart';
+import 'package:gardenia/view_model/setting/states.dart';
 import 'package:gardenia/view_model/update_profile/states.dart';
 import '../../model/remote/api_service/service/constants.dart';
 import '../../modules/app_widgets/setting.dart';
 import '../../view_model/profile/cubit.dart';
+import '../../view_model/update_profile/cubit.dart';
 
-class Setting extends StatelessWidget {
-  Setting({super.key});
+class Setting extends StatefulWidget {
+  const Setting({super.key});
 
-  List<SettingModel> settings =
+  @override
+  State<Setting> createState() => _SettingState();
+}
+
+class _SettingState extends State<Setting> {
+  List settings =
   [
     SettingModel(optionIcon: Icons.edit_sharp, optionName: 'Edit profile information'),
-    SettingModel(optionIcon: Icons.notifications_active_outlined, optionName: 'Notifications',value: 'ON',),
+    BlocBuilder<SettingCubit,SettingStates>(
+      builder: (context, state) =>
+          SettingModel(
+            optionIcon: Icons.notifications_active_outlined,
+            optionName: 'Notifications',
+            value: state is !IsNotificationEnabledLoading? SettingCubit.getInstance(context).enabledNotifications[0]?
+            'ON' : 'OFF'
+            : 'Load..'
+          ),
+    ),
+    SettingModel(optionIcon: Icons.share, optionName: 'Share App',),
 
     SettingModel(optionIcon: Icons.security, optionName: 'security'),
     SettingModel(optionIcon: Icons.dark_mode_outlined, optionName: 'Theme',value: 'Light Mode'),
@@ -28,6 +47,12 @@ class Setting extends StatelessWidget {
     SettingModel(optionIcon: Icons.contact_page_outlined, optionName: 'Contact Us'),
     SettingModel(optionIcon: Icons.privacy_tip_outlined, optionName: 'Privacy policy'),
   ];
+
+  @override
+  void initState() {
+    SettingCubit.getInstance(context).isNotificationEnabled();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +133,7 @@ class Setting extends StatelessWidget {
                 Card(
                   child: Column(
                     children: List.generate(
-                        settings.sublist(0,2).length,
+                        settings.sublist(0,3).length,
                             (index) => InkWell(
                               onTap: ()
                               {
@@ -117,10 +142,12 @@ class Setting extends StatelessWidget {
                                   case 0:
                                     context.normalNewRoute(EditProfile());
                                   case 1 :
-                                    print(1);
+                                    context.normalNewRoute(Notifications());
+                                  case 2 :
+                                    SettingCubit.getInstance(context).shareApp(context);
                                 }
                               },
-                              child: settings.sublist(0,2)[index],
+                              child: settings.sublist(0,3)[index],
                             )
                     ),
                   ),
@@ -130,8 +157,8 @@ class Setting extends StatelessWidget {
                   child: Card(
                     child: Column(
                       children: List.generate(
-                          settings.sublist(2,4).length,
-                              (index) => settings.sublist(2,4)[index]
+                          settings.sublist(3,5).length,
+                              (index) => settings.sublist(3,5)[index]
                       ),
                     ),
                   ),
@@ -139,16 +166,20 @@ class Setting extends StatelessWidget {
                 Card(
                   child: Column(
                     children: List.generate(
-                        settings.sublist(4,7).length,
+                        settings.sublist(5,8).length,
                             (index) => InkWell(
                               onTap: ()
                               {
                                 switch(index)
                                 {
-                                  case 6:
-                                    ProfileCubit.getInstance(context).handleCallingStore();
+                                  case 0:
+                                    SettingCubit.getInstance(context).handleCallingStore(context);
+                                  case 1:
+                                    SettingCubit.getInstance(context).handleCallingStore(context);
+                                  case 2:
+                                    context.normalNewRoute(PrivacyPolicy());
                                 }
-                              }, child: settings.sublist(4,7)[index],
+                              }, child: settings.sublist(5,8)[index],
                             )
                     ),
                   ),

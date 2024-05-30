@@ -48,7 +48,7 @@ class _ProfileState extends State<Profile> {
           actions:
           [
             IconButton(
-                onPressed: () {context.normalNewRoute(Setting());},
+                onPressed: () {context.normalNewRoute(const Setting());},
 
                 icon: Icon(Icons.tune_sharp,color: Constants.appColor,),
             )
