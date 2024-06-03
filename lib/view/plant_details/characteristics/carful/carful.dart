@@ -14,7 +14,8 @@ class Careful extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return ListView(
+      physics: const NeverScrollableScrollPhysics(),
       children: List.generate(
           carefulData.length,
               (index) => Padding(

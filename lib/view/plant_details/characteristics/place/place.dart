@@ -17,7 +17,8 @@ class Place extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return ListView(
+      physics: const NeverScrollableScrollPhysics(),
       children: [
         PhysicalModel(
           color: Colors.white,

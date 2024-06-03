@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:gardenia/extensions/mediaQuery.dart';
+import 'package:gardenia/extensions/context.dart';
 import 'package:gardenia/extensions/string.dart';
 import 'package:gardenia/modules/app_widgets/post_model.dart';
 import 'package:gardenia/view/home/shimmer_comments_effect.dart';

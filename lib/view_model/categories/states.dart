@@ -31,6 +31,8 @@ class GetCategoryFailure extends GetCategoryNetworkError{
   GetCategoryFailure({required super.message});
 }
 
+class InitCharacteristics extends CategoriesStates{}
+
 class AddPlantToFavState extends CategoriesStates{}
 
 class RemovePlantFromFavState extends CategoriesStates{}

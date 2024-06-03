@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:gardenia/extensions/mediaQuery.dart';
+import 'package:gardenia/extensions/context.dart';
 import 'package:gardenia/extensions/string.dart';
 import '../../constants/constants.dart';
 import '../base_widgets/myText.dart';

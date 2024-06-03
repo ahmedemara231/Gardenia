@@ -3,13 +3,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gardenia/model/local/flutter_secure_storage.dart';
 import 'package:gardenia/model/local/shared_prefs.dart';
+import 'package:gardenia/view/auth/login/login.dart';
 import 'package:gardenia/view/bottomNavBar/bottom_nav_bar.dart';
+import 'package:gardenia/view/categories/base_screen/base_screen.dart';
 import 'package:gardenia/view/create_post/create_post.dart';
 import 'package:gardenia/view/home/home.dart';
 import 'package:gardenia/view/onBoarding/onBoarding_screen.dart';
 import 'package:gardenia/view/settting/setting.dart';
 import 'package:gardenia/view/settting/setting/notifications.dart';
 import 'package:gardenia/view/settting/setting/privacy_policy.dart';
+import 'package:gardenia/view/test/test.dart';
 import 'package:gardenia/view_model/Login/cubit.dart';
 import 'package:gardenia/view_model/bloc_observer.dart';
 import 'package:gardenia/view_model/bottomNavBar/cubit.dart';
@@ -83,9 +86,11 @@ class _GardeniaState extends State<Gardenia> {
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           home:
-          // Setting()
+          // Login()
+          CacheHelper.getInstance().shared.getBool('finishOnBoarding') == true?
           token == null?
-          OnBoarding() : const BottomNavBar(),
+          Login() : const BottomNavBar():
+          OnBoarding(),
         ),
       ),
     );

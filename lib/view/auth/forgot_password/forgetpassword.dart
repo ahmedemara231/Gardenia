@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gardenia/constants/constants.dart';
-import 'package:gardenia/extensions/mediaQuery.dart';
+import 'package:gardenia/extensions/context.dart';
 import 'package:gardenia/extensions/routes.dart';
 import 'package:gardenia/modules/base_widgets/textFormField.dart';
 import 'package:gardenia/view/auth/otp_code/screen.dart';

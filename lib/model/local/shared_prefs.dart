@@ -24,7 +24,7 @@ class CacheHelper
     required dynamic value,
 })async
   {
-    switch(value)
+    switch(value.runtimeType)
     {
       case String:
         await shared.setString(key, value);
@@ -33,12 +33,14 @@ class CacheHelper
         await shared.setInt(key, value);
 
       case bool:
+        print('bool');
         await shared.setBool(key, value);
 
       case double :
         await shared.setDouble(key, value);
 
       default:
+        print('list');
         await shared.setStringList(key, value);
     }
   }

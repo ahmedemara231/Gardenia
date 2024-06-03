@@ -15,6 +15,16 @@ class SettingCubit extends Cubit<SettingStates>
 
   factory SettingCubit.getInstance(context) => BlocProvider.of(context);
 
+
+  void changeObs()
+  {
+    // obscureText = !obscureText;
+    emit(NotificationEnabledResult());
+  }
+
+
+
+
   Future<void> handleCallingStore(context)async
   {
     checkPermission(

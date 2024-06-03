@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:gardenia/extensions/mediaQuery.dart';
+import 'package:gardenia/extensions/context.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../constants/constants.dart';
 import '../../../modules/app_widgets/all_plant_model.dart';

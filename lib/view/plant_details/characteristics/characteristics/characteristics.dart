@@ -16,7 +16,8 @@ class Characteristics extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return ListView(
+      physics: const NeverScrollableScrollPhysics(),
       children: [
         PhysicalModel(
           elevation: 3,

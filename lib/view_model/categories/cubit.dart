@@ -9,7 +9,6 @@ import 'package:gardenia/view/plant_details/characteristics/carful/carful.dart';
 import 'package:gardenia/view/plant_details/characteristics/characteristics/characteristics.dart';
 import 'package:gardenia/view/plant_details/characteristics/place/place.dart';
 import 'package:gardenia/view_model/categories/states.dart';
-
 import '../../modules/data_types/place_data_model.dart';
 
 class CategoriesCubit extends Cubit<CategoriesStates>
@@ -61,8 +60,6 @@ class CategoriesCubit extends Cubit<CategoriesStates>
             }
           }
         }
-        // List<Plant> firstSection = allCategory[0].sublist(0,allCategory.length ~/2);
-        // List<Plant> secondSection = allCategory[0].sublist(allCategory.length ~/2,allCategory.length);
         emit(GetCategoriesSuccessState());
       });
     }
@@ -124,7 +121,7 @@ class CategoriesCubit extends Cubit<CategoriesStates>
   }
 
   int currentTab = 0;
-  void charTab(int newTab)
+  void changeCharTab(int newTab)
   {
     currentTab = newTab;
     emit(ChangeCharTab());
@@ -132,21 +129,32 @@ class CategoriesCubit extends Cubit<CategoriesStates>
 
 
 
-  Widget selectScreen({
+  late List<Widget> characteristics;
+  void initCharacteristics({
     required List<Map<String,dynamic>> carefulData,
     required PLaceDataModel pLaceDataModel,
     required String toxicity,
     required String names,
-})
+  })
   {
-    List<Widget> characteristics =
     [
       Careful(carefulData: carefulData),
       Place(pLaceDataModel: pLaceDataModel),
       Characteristics(toxicity: toxicity, names: names)
     ];
-    return characteristics[currentTab];
+    emit(InitCharacteristics());
   }
+
+  // Widget selectScreen()
+  // {
+  //   List<Widget> characteristics =
+  //   [
+  //     Careful(carefulData: carefulData),
+  //     Place(pLaceDataModel: pLaceDataModel),
+  //     Characteristics(toxicity: toxicity, names: names)
+  //   ];
+  //   return characteristics[currentTab];
+  // }
 
   List<Plant> favList = [];
   void addToFav(Plant plant)

@@ -61,13 +61,7 @@ class OnBoarding extends StatelessWidget {
                   TextButton(
                     onPressed: ()
                     {
-                      Navigator.pushAndRemoveUntil(
-                        context, PageTransition(
-                        child: const FirstView(),
-                        type: PageTransitionType.fade,
-                        duration: const Duration(milliseconds: 700),
-                      ), (route) => false,
-                      );
+                      OnBoardingCubit.getInstance(context).moveToLogin(context);
                     },
                     child: MyText(
                       text: 'Skip',
@@ -81,13 +75,7 @@ class OnBoarding extends StatelessWidget {
                     {
                       if(OnBoardingCubit.getInstance(context).pageIndex == 2)
                         {
-                          Navigator.pushAndRemoveUntil(
-                            context, PageTransition(
-                            child: const FirstView(),
-                            type: PageTransitionType.fade,
-                            duration: const Duration(milliseconds: 700),
-                          ), (route) => false,
-                          );
+                          OnBoardingCubit.getInstance(context).moveToLogin(context);
                         }
                       else{
                         onBoardingCont.nextPage(
