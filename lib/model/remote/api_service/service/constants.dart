@@ -1,6 +1,6 @@
 class ApiConstants
 {
-  static const String baseUrlForImages = 'https://b167-45-244-104-159.ngrok-free.app';
+  static const String baseUrlForImages = 'https://2aff-197-160-248-249.ngrok-free.app';
   static const String baseUrl = '$baseUrlForImages/api/v1/';
 
   // timeout durations
@@ -34,4 +34,11 @@ class ApiConstants
   // profile
   static const String getProfileData = 'profile';
   static const String updateProfile = 'update_profile';
+
+  // Favorites
+  static const String getFavPlants = 'favourite_plants';
+  static const String addRemFavorites = 'plants/toggle_plant';
+
+
+
 }

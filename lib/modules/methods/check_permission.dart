@@ -38,6 +38,7 @@ Future<void> askForPermission({
   print(status);
   if(!status)
     {
+      print('false');
       PermissionStatus status = await permission.request();
       switch(status)
       {
@@ -48,6 +49,7 @@ Future<void> askForPermission({
       }
     }
   else{
+    print('true');
     onPermissionGranted();
   }
 }

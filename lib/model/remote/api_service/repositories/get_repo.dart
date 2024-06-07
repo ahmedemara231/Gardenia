@@ -185,5 +185,26 @@ class GetRepo
    );
   }
 
+  Future<Result<List<Plant>,CustomError>> getFavPlants()async
+  {
+    Result<Response,CustomError> getFav = await apiService.callApi(
+        request: RequestModel(
+            method: Methods.GET,
+            endPoint: ApiConstants.getFavPlants,
+            withToken: true,
+        ),
+    );
+
+    if(getFav.isSuccess())
+      {
+        List<Plant> favList = (getFav.getOrThrow().data['data'] as List).map(
+                (e) => Plant.fromJson(e)
+        ).toList();
+        return Result.success(favList);
+      }
+    else{
+      return Result.error(getFav.tryGetError()!);
+    }
+  }
 
 }

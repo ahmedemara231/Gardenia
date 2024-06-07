@@ -1,5 +1,6 @@
-class Plant
-{
+import 'package:equatable/equatable.dart';
+
+class Plant extends Equatable{
   int id;
   String name;
   String image;
@@ -30,5 +31,46 @@ class Plant
     required this.clean,
     required this.toxicity,
     required this.names
-});
+  });
+
+
+  factory Plant.fromJson(Map<String, dynamic> plantData)
+  {
+    return Plant(
+        id: plantData['id'],
+        name: plantData['name'],
+        image: plantData['image'],
+        description: plantData['description'],
+        type: plantData['type'],
+        light: plantData['light'],
+        ideal_temperature: plantData['ideal_temperature'],
+        resistance_zone: plantData['resistance_zone'],
+        suitable_location: plantData['suitable_location'],
+        careful: plantData['careful'],
+        liquid_fertilizer: plantData['liquid_fertilizer'],
+        clean: plantData['clean'],
+        toxicity: plantData['toxicity'],
+        names: plantData['names']
+    );
+  }
+
+  @override
+  List<Object?> get props => [
+     id,
+    name,
+    image,
+    description,
+    type,
+    light,
+    ideal_temperature,
+    resistance_zone,
+    suitable_location,
+    careful,
+    liquid_fertilizer,
+    clean,
+    toxicity,
+    names
+  ];
+
+
 }

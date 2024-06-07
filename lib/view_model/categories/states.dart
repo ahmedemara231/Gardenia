@@ -33,6 +33,12 @@ class GetCategoryFailure extends GetCategoryNetworkError{
 
 class InitCharacteristics extends CategoriesStates{}
 
-class AddPlantToFavState extends CategoriesStates{}
+class GetFavListLoading extends CategoriesStates{}
 
-class RemovePlantFromFavState extends CategoriesStates{}
+class GetFavListSuccess extends CategoriesStates{}
+
+class GetFavListError extends CategoriesStates{}
+
+
+
+class AddRemFavorites extends CategoriesStates{}

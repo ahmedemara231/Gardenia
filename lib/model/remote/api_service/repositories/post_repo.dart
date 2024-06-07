@@ -199,5 +199,20 @@ class PostRepo
     );
   }
 
+  Future<void> addRemFavorite(int plantId)async
+  {
+    await apiService.callApi(
+        request: RequestModel(
+            method: Methods.POST,
+            endPoint: ApiConstants.addRemFavorites,
+            queryParams: {'plant_id' : plantId},
+            withToken: true
+        )).then((result)
+    {
+      print(result.getOrThrow().data);
+    });
+  }
+
+
 
 }

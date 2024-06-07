@@ -68,24 +68,26 @@ class Post extends StatelessWidget {
                   PopupMenuItem(
                     onTap: ()async
                     {
-                      final directory = await getApplicationDocumentsDirectory();
-                      print(directory);
-                      String fileName = 'downloaded_image.jpg';
-                      final imagePath = directory.path+fileName;
+                      // final directory = await getApplicationDocumentsDirectory();
+                      // print(directory);
+                      // String fileName = 'downloaded_image.jpg';
+                      // final imagePath = directory.path+fileName;
+                      //
+                      // print(imagePath);
+                      // Result<Response,CustomError> downloadImageResponse = await DioConnection().downloadFromApi(
+                      //   request:  DownloadModel(
+                      //     urlPath: '${ApiConstants.baseUrlForImages}$postImage',
+                      //     savePath:  imagePath,
+                      //     onReceiveProgress: (received, total) {},
+                      //   ),
+                      // );
+                      // return downloadImageResponse.when(
+                      //       (success) => Result.success(success.data),
+                      //       (error) => Result.error(error),
+                      // );
 
-                      print(imagePath);
-                      Result<Response,CustomError> downloadImageResponse = await DioConnection().downloadFromApi(
-                        request:  DownloadModel(
-                          urlPath: '${ApiConstants.baseUrlForImages}$postImage',
-                          savePath:  imagePath,
-                          onReceiveProgress: (received, total) {},
-                        ),
-                      );
-                      return downloadImageResponse.when(
-                            (success) => Result.success(success.data),
-                            (error) => Result.error(error),
-                      );
                       // HomeCubit.getInstance(context).downloadPostImage(postImage!);
+                      HomeCubit.getInstance(context).handleSavingPostImage(postImage!);
                     },
                     child: Row(
                       children: [

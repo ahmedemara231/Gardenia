@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gardenia/model/remote/api_service/repositories/get_repo.dart';
+import 'package:gardenia/model/remote/api_service/repositories/post_repo.dart';
 import 'package:gardenia/model/remote/api_service/service/connections/dio_connection.dart';
 import 'package:gardenia/model/remote/api_service/service/error_handling/errors.dart';
 import 'package:gardenia/modules/base_widgets/toast.dart';
@@ -98,6 +99,7 @@ class CategoriesCubit extends Cubit<CategoriesStates>
             categories[categoriesNames[currentTap]] = [];
             categories[categoriesNames[currentTap]] = result.getOrThrow();
 
+
             emit(GetSpecificCategorySuccess());
           }
           else{
@@ -145,27 +147,110 @@ class CategoriesCubit extends Cubit<CategoriesStates>
     emit(InitCharacteristics());
   }
 
-  // Widget selectScreen()
-  // {
-  //   List<Widget> characteristics =
-  //   [
-  //     Careful(carefulData: carefulData),
-  //     Place(pLaceDataModel: pLaceDataModel),
-  //     Characteristics(toxicity: toxicity, names: names)
-  //   ];
-  //   return characteristics[currentTab];
-  // }
-
   List<Plant> favList = [];
-  void addToFav(Plant plant)
+  bool isSpecificPlantExists = false;
+
+  Future<void> getFavPlants()async
   {
-    favList.add(plant);
-    emit(AddPlantToFavState());
+    emit(GetFavListLoading());
+
+    await getRepo.getFavPlants().then((result)
+    {
+      if(result.isSuccess())
+        {
+          favList = result.getOrThrow();
+
+          initPlantsNames();
+
+          emit(GetFavListSuccess());
+        }
+      else{
+        emit(GetFavListError());
+      }
+    });
   }
 
-  void removeFromFav(Plant plant)
+  late List<String> plantsNames;
+  void initPlantsNames()
+  {
+    plantsNames = [];
+
+    for(Plant plant in favList)
+    {
+      plantsNames.add(plant.name);
+    }
+  }
+
+  PostRepo postRepo = PostRepo(apiService: DioConnection.getInstance());
+
+  Future<void> addRemFavorites(context, {
+    required Plant plant,
+    required int plantId,
+    required CurrentPage page,
+  })async
+  {
+    if(page == CurrentPage.fav)
+      {
+        await removeItemFromFavorites(plant);
+      }
+    else{
+      bool result = isPlantExistInFav(plant);
+      if(result)
+        {
+          removePlantFromFav(plant);
+        }
+      else{
+        addPlantToFav(plant);
+      }
+      emit(AddRemFavorites());
+      await postRepo.addRemFavorite(plantId);
+    }
+
+    MyToast.showToast(context, msg: 'Done');
+  }
+
+  Future<void> removeItemFromFavorites(Plant plant)async
   {
     favList.remove(plant);
-    emit(RemovePlantFromFavState());
+    plantsNames.remove(plant.name);
+    emit(AddRemFavorites());
+    await postRepo.addRemFavorite(plant.id);
   }
+
+  bool isPlantExistInFav(Plant plant)
+  {
+    late bool result;
+
+    for(String plantName in plantsNames)
+      {
+        if(plantName == plant.name)
+          {
+            result = true;
+            break;
+          }
+        else{
+          result = false;
+        }
+      }
+
+    return result;
+  }
+
+  void addPlantToFav(Plant plant)
+  {
+    favList.add(plant);
+    plantsNames.add(plant.name);
+    emit(AddRemFavorites());
+  }
+  void removePlantFromFav(Plant plant)
+  {
+    favList.remove(plant);
+    plantsNames.remove(plant.name);
+    emit(AddRemFavorites());
+  }
+
+
+
 }
+enum CurrentPage {fav, plantDetails}
+

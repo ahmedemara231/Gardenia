@@ -17,4 +17,5 @@ class Constants
   // icons
   static const String penProfileIcon = 'assets/icons/pen_icon.png';
   static const String plantWater = 'assets/icons/water_plant.png';
+  static const String controlFavButton = 'assets/icons/control_fav_button.png';
 }

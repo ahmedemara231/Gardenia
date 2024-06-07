@@ -21,7 +21,7 @@ class PlantDetails extends StatefulWidget {
 
   final Plant plant;
 
-  PlantDetails({super.key,
+  const PlantDetails({super.key,
     required this.plant,
   });
 
@@ -50,6 +50,7 @@ class _PlantDetailsState extends State<PlantDetails> {
 
   @override
   void initState() {
+    CategoriesCubit.getInstance(context).getFavPlants();
     initCharacteristics(
         carefulData: [
       {
@@ -173,13 +174,25 @@ class _PlantDetailsState extends State<PlantDetails> {
                       ),
                     ),
                     SizedBox(width: 16.w,),
-                    IconButton(
-                        onPressed: ()
+                    BlocBuilder<CategoriesCubit,CategoriesStates>(
+                      builder: (context, state) =>
+                      state is GetFavListLoading?
+                      const CircularProgressIndicator() :
+                      IconButton(
+                        onPressed: ()async
                         {
-                          CategoriesCubit.getInstance(context).addToFav(widget.plant);
+                          await CategoriesCubit.getInstance(context).addRemFavorites(
+                            context,
+                            page: CurrentPage.plantDetails,
+                            plantId: widget.plant.id,
+                            plant: widget.plant
+                          );
                         },
-                        icon: Icon(Icons.favorite_border,color: HexColor('0ACF83'),
-                        ),
+                        icon:
+                        CategoriesCubit.getInstance(context).plantsNames.contains(widget.plant.name)?
+                        Icon(Icons.favorite, color: Constants.appColor):
+                        Icon(Icons.favorite_border,color: HexColor('0ACF83')),
+                      ),
                     )
                   ],
                 ),
