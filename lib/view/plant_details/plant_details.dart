@@ -177,7 +177,11 @@ class _PlantDetailsState extends State<PlantDetails> {
                     BlocBuilder<CategoriesCubit,CategoriesStates>(
                       builder: (context, state) =>
                       state is GetFavListLoading?
-                      const CircularProgressIndicator() :
+                      SizedBox(
+                          width: 18.w,
+                          height: 18.h,
+                          child: const CircularProgressIndicator()
+                      ) :
                       IconButton(
                         onPressed: ()async
                         {
@@ -189,7 +193,7 @@ class _PlantDetailsState extends State<PlantDetails> {
                           );
                         },
                         icon:
-                        CategoriesCubit.getInstance(context).plantsNames.contains(widget.plant.name)?
+                        CategoriesCubit.getInstance(context).favList.contains(widget.plant)?
                         Icon(Icons.favorite, color: Constants.appColor):
                         Icon(Icons.favorite_border,color: HexColor('0ACF83')),
                       ),

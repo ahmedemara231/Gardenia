@@ -21,7 +21,6 @@ class CategoriesCubit extends Cubit<CategoriesStates>
   GetRepo getRepo = GetRepo(apiService: DioConnection.getInstance());
 
   List<List<Plant>> allCategory = [[],[]];
-
   Future<void> getAllCategories(context)async
   {
     if(allCategory[0].isNotEmpty || allCategory[1].isNotEmpty)
@@ -150,6 +149,7 @@ class CategoriesCubit extends Cubit<CategoriesStates>
   List<Plant> favList = [];
   bool isSpecificPlantExists = false;
 
+
   Future<void> getFavPlants()async
   {
     emit(GetFavListLoading());
@@ -160,25 +160,12 @@ class CategoriesCubit extends Cubit<CategoriesStates>
         {
           favList = result.getOrThrow();
 
-          initPlantsNames();
-
           emit(GetFavListSuccess());
         }
       else{
         emit(GetFavListError());
       }
     });
-  }
-
-  late List<String> plantsNames;
-  void initPlantsNames()
-  {
-    plantsNames = [];
-
-    for(Plant plant in favList)
-    {
-      plantsNames.add(plant.name);
-    }
   }
 
   PostRepo postRepo = PostRepo(apiService: DioConnection.getInstance());
@@ -212,18 +199,29 @@ class CategoriesCubit extends Cubit<CategoriesStates>
   Future<void> removeItemFromFavorites(Plant plant)async
   {
     favList.remove(plant);
-    plantsNames.remove(plant.name);
     emit(AddRemFavorites());
     await postRepo.addRemFavorite(plant.id);
   }
 
-  bool isPlantExistInFav(Plant plant)
+  bool isPlantExistInFav(Plant myPlant)
   {
-    late bool result;
+    bool result = false;
 
-    for(String plantName in plantsNames)
+    // for(String plantName in plantsNames)
+    //   {
+    //     if(plantName == plant.name)
+    //       {
+    //         result = true;
+    //         break;
+    //       }
+    //     else{
+    //       result = false;
+    //     }
+    //   }
+
+    for(Plant plant in favList)
       {
-        if(plantName == plant.name)
+        if(plant == myPlant)
           {
             result = true;
             break;
@@ -239,13 +237,11 @@ class CategoriesCubit extends Cubit<CategoriesStates>
   void addPlantToFav(Plant plant)
   {
     favList.add(plant);
-    plantsNames.add(plant.name);
     emit(AddRemFavorites());
   }
   void removePlantFromFav(Plant plant)
   {
     favList.remove(plant);
-    plantsNames.remove(plant.name);
     emit(AddRemFavorites());
   }
 

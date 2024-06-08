@@ -2,14 +2,11 @@ import 'dart:developer';
 import 'dart:typed_data';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gardenia/constants/constants.dart';
 import 'package:gardenia/extensions/string.dart';
 import 'package:gardenia/model/local/flutter_secure_storage.dart';
 import 'package:gardenia/model/local/shared_prefs.dart';
-import 'package:gardenia/model/remote/api_service/model/model.dart';
 import 'package:gardenia/model/remote/api_service/repositories/delete_repo.dart';
 import 'package:gardenia/model/remote/api_service/repositories/get_repo.dart';
 import 'package:gardenia/model/remote/api_service/repositories/post_repo.dart';
@@ -26,7 +23,6 @@ import 'package:gardenia/modules/methods/check_permission.dart';
 import 'package:gardenia/view_model/home/states.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 import '../../model/remote/api_service/repositories/put_patch_repo.dart';
 
@@ -92,7 +88,6 @@ class HomeCubit extends Cubit<HomeStates> {
 
   GetRepo getRepo = GetRepo(apiService: DioConnection.getInstance());
 
-  late Model postsResult;
   List<PostData2> posts = [];
 
   Future<void> getPosts() async
@@ -101,18 +96,7 @@ class HomeCubit extends Cubit<HomeStates> {
 
     await getRepo.getPosts().then((result) {
       if (result.isSuccess()) {
-        postsResult = result.getOrThrow();
-        posts = (postsResult.data!['posts'] as List).map((e) =>
-            PostData2(
-                postId: e['id'],
-                caption: e['caption'],
-                image: e['image'],
-                commentsCount: e['comments_count'],
-                creationTime: e['created_at'],
-                userId: e['user_id'],
-                userName: e['user']['username'],
-                userImage: e['user']['image']
-            ),).toList();
+        posts = result.getOrThrow();
 
         emit(GetPostsSuccessState());
       }
@@ -283,17 +267,7 @@ class HomeCubit extends Cubit<HomeStates> {
     emit(GetCommentsLoading());
     await getRepo.getCommentsForPost(postId).then((result) {
       if (result.isSuccess()) {
-        comments =
-            (result.tryGetSuccess()!.data!['comments'] as List).map((e) =>
-                Comment(
-                  userImageUrl: e['user']['image'],
-                  userName: e['user']['username'],
-                  comment: e['content'],
-                  time: e['created_at'],
-                  userId: e['user_id'],
-                  id: e['id'],
-                ),
-            ).toList();
+        comments = result.getOrThrow();
 
         emit(GetCommentsSuccess());
       }

@@ -1,12 +1,10 @@
-class UserData
+class ResetPasswordModel
 {
-  String name;
   String email;
   String password;
   String conformPass;
 
-  UserData({
-    required this.name,
+  ResetPasswordModel({
     required this.email,
     required this.password,
     required this.conformPass,
@@ -16,7 +14,6 @@ class UserData
   {
     return
       {
-        'username' : name,
         'email' : email,
         'password' : password,
         'password_confirm' : conformPass,

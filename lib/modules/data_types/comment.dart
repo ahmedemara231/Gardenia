@@ -15,4 +15,16 @@ class Comment
     required this.userId,
     required this.id,
 });
+
+  factory Comment.fromJson(Map<String,dynamic> commentJsonData)
+  {
+    return Comment(
+      userImageUrl: commentJsonData['user']['image'],
+      userName: commentJsonData['user']['username'],
+      comment: commentJsonData['content'],
+      time: commentJsonData['created_at'],
+      userId: commentJsonData['user_id'],
+      id: commentJsonData['id'],
+    );
+  }
 }

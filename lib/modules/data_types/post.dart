@@ -19,4 +19,18 @@ class PostData2
     required this.userName,
     required this.userImage,
   });
+
+  factory PostData2.fromJson(Map<String,dynamic> postJsonData)
+  {
+    return PostData2(
+        postId: postJsonData['id'],
+        caption: postJsonData['caption'],
+        image: postJsonData['image'],
+        commentsCount: postJsonData['comments_count'],
+        creationTime: postJsonData['created_at'],
+        userId: postJsonData['user_id'],
+        userName: postJsonData['user']['username'],
+        userImage: postJsonData['user']['image']
+    );
+  }
 }

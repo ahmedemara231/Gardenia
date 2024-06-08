@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gardenia/modules/base_widgets/textFormField.dart';
+import 'package:gardenia/modules/data_types/reset_password.dart';
 import 'package:gardenia/view_model/forgot_reset_pass/cubit.dart';
 import '../../../constants/constants.dart';
 import '../../../modules/app_widgets/app_button.dart';
@@ -76,9 +77,11 @@ class ResetPassword extends StatelessWidget {
                           {
                             ForgotResetPassCubit.getInstance(context).resetPassword(
                                 context,
-                                email: email,
-                                newPass: passCont.text,
-                                conformNewPass: conformPassCont.text
+                                resetPasswordModel: ResetPasswordModel(
+                                    email: email,
+                                    password: passCont.text,
+                                    conformPass: conformPassCont.text
+                                ),
                             );
                           }
                         else{

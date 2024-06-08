@@ -14,16 +14,12 @@ class BadResponseInterceptor extends InterceptorsWrapper
   {
     Map<String, dynamic> headers = {};
 
-    // headers[HttpHeaders.acceptHeader] = ContentType.json;
-
     headers['accept'] = 'application/json';
-    headers['Content-Type'] = 'application/json';
     headers['lang'] = lang?? Languages.english;
 
     if(withToken)
     {
-      String token = await _getToken();
-      headers[HttpHeaders.authorizationHeader] = token;
+      headers[HttpHeaders.authorizationHeader] = await _getToken;
     }
     else{
       headers.remove(HttpHeaders.authorizationHeader);
@@ -31,7 +27,7 @@ class BadResponseInterceptor extends InterceptorsWrapper
     return headers;
   }
 
-  Future<String> _getToken()async
+  Future<String> get _getToken async
   {
     String? token = await SecureStorage.getInstance().readData(key: 'userToken');
     String fullToken = 'Bearer $token';

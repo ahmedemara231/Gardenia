@@ -5,6 +5,7 @@ import 'package:gardenia/extensions/routes.dart';
 import 'package:gardenia/model/remote/api_service/repositories/post_repo.dart';
 import 'package:gardenia/model/remote/api_service/service/connections/dio_connection.dart';
 import 'package:gardenia/modules/base_widgets/toast.dart';
+import 'package:gardenia/modules/data_types/reset_password.dart';
 import 'package:gardenia/view/auth/login/login.dart';
 import 'package:gardenia/view/auth/reset_password/reset_password.dart';
 import 'package:gardenia/view_model/forgot_reset_pass/states.dart';
@@ -84,16 +85,12 @@ class ForgotResetPassCubit extends Cubit<ForgotResetPassStates>
   }
 
   Future<void> resetPassword(BuildContext context,{
-    required String email,
-    required String newPass,
-    required String conformNewPass,
+    required ResetPasswordModel resetPasswordModel
   })async
   {
     emit(ResetNewPasswordLoading());
     await postRepo.resetPassword(
-        email: email,
-        newPass: newPass,
-        conformNewPass: conformNewPass
+        resetPassword: resetPasswordModel,
     ).then((result)
     {
       if(result.isSuccess())

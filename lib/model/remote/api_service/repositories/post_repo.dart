@@ -4,6 +4,7 @@ import 'package:gardenia/model/remote/api_service/service/constants.dart';
 import 'package:gardenia/model/remote/api_service/service/error_handling/errors.dart';
 import 'package:gardenia/model/remote/api_service/service/languages_and_methods.dart';
 import 'package:gardenia/model/remote/api_service/service/request_models/request_model.dart';
+import 'package:gardenia/modules/data_types/reset_password.dart';
 import 'package:multiple_result/multiple_result.dart';
 import '../../../../modules/data_types/user_data.dart';
 import '../factory_method.dart';
@@ -47,13 +48,7 @@ class PostRepo
       request: RequestModel(
           method: Methods.POST,
           endPoint: ApiConstants.signUp,
-          data:
-          {
-            'username' : user.name,
-            'email' : user.email,
-            'password' : user.password,
-            'password_confirm' : user.conformPass,
-          },
+          data: user.toJson(),
           withToken: false
       ),
     );
@@ -105,9 +100,7 @@ class PostRepo
   }
 
   Future<Result<Model,CustomError>> resetPassword({
-    required String email,
-    required String newPass,
-    required String conformNewPass,
+    required ResetPasswordModel resetPassword
   })async
   {
     Result<Response,CustomError> resetPassResponse = await apiService.callApi(
@@ -115,12 +108,7 @@ class PostRepo
           method: Methods.POST,
           endPoint: ApiConstants.resetPassword,
           withToken: false,
-          data:
-          {
-            'email' : email,
-            'password' : newPass,
-            'password_confirm' : conformNewPass
-          }
+          data: resetPassword.toJson()
       ),
     );
     return resetPassResponse.when(

@@ -57,76 +57,78 @@ class _CategoriesState extends State<Categories> {
               )
             ],
           ),
-          body: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10.0.w),
-            child: ListView(
-              children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                      vertical: 16.h,
-                      horizontal: 10.w
-                  ),
-                  child: Container(
-                    height: 45.h,
-                    clipBehavior: Clip.antiAliasWithSaveLayer,
-                    decoration: BoxDecoration(
-                        color: Constants.appColor,
-                        borderRadius: BorderRadius.circular(16)
+          body: SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10.0.w),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                        vertical: 16.h,
+                        horizontal: 10.w
                     ),
-                    child: TFF(
-                      style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 20
-                      ),
-                      obscureText: false,
-                      controller: searchCont,
-                      hintText: 'Search',
-                      border: OutlineInputBorder(
+                    child: Container(
+                      height: 45.h,
+                      clipBehavior: Clip.antiAliasWithSaveLayer,
+                      decoration: BoxDecoration(
+                          color: Constants.appColor,
                           borderRadius: BorderRadius.circular(16)
                       ),
-                      hintStyle: const TextStyle(
-                        color: Colors.white70,
+                      child: TFF(
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 20
+                        ),
+                        obscureText: false,
+                        controller: searchCont,
+                        hintText: 'Search',
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(16)
+                        ),
+                        hintStyle: const TextStyle(
+                          color: Colors.white70,
+                        ),
+                        prefixIcon: const Icon(Icons.search,color: Colors.grey,),
                       ),
-                      prefixIcon: const Icon(Icons.search,color: Colors.grey,),
                     ),
                   ),
-                ),
-                SizedBox(
-                  height: 70.h,
-                  child: TabBar(
-                    unselectedLabelColor: Colors.grey,
-                    labelColor: Colors.black87,
-                    onTap: (newTap) => categoriesCubit.changeTab(newTap),
-                    tabs: List.generate(
-                        tabsName.length,
-                            (index) => Tab(
-                          child: MyText(
-                              text: tabsName[index],
-                              color: Constants.appColor,
-                              fontSize: 10.sp ,
-                              fontWeight: FontWeight.bold
-                          ),
-                        )
+                  SizedBox(
+                    height: 70.h,
+                    child: TabBar(
+                      unselectedLabelColor: Colors.grey,
+                      labelColor: Colors.black87,
+                      onTap: (newTap) => categoriesCubit.changeTab(newTap),
+                      tabs: List.generate(
+                          tabsName.length,
+                              (index) => Tab(
+                            child: MyText(
+                                text: tabsName[index],
+                                color: Constants.appColor,
+                                fontSize: 10.sp ,
+                                fontWeight: FontWeight.bold
+                            ),
+                          )
+                      ),
                     ),
                   ),
-                ),
-                BlocBuilder<CategoriesCubit,CategoriesStates>(
-                  builder: (context, state) => SizedBox(
-                    height: context.setHeight(1.4),
-                    child: const TabBarView(
-                      physics: NeverScrollableScrollPhysics(),
-                      children:
-                      [
-                        AllCategories(),
-                        SpecificCategory(),
-                        SpecificCategory(),
-                        SpecificCategory(),
-                        SpecificCategory(),
-                      ],
+                  BlocBuilder<CategoriesCubit,CategoriesStates>(
+                    builder: (context, state) => SizedBox(
+                      height: context.setHeight(1.4),
+                      child: const TabBarView(
+                        physics: NeverScrollableScrollPhysics(),
+                        children:
+                        [
+                          AllCategories(),
+                          SpecificCategory(),
+                          SpecificCategory(),
+                          SpecificCategory(),
+                          SpecificCategory(),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           )
       ),
