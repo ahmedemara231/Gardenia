@@ -1,13 +1,13 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:gardenia/model/remote/api_service/service/languages_and_methods.dart';
-import 'package:gardenia/model/remote/api_service/service/request_models/request_model.dart';
 import 'package:gardenia/model/remote/google_maps_service/error_handling/errors.dart';
 import 'package:gardenia/model/remote/google_maps_service/service/google_api_request.dart';
 import 'package:gardenia/model/remote/google_maps_service/service/google_maps_api_constants.dart';
 import 'package:gardenia/modules/data_types/google_maps/ori_des_location.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:multiple_result/multiple_result.dart';
+import '../../api_service/service/request_models/maps_request_model.dart';
 import '../google_maps_models/route_model.dart';
 
 class GoogleMapsRepo
@@ -59,12 +59,11 @@ class GoogleMapsRepo
     };
 
     Result<Response,GoogleMapsError> getRouteResponse = await googleMapsConnection.callGoogleApi(
-      request: RequestModel(
+      request: MapsRequestModel(
           method: Methods.POST,
           endPoint: MapsConstants.googleMapsRouteBaseUrl,
           data: getRouteBody,
           headers: getRouteHeaders,
-          withToken: false,
         ),
     );
 

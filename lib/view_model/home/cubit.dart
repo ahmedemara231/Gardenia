@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gardenia/constants/constants.dart';
 import 'package:gardenia/extensions/string.dart';
-import 'package:gardenia/model/local/flutter_secure_storage.dart';
+import 'package:gardenia/model/local/secure_storage.dart';
 import 'package:gardenia/model/local/shared_prefs.dart';
 import 'package:gardenia/model/remote/api_service/repositories/delete_repo.dart';
 import 'package:gardenia/model/remote/api_service/repositories/get_repo.dart';
@@ -25,6 +25,7 @@ import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 import '../../model/remote/api_service/repositories/put_patch_repo.dart';
+import '../../modules/methods/save_image_to_gellary.dart';
 
 class HomeCubit extends Cubit<HomeStates> {
   HomeCubit() : super(HomeInitialState());
@@ -171,7 +172,6 @@ class HomeCubit extends Cubit<HomeStates> {
     await updateRepo.editPost(
       postId: postId,
       newCaption: newCaption,
-      // image: File(path).
     ).then((result) async
     {
       emit(EditPostLoadingState());
@@ -304,8 +304,7 @@ class HomeCubit extends Cubit<HomeStates> {
   }
 
   Future<void> handleSavingPostImage(String imageUrl) async {
-
-    saveImage(imageUrl);
+    await saveImage(imageUrl);
     // checkPermission(
     //   PermissionProcessModel(
     //     permissionClient: PermissionClient.storage,
@@ -314,19 +313,5 @@ class HomeCubit extends Cubit<HomeStates> {
     //   ),
     // );
 
-  }
-
-  void saveImage(String imageUrl)async
-  {
-    var response = await Dio().get(
-        '${ApiConstants.baseUrlForImages}$imageUrl',
-        options: Options(responseType: ResponseType.bytes)
-    );
-    final result = await ImageGallerySaver.saveImage(
-      Uint8List.fromList(response.data),
-      quality: 60,
-      name: "hello",
-    );
-    print(result);
   }
 }

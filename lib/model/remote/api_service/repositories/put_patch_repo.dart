@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:gardenia/modules/data_types/update_user_data.dart';
 import 'package:multiple_result/multiple_result.dart';
 import '../factory_method.dart';
 import '../model/model.dart';
@@ -7,6 +8,7 @@ import '../service/api_request.dart';
 import '../service/constants.dart';
 import '../service/error_handling/errors.dart';
 import '../service/languages_and_methods.dart';
+import '../service/request_models/headers.dart';
 import '../service/request_models/request_model.dart';
 
 class PutRepo
@@ -29,7 +31,7 @@ class PutRepo
       request: RequestModel(
           method: Methods.POST,
           endPoint: ApiConstants.updateProfile,
-          withToken: true,
+          headers: HeadersWithToken(contentType: 'multipart/form-data'),
           data: formData
       ),
     );
@@ -55,11 +57,11 @@ class PutRepo
 
     Result<Response,CustomError> updatePostResponse = await apiService.callApi(
         request: RequestModel(
-            method: Methods.POST,
-            endPoint: ApiConstants.updatePost,
-            queryParams: {'post_id' : postId},
-            data: formData,
-            withToken: true
+          method: Methods.POST,
+          endPoint: ApiConstants.updatePost,
+          queryParams: {'post_id' : postId},
+          data: formData,
+          headers: HeadersWithToken(contentType: 'multipart/form-data'),
         ),
     );
 
@@ -68,4 +70,23 @@ class PutRepo
             (error) => Result.error(error),
     );
   }
+
+  Future<Result<Model,CustomError>> editUserData(UpdateUserData userData)async
+  {
+    Result<Response,CustomError> updateUserDataResponse = await apiService.callApi(
+      request: RequestModel(
+          method: Methods.POST,
+          endPoint: ApiConstants.updateProfile,
+          headers: HeadersWithToken(),
+          data: userData.toJson(),
+      ),
+    );
+
+    return updateUserDataResponse.when(
+            (success) => Result.success(Executer().factory(success)),
+            (error) => Result.error(error),
+    );
+
+  }
+
 }

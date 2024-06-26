@@ -1,38 +1,13 @@
 import 'dart:developer';
-import 'dart:io';
 import 'package:dio/dio.dart';
-import 'package:gardenia/model/local/flutter_secure_storage.dart';
+import 'package:gardenia/model/local/secure_storage.dart';
+import 'package:gardenia/model/remote/api_service/service/request_models/headers.dart';
 import 'package:gardenia/model/remote/api_service/service/request_models/request_model.dart';
-import '../../languages_and_methods.dart';
 
-class BadResponseInterceptor extends InterceptorsWrapper
+class BadResponseInterceptor extends Interceptor
 {
   Dio dio;
   BadResponseInterceptor(this.dio);
-
-  Future<Map<String,dynamic>> _getHeaders(bool withToken, {String? lang})async
-  {
-    Map<String, dynamic> headers = {};
-
-    headers['accept'] = 'application/json';
-    headers['lang'] = lang?? Languages.english;
-
-    if(withToken)
-    {
-      headers[HttpHeaders.authorizationHeader] = await _getToken;
-    }
-    else{
-      headers.remove(HttpHeaders.authorizationHeader);
-    }
-    return headers;
-  }
-
-  Future<String> get _getToken async
-  {
-    String? token = await SecureStorage.getInstance().readData(key: 'userToken');
-    String fullToken = 'Bearer $token';
-    return fullToken;
-  }
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler)async {
@@ -41,14 +16,6 @@ class BadResponseInterceptor extends InterceptorsWrapper
 
     if(err.type == DioExceptionType.badResponse)
       {
-        String requestMethod = 'The request method is ${err.requestOptions.method}';
-        String requestPath = 'The request path is ${err.requestOptions.baseUrl}${err.requestOptions.path}';
-        String requestHeaders = 'The request headers are ${err.requestOptions.headers}';
-
-        log(requestMethod);
-        log(requestHeaders);
-        log(requestPath);
-
         switch(err.response?.statusCode)
         {
           case 400:
@@ -60,7 +27,7 @@ class BadResponseInterceptor extends InterceptorsWrapper
                 RequestModel(
                     method: err.requestOptions.method,
                     endPoint: err.requestOptions.path,
-                    withToken: true,
+                    headers: HeadersWithToken()
                 ), handler,
             );
 
@@ -78,7 +45,7 @@ class BadResponseInterceptor extends InterceptorsWrapper
     await dio.post(
       'refresh',
       options: Options(
-        headers: await _getHeaders(true),
+        headers: await HeadersWithToken().toJson()
       )
     ).then((newToken)async
     {
@@ -95,7 +62,7 @@ class BadResponseInterceptor extends InterceptorsWrapper
     await dio.request(
       oldRequest.endPoint,
       options: Options(
-        headers: await _getHeaders(oldRequest.withToken),
+        headers: await oldRequest.headers!.toJson(),
         method: oldRequest.method,
       ),
       data: oldRequest.data,

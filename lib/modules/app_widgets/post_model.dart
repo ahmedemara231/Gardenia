@@ -1,21 +1,15 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gardenia/constants/constants.dart';
 import 'package:gardenia/extensions/routes.dart';
-import 'package:gardenia/model/remote/api_service/service/connections/dio_connection.dart';
 import 'package:gardenia/model/remote/api_service/service/constants.dart';
 import 'package:gardenia/modules/base_widgets/expandable_text.dart';
 import 'package:gardenia/modules/base_widgets/myText.dart';
 import 'package:gardenia/view_model/home/cubit.dart';
-import 'package:multiple_result/multiple_result.dart';
-import 'package:path_provider/path_provider.dart';
-import '../../model/remote/api_service/service/error_handling/errors.dart';
-import '../../model/remote/api_service/service/request_models/download_request_model.dart';
 import '../../view/home/post_comments.dart';
+import '../../view/post_operations/update_delete_methods/interface.dart';
 
 class Post extends StatelessWidget {
-
   int? id;
   int currentUserId;
   int postManagerId;
@@ -26,6 +20,7 @@ class Post extends StatelessWidget {
   int commentsNumber;
   String time;
   void Function()? onEditClick;
+  HandleUpdatePost? handling;
 
   Post({super.key,
     this.id,
@@ -38,6 +33,7 @@ class Post extends StatelessWidget {
     required this.commentsNumber,
     required this.time,
     this.onEditClick,
+    this.handling,
   });
 
   @override
@@ -68,26 +64,7 @@ class Post extends StatelessWidget {
                   PopupMenuItem(
                     onTap: ()async
                     {
-                      // final directory = await getApplicationDocumentsDirectory();
-                      // print(directory);
-                      // String fileName = 'downloaded_image.jpg';
-                      // final imagePath = directory.path+fileName;
-                      //
-                      // print(imagePath);
-                      // Result<Response,CustomError> downloadImageResponse = await DioConnection().downloadFromApi(
-                      //   request:  DownloadModel(
-                      //     urlPath: '${ApiConstants.baseUrlForImages}$postImage',
-                      //     savePath:  imagePath,
-                      //     onReceiveProgress: (received, total) {},
-                      //   ),
-                      // );
-                      // return downloadImageResponse.when(
-                      //       (success) => Result.success(success.data),
-                      //       (error) => Result.error(error),
-                      // );
-
-                      // HomeCubit.getInstance(context).downloadPostImage(postImage!);
-                      HomeCubit.getInstance(context).handleSavingPostImage(postImage!);
+                      await handling?.handleSaveImageToGallery(context, postImage!);
                     },
                     child: Row(
                       children: [
@@ -126,11 +103,8 @@ class Post extends StatelessWidget {
                     ),
                   if(currentUserId == postManagerId)
                     PopupMenuItem(
-                      onTap: () async{
-                        await HomeCubit.getInstance(context).deletePost(
-                          context,
-                          postId: id!,
-                        );
+                      onTap: (){
+                        handling!.handleDeleteProcess(context, postId: id!);
                       },
                       child: Row(
                         children: [

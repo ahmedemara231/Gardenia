@@ -1,15 +1,14 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
+import 'dart:developer';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
-import 'package:gardenia/model/local/flutter_secure_storage.dart';
 import 'package:gardenia/model/remote/api_service/service/api_request.dart';
 import 'package:gardenia/model/remote/api_service/service/constants.dart';
 import 'package:gardenia/model/remote/api_service/service/error_handling/errors.dart';
 import 'package:gardenia/model/remote/api_service/service/error_handling/interceptors/bad_response.dart';
+import 'package:gardenia/model/remote/api_service/service/error_handling/interceptors/logger.dart';
 import 'package:gardenia/model/remote/api_service/service/error_handling/interceptors/timeout.dart';
-import 'package:gardenia/model/remote/api_service/service/error_handling/interceptors/unknown.dart';
 import 'package:gardenia/model/remote/api_service/service/request_models/download_request_model.dart';
 import 'package:gardenia/model/remote/api_service/service/request_models/request_model.dart';
 import 'package:multiple_result/multiple_result.dart';
@@ -17,27 +16,33 @@ import '../error_handling/handle_errors.dart';
 
 class DioConnection implements ApiService
 {
+
+  DioConnection()
+  {
+    _initDio();
+  }
+
   late Dio dio;
   late Dio dioForDownload;
-  DioConnection()
+
+  void _initDio()
   {
     dio = Dio()
       ..options.baseUrl = ApiConstants.baseUrl
       ..options.connectTimeout = ApiConstants.timeoutDuration
       ..options.receiveTimeout = ApiConstants.timeoutDuration;
 
-        List<InterceptorsWrapper> myInterceptors =
-        [
-          TimeoutInterceptor(dio),
-          BadResponseInterceptor(dio),
-          UnknownErrorInterceptor(),
-        ];
+    List<Interceptor> myInterceptors =
+    [
+      LoggerInterceptor(),
+      TimeoutInterceptor(dio),
+      BadResponseInterceptor(dio),
+    ];
 
-        dio.interceptors.addAll(myInterceptors);
+    dio.interceptors.addAll(myInterceptors);
 
     dioForDownload = Dio();
   }
-
   static DioConnection? dioHelper;
 
   static DioConnection getInstance()
@@ -46,30 +51,30 @@ class DioConnection implements ApiService
   }
 
 
-  Future<Map<String,dynamic>> _getHeaders(bool withToken, {String? lang})async
-  {
-    Map<String, dynamic> headers = {};
-
-    headers[HttpHeaders.acceptHeader] = 'application/json';
-    // headers['Content-Type'] = 'application/json';
-
-    if(withToken)
-    {
-      String token = await _getToken;
-      headers[HttpHeaders.authorizationHeader] = token;
-    }
-    else{
-      headers.remove(HttpHeaders.authorizationHeader);
-    }
-    return headers;
-  }
-
-  Future<String> get _getToken async
-  {
-    String? token = await SecureStorage.getInstance().readData(key: 'userToken');
-    String fullToken = 'Bearer $token';
-    return fullToken;
-  }
+  // Future<Map<String,dynamic>> _getHeaders(bool withToken, {String? lang})async
+  // {
+  //   Map<String, dynamic> headers = {};
+  //
+  //   headers[HttpHeaders.acceptHeader] = 'application/json';
+  //   headers[HttpHeaders.contentTypeHeader] = 'application/json';
+  //
+  //   if(withToken)
+  //   {
+  //     String token = await _getToken;
+  //     headers[HttpHeaders.authorizationHeader] = token;
+  //   }
+  //   else{
+  //     headers.remove(HttpHeaders.authorizationHeader);
+  //   }
+  //   return headers;
+  // }
+  //
+  // Future<String> get _getToken async
+  // {
+  //   String? token = await SecureStorage.getInstance().readData(key: 'userToken');
+  //   String fullToken = 'Bearer $token';
+  //   return fullToken;
+  // }
 
   final cancelRequest = CancelToken();
 
@@ -100,7 +105,7 @@ class DioConnection implements ApiService
               receiveDataWhenStatusError: true,
               responseType: request.responseType?? ResponseType.json,
               method: request.method,
-              headers: await _getHeaders(request.withToken),
+              headers: await request.headers!.toJson()
             ),
             data: request.isFormData?
             FormData.fromMap(request.data) : request.data,
@@ -127,7 +132,7 @@ class DioConnection implements ApiService
           );
     }
   }
-  
+
   @override
   Future<Result<Response, CustomError>> downloadFromApi({
     required DownloadModel request
@@ -142,7 +147,7 @@ class DioConnection implements ApiService
             responseType: ResponseType.bytes
         ),
       );
-      print('res data is ${response.data}');
+      log('res data is ${response.data}');
       return Result.success(response);
     }on DioException catch(e)
     {

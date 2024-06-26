@@ -1,12 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:gardenia/model/remote/api_service/extensions/request_model.dart';
+import 'package:gardenia/model/remote/api_service/service/request_models/headers.dart';
 
 class RequestModel
 {
   String method;
   String endPoint;
-  bool withToken;
-  Map<String,dynamic>? headers;
+  RequestHeaders? headers;
   dynamic data;
   bool isFormData;
   Map<String,dynamic>? queryParams;
@@ -17,7 +17,6 @@ class RequestModel
   RequestModel({
     required this.method,
     required this.endPoint,
-    required this.withToken,
     this.headers,
     this.data,
     this.queryParams,
@@ -33,3 +32,4 @@ class RequestModel
     return requestModel;
   }
 }
+

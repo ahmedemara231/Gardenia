@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gardenia/constants/constants.dart';
 import 'package:gardenia/extensions/routes.dart';
-import 'package:gardenia/model/local/flutter_secure_storage.dart';
+import 'package:gardenia/model/local/secure_storage.dart';
 import 'package:gardenia/model/local/shared_prefs.dart';
 import 'package:gardenia/model/remote/api_service/model/model.dart';
 import 'package:gardenia/model/remote/api_service/repositories/post_repo.dart';

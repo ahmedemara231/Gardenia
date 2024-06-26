@@ -8,6 +8,7 @@ import 'package:gardenia/model/remote/api_service/service/constants.dart';
 import 'package:gardenia/model/remote/api_service/service/error_handling/errors.dart';
 import 'package:gardenia/model/remote/api_service/service/languages_and_methods.dart';
 import 'package:gardenia/model/remote/api_service/service/request_models/download_request_model.dart';
+import 'package:gardenia/model/remote/api_service/service/request_models/headers.dart';
 import 'package:gardenia/model/remote/api_service/service/request_models/request_model.dart';
 import 'package:gardenia/modules/data_types/comment.dart';
 import 'package:gardenia/modules/data_types/plant.dart';
@@ -27,7 +28,7 @@ class GetRepo
         request: RequestModel(
             method: Methods.GET,
             endPoint: ApiConstants.getPosts,
-            withToken: false
+            headers: HeadersWithoutToken()
         ),
     );
     return getPostsResponse.when(
@@ -55,7 +56,7 @@ class GetRepo
           method: Methods.GET,
           endPoint: ApiConstants.getComments,
           queryParams: {'post_id' : postId},
-          withToken: false
+          headers: HeadersWithoutToken()
       ),
     );
     return getCommentsResponse.when(
@@ -74,7 +75,7 @@ class GetRepo
       request: RequestModel(
         method: Methods.GET,
         endPoint: ApiConstants.allCategories,
-        withToken: false,
+          headers: HeadersWithoutToken()
       ),
     );
 
@@ -96,7 +97,7 @@ class GetRepo
       request: RequestModel(
         method: Methods.GET,
         endPoint: ApiConstants.popularPlants,
-        withToken: false,
+          headers: HeadersWithoutToken()
       ),
     );
 
@@ -116,7 +117,7 @@ class GetRepo
         method: Methods.GET,
         endPoint: ApiConstants.plantsByCategory,
         queryParams: {'category_id' : id},
-        withToken: false,
+          headers: HeadersWithoutToken()
       ),
     );
 
@@ -139,7 +140,7 @@ class GetRepo
               'user_id' :
               CacheHelper.getInstance().getUserData()![0].toInt(),
             },
-            withToken: false,
+            headers: HeadersWithoutToken()
         ),
     );
    return profileDataResponse.when(
@@ -154,7 +155,7 @@ class GetRepo
         request: RequestModel(
             method: Methods.GET,
             endPoint: ApiConstants.getFavPlants,
-            withToken: true,
+            headers: HeadersWithToken()
         ),
     );
 

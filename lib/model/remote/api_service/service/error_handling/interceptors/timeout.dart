@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 int count = 0;
 int maxTries = 3;
 
-class TimeoutInterceptor extends InterceptorsWrapper
+class TimeoutInterceptor extends Interceptor
 {
   Dio dio;
   TimeoutInterceptor(this.dio);

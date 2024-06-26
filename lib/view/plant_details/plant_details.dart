@@ -50,7 +50,7 @@ class _PlantDetailsState extends State<PlantDetails> {
 
   @override
   void initState() {
-    CategoriesCubit.getInstance(context).getFavPlants();
+    // CategoriesCubit.getInstance(context).getFavPlants();
     initCharacteristics(
         carefulData: [
       {

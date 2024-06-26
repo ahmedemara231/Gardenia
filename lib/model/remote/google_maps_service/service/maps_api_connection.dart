@@ -4,7 +4,7 @@ import 'dart:developer';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:gardenia/model/remote/api_service/service/constants.dart';
-import 'package:gardenia/model/remote/api_service/service/request_models/request_model.dart';
+import 'package:gardenia/model/remote/api_service/service/request_models/maps_request_model.dart';
 import 'package:gardenia/model/remote/google_maps_service/error_handling/errors.dart';
 import 'package:multiple_result/multiple_result.dart';
 import '../error_handling/handle_errors.dart';
@@ -30,7 +30,7 @@ class GoogleMapsConnection implements GoogleApiService
 
   @override
   Future<Result<Response, GoogleMapsError>> callGoogleApi({
-    required RequestModel request
+    required MapsRequestModel request
   })async {
     {
       final connectivityResult = await Connectivity().checkConnectivity();
@@ -48,14 +48,11 @@ class GoogleMapsConnection implements GoogleApiService
               options: Options(
                 headers: request.headers,
                 receiveDataWhenStatusError: true,
-                responseType: request.responseType?? ResponseType.json,
+                responseType: ResponseType.json,
                 method: request.method,
               ),
-              data: request.isFormData?
-              FormData.fromMap(request.data) : request.data,
+              data: request.data,
               queryParameters: request.queryParams,
-              onSendProgress: request.onSendProgress,
-              onReceiveProgress: request.onReceiveProgress,
             );
 
             // String prettyJson = const JsonEncoder.withIndent('  ').convert(response.data);
@@ -78,8 +75,4 @@ class GoogleMapsConnection implements GoogleApiService
       }
     }
   }
-
-
-
-
 }

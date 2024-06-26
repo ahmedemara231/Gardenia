@@ -18,7 +18,7 @@ CustomError handleErrors(DioException e)
       );
 
     case DioExceptionType.badResponse:
-      switch(e.response!.statusCode)
+      switch(e.response?.statusCode)
       {
         case 400:
           return BadRequestError(
@@ -62,7 +62,7 @@ CustomError handleErrors(DioException e)
 
     case DioExceptionType.unknown:
       return UnknownError(
-        e.response?.statusMessage,
+        'try again later'
       );
 
     default:

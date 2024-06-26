@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:gardenia/model/remote/api_service/service/constants.dart';
 import 'package:gardenia/model/remote/api_service/service/error_handling/errors.dart';
 import 'package:gardenia/model/remote/api_service/service/languages_and_methods.dart';
+import 'package:gardenia/model/remote/api_service/service/request_models/headers.dart';
 import 'package:gardenia/model/remote/api_service/service/request_models/request_model.dart';
 import 'package:gardenia/modules/data_types/reset_password.dart';
 import 'package:multiple_result/multiple_result.dart';
@@ -33,7 +34,7 @@ class PostRepo
             'email' : email,
             'password' : password,
           },
-          withToken: false
+          headers: HeadersWithoutToken()
       ),
     );
     return loginResult.when(
@@ -49,7 +50,7 @@ class PostRepo
           method: Methods.POST,
           endPoint: ApiConstants.signUp,
           data: user.toJson(),
-          withToken: false
+          headers: HeadersWithoutToken()
       ),
     );
     return signUpResult.when(
@@ -65,7 +66,7 @@ class PostRepo
       request: RequestModel(
         method: Methods.POST,
         endPoint: ApiConstants.forgotPassword,
-        withToken: false,
+        headers: HeadersWithoutToken(),
         data: {'email' : email},
       ),
     );
@@ -85,7 +86,7 @@ class PostRepo
       request: RequestModel(
           method: Methods.POST,
           endPoint: ApiConstants.sendCode,
-          withToken: false,
+          headers: HeadersWithoutToken(),
           data:
           {
             'email' : email,
@@ -107,7 +108,7 @@ class PostRepo
       request: RequestModel(
           method: Methods.POST,
           endPoint: ApiConstants.resetPassword,
-          withToken: false,
+          headers: HeadersWithoutToken(),
           data: resetPassword.toJson()
       ),
     );
@@ -127,7 +128,7 @@ class PostRepo
           operation == Operation.logout?
           ApiConstants.logout :
           ApiConstants.refreshToken,
-          withToken: true
+        headers: HeadersWithToken(),
       ),
     );
     return response.when(
@@ -156,7 +157,7 @@ class PostRepo
       request: RequestModel(
         method: Methods.POST,
         endPoint: ApiConstants.createPost,
-        withToken: true,
+        headers: HeadersWithToken(contentType: 'multipart/form-data'),
         data: formData,
         onSendProgress: onSendProgress
       ),
@@ -172,8 +173,8 @@ class PostRepo
     Result<Response,CustomError> createCommentResponse = await apiService.callApi(
         request: RequestModel(
           method: Methods.POST,
-          withToken: true,
-          endPoint: ApiConstants.createComment,
+            headers: HeadersWithToken(),
+            endPoint: ApiConstants.createComment,
           data:
           {
             'content' : comment,
@@ -191,16 +192,13 @@ class PostRepo
   {
     await apiService.callApi(
         request: RequestModel(
-            method: Methods.POST,
-            endPoint: ApiConstants.addRemFavorites,
-            queryParams: {'plant_id' : plantId},
-            withToken: true
+          method: Methods.POST,
+          endPoint: ApiConstants.addRemFavorites,
+          queryParams: {'plant_id' : plantId},
+          headers: HeadersWithToken(),
         )).then((result)
     {
       print(result.getOrThrow().data);
     });
   }
-
-
-
 }

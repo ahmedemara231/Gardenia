@@ -4,6 +4,7 @@ import 'package:gardenia/model/remote/api_service/service/api_request.dart';
 import 'package:gardenia/model/remote/api_service/service/constants.dart';
 import 'package:gardenia/model/remote/api_service/service/error_handling/errors.dart';
 import 'package:gardenia/model/remote/api_service/service/languages_and_methods.dart';
+import 'package:gardenia/model/remote/api_service/service/request_models/headers.dart';
 import 'package:gardenia/model/remote/api_service/service/request_models/request_model.dart';
 import 'package:multiple_result/multiple_result.dart';
 import '../model/model.dart';
@@ -21,7 +22,7 @@ class DeleteRepo
           method: Methods.DELETE,
           endPoint: ApiConstants.deletePost,
           queryParams: { 'post_id' : postId },
-          withToken: false,
+          headers: HeadersWithoutToken(),
         ),
     );
     if(deletePostResponse.isSuccess())
@@ -47,7 +48,7 @@ class DeleteRepo
           'post_id' : postId,
           'comment_id' : commentId
         },
-        withToken: true,
+        headers: HeadersWithToken()
       ),
     );
     if(deleteCommentResponse.isSuccess())

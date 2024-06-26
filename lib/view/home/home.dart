@@ -9,15 +9,16 @@ import 'package:gardenia/model/local/shared_prefs.dart';
 import 'package:gardenia/model/remote/api_service/service/constants.dart';
 import 'package:gardenia/modules/base_widgets/divider.dart';
 import 'package:gardenia/modules/base_widgets/myText.dart';
+import 'package:gardenia/modules/data_types/post.dart';
 import 'package:gardenia/view/create_post/create_post.dart';
 import 'package:gardenia/modules/app_widgets/post_model.dart';
 import 'package:gardenia/view/home/shimmer_posts_effect.dart';
-import 'package:gardenia/view/home/update_post/update_post.dart';
 import 'package:gardenia/view/profile/profile.dart';
 import 'package:gardenia/view_model/home/cubit.dart';
 import 'package:gardenia/view_model/home/states.dart';
-import 'package:page_transition/page_transition.dart';
 import '../../modules/app_widgets/app_button.dart';
+import '../post_operations/update_delete_methods/implementation.dart';
+import '../post_operations/update_home_post.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -148,21 +149,30 @@ class _HomeState extends State<Home> {
                               child: Post(
                                 id: homeCubit.posts[index].postId,
                                 currentUserId: CacheHelper.getInstance().getUserData()![0].toInt(),
-                                postManagerId: homeCubit.posts[index].userId,
+                                postManagerId: homeCubit.posts[index].userId!,
                                 userImageUrl: homeCubit.posts[index].userImage,
-                                userName: homeCubit.posts[index].userName ,
+                                userName: homeCubit.posts[index].userName!,
                                 postImage: homeCubit.posts[index].image,
                                 caption: homeCubit.posts[index].caption,
-                                commentsNumber: homeCubit.posts[index].commentsCount,
+                                commentsNumber: homeCubit.posts[index].commentsCount!,
                                 time: homeCubit.posts[index].creationTime.substring(0,10),
-                                onEditClick: () =>
-                                    Navigator.push(
-                                        context,
-                                        PageTransition(
-                                          type: PageTransitionType.rightToLeft,
-                                          child: UpdatePost(index: index),
-                                        ),
+                                onEditClick: () => context.normalNewRoute(
+                                    UpdatePost(
+                                      index: index,
+                                      postData: PostData2(
+                                          commentsCount: null,
+                                          postId: null,
+                                          userId: null,
+                                          caption: homeCubit.posts[index].caption,
+                                          image: homeCubit.posts[index].image,
+                                          creationTime: homeCubit.posts[index].creationTime.substring(0,10),
+                                          userName: homeCubit.posts[index].userName,
+                                          userImage: homeCubit.posts[index].userImage
+                                      ),
+                                      handleUpdatePost: HomeHandling(),
                                     ),
+                                ),
+                                handling: HomeHandling(),
                               ),
                             ),
                           ),

@@ -207,18 +207,6 @@ class CategoriesCubit extends Cubit<CategoriesStates>
   {
     bool result = false;
 
-    // for(String plantName in plantsNames)
-    //   {
-    //     if(plantName == plant.name)
-    //       {
-    //         result = true;
-    //         break;
-    //       }
-    //     else{
-    //       result = false;
-    //     }
-    //   }
-
     for(Plant plant in favList)
       {
         if(plant == myPlant)

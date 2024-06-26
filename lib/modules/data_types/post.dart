@@ -1,12 +1,12 @@
 class PostData2
 {
-  int postId;
-  int userId;
+  int? postId;
+  int? userId;
   String? caption;
   String? image;
   String creationTime;
-  int commentsCount;
-  String userName;
+  int? commentsCount;
+  String? userName;
   String? userImage;
 
   PostData2({
@@ -26,9 +26,9 @@ class PostData2
         postId: postJsonData['id'],
         caption: postJsonData['caption'],
         image: postJsonData['image'],
-        commentsCount: postJsonData['comments_count'],
         creationTime: postJsonData['created_at'],
-        userId: postJsonData['user_id'],
+        commentsCount: postJsonData['comments_count'],
+        userId: postJsonData['user_id']??'',
         userName: postJsonData['user']['username'],
         userImage: postJsonData['user']['image']
     );
