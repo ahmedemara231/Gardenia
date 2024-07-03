@@ -26,7 +26,6 @@ class BottomNavBar extends StatelessWidget {
     return BlocBuilder<BottomNavCubit,BottomNavStates>(
       builder: (context, state) => Scaffold(
         bottomNavigationBar: Container(
-          height: context.setHeight(11),
           clipBehavior: Clip.antiAliasWithSaveLayer,
           decoration: const BoxDecoration(
               borderRadius:  BorderRadius.vertical(

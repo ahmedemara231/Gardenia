@@ -11,6 +11,7 @@ import 'package:gardenia/view/profile/edit_profile/confirm_image.dart';
 import 'package:gardenia/view_model/update_profile/states.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
+import '../../model/local/shared_prefs.dart';
 import '../../modules/methods/image_selector/image_selector.dart';
 
 class UpdateProfileCubit extends Cubit<UpdateProfileStates>
@@ -54,7 +55,7 @@ class UpdateProfileCubit extends Cubit<UpdateProfileStates>
           updateImageBtnCont.success();
           await Future.delayed(
             const Duration(milliseconds: 1500),
-            () {
+            ()async {
               // await CacheHelper.getInstance().setData(
               //     key: 'userData',
               //     value: [],

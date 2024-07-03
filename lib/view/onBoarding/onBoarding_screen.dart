@@ -2,15 +2,11 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:gardenia/extensions/routes.dart';
 import 'package:gardenia/view/onBoarding/screen_model.dart';
 import 'package:gardenia/view_model/onBoarding/cubit.dart';
 import 'package:gardenia/view_model/onBoarding/states.dart';
-import 'package:page_transition/page_transition.dart';
 import '../../constants/constants.dart';
 import '../../modules/base_widgets/myText.dart';
-import '../auth/first_view/first_view.dart';
-import '../auth/login/login.dart';
 
 class OnBoarding extends StatelessWidget {
   OnBoarding({super.key});
@@ -50,7 +46,7 @@ class OnBoarding extends StatelessWidget {
                   dotsCount: onBoardingScreens.length,
                   position: OnBoardingCubit.getInstance(context).pageIndex,
                   decorator: DotsDecorator(
-                    size: Size(10.sp, 10.sp),
+                    size: Size(7.sp, 7.sp),
                     color: Constants.appColor, // Inactive color
                     activeColor: Colors.grey,
                   ),

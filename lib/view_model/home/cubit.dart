@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gardenia/constants/constants.dart';
 import 'package:gardenia/extensions/string.dart';
+import 'package:gardenia/model/local/Hive/registers.dart';
 import 'package:gardenia/model/local/secure_storage.dart';
 import 'package:gardenia/model/local/shared_prefs.dart';
 import 'package:gardenia/model/remote/api_service/repositories/delete_repo.dart';
@@ -75,18 +76,6 @@ class HomeCubit extends Cubit<HomeStates> {
 
   List<PostData2> favorites = [];
 
-  void addToFavorites(PostData2 post) {
-    favorites.add(post);
-    print(favorites);
-    emit(AddToFavoritesState());
-  }
-
-  void removeFromFavorites(PostData2 post) {
-    favorites.remove(post);
-    print(favorites);
-    emit(RemoveFromFavoritesState());
-  }
-
   GetRepo getRepo = GetRepo(apiService: DioConnection.getInstance());
 
   List<PostData2> posts = [];
@@ -98,6 +87,8 @@ class HomeCubit extends Cubit<HomeStates> {
     await getRepo.getPosts().then((result) {
       if (result.isSuccess()) {
         posts = result.getOrThrow();
+
+        HiveRegisters.getInstance().getPostsBox.addAll(posts);
 
         emit(GetPostsSuccessState());
       }

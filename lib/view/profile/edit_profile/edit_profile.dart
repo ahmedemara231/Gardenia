@@ -92,6 +92,16 @@ class _EditProfileState extends State<EditProfile> {
     ];
     super.initState();
   }
+
+  @override
+  void dispose() {
+    nameCont.dispose();
+    emailCont.dispose();
+    passCont.dispose();
+    confirmPassCont.dispose();
+
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

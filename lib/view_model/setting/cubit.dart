@@ -22,9 +22,6 @@ class SettingCubit extends Cubit<SettingStates>
     emit(NotificationEnabledResult());
   }
 
-
-
-
   Future<void> handleCallingStore(context)async
   {
     checkPermission(

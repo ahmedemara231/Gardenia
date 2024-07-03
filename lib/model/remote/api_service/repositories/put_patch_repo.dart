@@ -45,14 +45,12 @@ class PutRepo
   Future<Result<Model,CustomError>> editPost({
     required int postId,
     required String newCaption,
-    // required File image,
 })async
   {
 
     FormData formData = FormData.fromMap({
       '_method' : 'PUT',
       'caption' : newCaption,
-      // 'image' : await MultipartFile.fromFile(image.path),
     });
 
     Result<Response,CustomError> updatePostResponse = await apiService.callApi(

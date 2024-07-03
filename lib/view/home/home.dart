@@ -60,6 +60,7 @@ class _HomeState extends State<Home> {
               else{
                 if(state is GetPostsNetworkErrorState)
                 {
+                  // we should add listView of hive cached posts if network error exists after posts checking is empty or not
                   return Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,

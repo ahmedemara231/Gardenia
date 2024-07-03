@@ -50,38 +50,41 @@ class ScreenModel extends StatelessWidget {
               ),
             ],
           ),
-          AnimatedTextKit(
-            repeatForever: true,
-            pause: const Duration(seconds: 2),
-            isRepeatingAnimation: true,
-            animatedTexts: [
-              RotateAnimatedText(
-                  text1,
-                  textStyle: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 30.sp,
-                  ),
-              ),
-            ],
-          ),
-          SizedBox(
-            width: context.setWidth(1.5),
-            child: AnimatedTextKit(
-              repeatForever: true,
-              isRepeatingAnimation: true,
-              pause: const Duration(seconds: 2),
-              animatedTexts: [
-                RotateAnimatedText(
-                  text2,
-                  textStyle: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 14.sp,
-                    color: Colors.grey,
-                  ),
+          Expanded(
+            child: Column(
+              children: [
+                AnimatedTextKit(
+                  repeatForever: true,
+                  pause: const Duration(seconds: 2),
+                  isRepeatingAnimation: true,
+                  animatedTexts: [
+                    RotateAnimatedText(
+                      text1,
+                      textStyle: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 25.sp,
+                      ),
+                    ),
+                  ],
+                ),
+                AnimatedTextKit(
+                  repeatForever: true,
+                  isRepeatingAnimation: true,
+                  pause: const Duration(seconds: 2),
+                  animatedTexts: [
+                    RotateAnimatedText(
+                      text2,
+                      textStyle: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 14.sp,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
-          ),
+          )
         ],
       );
   }
