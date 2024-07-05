@@ -7,6 +7,7 @@ import 'package:gardenia/extensions/routes.dart';
 import 'package:gardenia/modules/app_widgets/arrow_back_button.dart';
 import 'package:gardenia/modules/base_widgets/expandable_text.dart';
 import 'package:gardenia/modules/base_widgets/myText.dart';
+import 'package:gardenia/modules/data_types/careful_data_model.dart';
 import 'package:gardenia/modules/data_types/place_data_model.dart';
 import 'package:gardenia/view/google_maps/map_view.dart';
 import 'package:gardenia/view_model/categories/cubit.dart';
@@ -39,7 +40,7 @@ class _PlantDetailsState extends State<PlantDetails> {
 
   late List<Widget> characteristics;
   void initCharacteristics({
-    required List<Map<String,dynamic>> carefulData,
+    required List<CarefulDataModel> carefulData,
     required PLaceDataModel pLaceDataModel,
     required String toxicity,
     required String names,
@@ -52,43 +53,69 @@ class _PlantDetailsState extends State<PlantDetails> {
     ];
   }
 
+
+  late Map<String,dynamic> carefulLightData;
+
+
+  late Map<String,dynamic> carefulCareData;
+
+
+  late Map<String,dynamic> carefulFertilizerData;
+
+
+  late Map<String,dynamic> carefulCleanData;
+
   @override
   void initState() {
-    // CategoriesCubit.getInstance(context).getFavPlants();
+    CategoriesCubit.getInstance(context).getFavPlants();
+
+    carefulLightData = {
+      'carefulSubTitle' : 'Light',
+      'icon' : widget.plant.light!.contains('Full sun')?
+      const Icon(Icons.sunny,color: Colors.white) : const Icon(Icons.dark_mode_outlined,color: Colors.white),
+      'title' : widget.plant.light!.split("/")[0],
+      'subTitle' : widget.plant.light!.split("/")[1],
+    };
+
+    carefulCareData = {
+      'carefulSubTitle' : 'Care',
+      'icon' : Image.asset(Constants.plantWater),
+      'title' : widget.plant.careful!.split(",")[0],
+      'subTitle' : widget.plant.careful!.split(",")[1],
+    };
+
+    carefulFertilizerData = {
+      'carefulSubTitle' : ' Fertilizer',
+      'icon' : const Icon(
+        Icons.group_work_rounded,
+        color: Colors.white,
+      ),
+      'title' : widget.plant.liquid_fertilizer!,
+    };
+
+    carefulCleanData = {
+      'carefulSubTitle' : ' Clean',
+      'icon' : const Icon(
+        Icons.cleaning_services,
+        color: Colors.white,
+      ),
+      'title' : widget.plant.clean!
+    };
+
+
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
     initCharacteristics(
-        carefulData: [
-      {
-        'carefulSubTitle' : 'Light',
-        'icon' : widget.plant.light!.contains('Full sun')?
-        const Icon(Icons.sunny,color: Colors.white) : const Icon(Icons.dark_mode_outlined,color: Colors.white),
-        'title' : widget.plant.light!.split("/")[0],
-        'subTitle' : widget.plant.light!.split("/")[1],
-      },
-
-      {
-        'carefulSubTitle' : 'Care',
-        'icon' : Image.asset(Constants.plantWater),
-        'title' : widget.plant.careful!.split(",")[0],
-        'subTitle' : widget.plant.careful!.split(",")[1],
-      },
-
-      {
-        'carefulSubTitle' : ' Fertilizer',
-        'icon' : const Icon(
-          Icons.group_work_rounded,
-          color: Colors.white,
-        ),
-        'title' : widget.plant.liquid_fertilizer!,
-      },
-      {
-        'carefulSubTitle' : ' Clean',
-        'icon' : const Icon(
-          Icons.cleaning_services,
-          color: Colors.white,
-        ),
-        'title' : widget.plant.clean!
-      },
-    ],
+        carefulData:
+        [
+          CarefulDataModel.fromJson(carefulLightData),
+          CarefulDataModel.fromJson(carefulCareData),
+          CarefulDataModel.fromJson(carefulFertilizerData),
+          CarefulDataModel.fromJson(carefulCleanData),
+        ],
         pLaceDataModel: PLaceDataModel(
             resistanceZone: widget.plant.resistance_zone!,
             idealTemperature: widget.plant.ideal_temperature!,
@@ -97,7 +124,8 @@ class _PlantDetailsState extends State<PlantDetails> {
         toxicity: widget.plant.toxicity!,
         names: widget.plant.names!
     );
-    super.initState();
+
+    super.didChangeDependencies();
   }
   @override
   Widget build(BuildContext context) {

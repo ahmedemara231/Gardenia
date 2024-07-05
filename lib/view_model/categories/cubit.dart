@@ -130,23 +130,6 @@ class CategoriesCubit extends Cubit<CategoriesStates>
   }
 
 
-
-  late List<Widget> characteristics;
-  void initCharacteristics({
-    required List<Map<String,dynamic>> carefulData,
-    required PLaceDataModel pLaceDataModel,
-    required String toxicity,
-    required String names,
-  })
-  {
-    [
-      Careful(carefulData: carefulData),
-      Place(pLaceDataModel: pLaceDataModel),
-      Characteristics(toxicity: toxicity, names: names)
-    ];
-    emit(InitCharacteristics());
-  }
-
   List<Plant> favList = [];
   bool isSpecificPlantExists = false;
 

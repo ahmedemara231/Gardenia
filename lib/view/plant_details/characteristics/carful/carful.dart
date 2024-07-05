@@ -3,10 +3,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gardenia/constants/constants.dart';
 import 'package:gardenia/modules/base_widgets/expandable_text.dart';
 import 'package:gardenia/modules/base_widgets/myText.dart';
+import 'package:gardenia/modules/data_types/careful_data_model.dart';
 
 class Careful extends StatelessWidget {
 
-  List<Map<String,dynamic>> carefulData = [];
+  List<CarefulDataModel> carefulData = [];
 
   Careful({super.key,
     required this.carefulData,
@@ -34,7 +35,7 @@ class Careful extends StatelessWidget {
                         Padding(
                           padding: EdgeInsets.only(left: 16.w),
                           child: MyText(
-                            text: carefulData[index]['carefulSubTitle'],
+                            text: carefulData[index].carefulSubTitle,
                             color: Colors.white,
                             fontSize: 14.sp,
                             fontWeight: FontWeight.bold,
@@ -44,16 +45,16 @@ class Careful extends StatelessWidget {
                           leading: CircleAvatar(
                             backgroundColor: Constants.secondAppColor,
                             radius: 20.sp,
-                            child: carefulData[index]['icon'],
+                            child: carefulData[index].icon,
                           ),
                           title: MyExpandableText(
-                            text: carefulData[index]['title'],
+                            text: carefulData[index].title,
                             color: Colors.white,
                             size: 14.sp,
                             fontWeight: FontWeight.bold,
                           ),
                           subtitle: MyExpandableText(
-                            text: carefulData[index]['subTitle']??'',
+                            text: carefulData[index].subTitle??'',
                             color: Colors.white,
                             size: 14.sp,
                             fontWeight: FontWeight.bold,
