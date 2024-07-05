@@ -19,6 +19,12 @@ class HiveHelper
 
   Future<Box> openBox(String name)async
   {
-    return await Hive.openBox(name);
+    if(!Hive.isBoxOpen(name))
+      {
+        return await Hive.openBox(name);
+      }
+    else{
+      return Hive.box(name);
+    }
   }
 }

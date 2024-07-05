@@ -25,6 +25,7 @@ import 'package:gardenia/view_model/setting/cubit.dart';
 import 'package:gardenia/view_model/sign_up/cubit.dart';
 import 'package:gardenia/view_model/update_profile/cubit.dart';
 import 'model/local/secure_storage.dart';
+import 'model/local/shared_prefs.dart';
 import 'modules/data_types/permission_process.dart';
 import 'modules/methods/check_permission.dart';
 
@@ -75,13 +76,12 @@ class _GardeniaState extends State<Gardenia> {
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
-          home:
-          // BottomNavBar()
+          home: Categories()
           // Setting()
           // CacheHelper.getInstance().shared.getBool('finishOnBoarding') == true?
           // token == null?
           // Login() : const BottomNavBar():
-          OnBoarding(),
+          // OnBoarding(),
         ),
       ),
     );

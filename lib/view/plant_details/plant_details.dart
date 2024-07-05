@@ -30,7 +30,11 @@ class PlantDetails extends StatefulWidget {
 }
 
 class _PlantDetailsState extends State<PlantDetails> {
-  final List<String> characteristicsNames = ['Careful', 'Place', 'Characteristics'];
+  final List<String> characteristicsNames = [
+    'Careful',
+    'Place',
+    'Characteristics'
+  ];
   PageController controller = PageController();
 
   late List<Widget> characteristics;
@@ -60,12 +64,14 @@ class _PlantDetailsState extends State<PlantDetails> {
         'title' : widget.plant.light!.split("/")[0],
         'subTitle' : widget.plant.light!.split("/")[1],
       },
+
       {
         'carefulSubTitle' : 'Care',
         'icon' : Image.asset(Constants.plantWater),
-        'title' : widget.plant.careful!.split("/")[0],
-        'subTitle' : widget.plant.careful!.split("/")[1],
+        'title' : widget.plant.careful!.split(",")[0],
+        'subTitle' : widget.plant.careful!.split(",")[1],
       },
+
       {
         'carefulSubTitle' : ' Fertilizer',
         'icon' : const Icon(
@@ -115,7 +121,7 @@ class _PlantDetailsState extends State<PlantDetails> {
               widget.plant.image,
               fit: BoxFit.fill,
             ),
-          ),
+          ), // plant image
           Padding(
             padding: EdgeInsets.symmetric(
                 horizontal: 10.w,
@@ -132,7 +138,7 @@ class _PlantDetailsState extends State<PlantDetails> {
                       fontSize: 25.sp,
                       fontWeight: FontWeight.bold,
                       color: Constants.appColor,
-                    ),
+                    ), // plant name
                     CircleAvatar(
                       radius: 20.sp,
                       backgroundColor: Constants.secondAppColor.withOpacity(.5),
@@ -140,7 +146,7 @@ class _PlantDetailsState extends State<PlantDetails> {
                           onPressed: () => context.normalNewRoute(const MapView()),
                           icon: Icon(Icons.location_on,color: Constants.appColor)
                       ),
-                    )
+                    ) // map view
                   ],
                 ),
                 Row(

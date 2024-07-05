@@ -16,7 +16,8 @@ class Careful extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(
       physics: const NeverScrollableScrollPhysics(),
-      children: List.generate(
+      children:
+      List.generate(
           carefulData.length,
               (index) => Padding(
                 padding: EdgeInsets.symmetric(vertical: 5.h),
@@ -51,7 +52,6 @@ class Careful extends StatelessWidget {
                             size: 14.sp,
                             fontWeight: FontWeight.bold,
                           ),
-
                           subtitle: MyExpandableText(
                             text: carefulData[index]['subTitle']??'',
                             color: Colors.white,

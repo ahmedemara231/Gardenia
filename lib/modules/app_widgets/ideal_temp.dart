@@ -31,97 +31,65 @@ class _IdealTempState extends State<IdealTemp> {
 
   void calcWinterTempPosition()
   {
-    if(divide()[0].split("°")[0].toInt() > 0 && divide()[0].split("°")[0].toInt() < 50)
+
+    var range = divide()[0].split("°").first;
+
+    String firstRange = range.split("-").first;
+    String lastRange = range.split("-").last;
+
+    int average = (firstRange.toInt() + lastRange.toInt()) ~/ 2;
+
+
+    if(average > 0 && average < 50)
     {
       winterPosition = context.setWidth(4);
     }
-    else if(divide()[0].split("°")[0].toInt() > 50 && divide()[0].split("°")[0].toInt() < 100)
+    else if(average > 50 && average < 100)
     {
       winterPosition = context.setWidth(1.7);
     }
-    else{
-      switch(divide()[0].split("°")[0].toInt())
-      {
-        case 0 :
-          winterPosition = 0;
-        case 50:
-          winterPosition = context.setWidth(2);
-        case 100:
-          winterPosition = context.setWidth(1.5);
-      }
-    }
-    // for(int i = 0; i <= staticTemps.length-1; i++)
+    // else{
+    //   switch(divide()[0].split("°")[0].toInt())
     //   {
-    //     if(i == staticTemps.length - 1)
-    //       {
-    //         return;
-    //       }
-    //     else{
-    //       if(initialTemp > staticTemps[i] && initialTemp < staticTemps[i+1])
-    //       {
-    //         // > 30
-    //         print('$initialTemp is greater than ${staticTemps[i]} and less than ${staticTemps[i+1]}');
-    //         position += 50;
-    //       }
-    //       else if(initialTemp > staticTemps[i] && initialTemp < staticTemps[i+1]){
-    //         // > 30 , <60
-    //         print('$initialTemp is greater than ${staticTemps[i]} and less than ${staticTemps[i+1]}');
-    //         position += 150;
-    //       }
-    //       else{
-    //         // > 60
-    //         position += 200;
-    //       }
-    //     }
+    //     case 0 :
+    //       winterPosition = 0;
+    //     case 50:
+    //       winterPosition = context.setWidth(2);
+    //     case 100:
+    //       winterPosition = context.setWidth(1.5);
     //   }
+    // }
   }
-
 
   void calcSummerTempPosition()
   {
-    if(divide()[1].split("°")[0].toInt() > 0 && divide()[1].split("°")[0].toInt() < 50)
+ 
+    var range = divide()[1].split("°").first;
+
+    String firstRange = range.split("-").first;
+    String lastRange = range.split("-").last;
+
+    int average = (firstRange.toInt() + lastRange.toInt()) ~/ 2;
+
+    if(average > 0 && average < 50)
     {
       summerPosition = context.setWidth(4);
     }
-    else if(divide()[1].split("°")[0].toInt() > 50 && divide()[1].split("°")[0].toInt() < 100)
+    else if(average > 50 && average < 100)
     {
       summerPosition = context.setWidth(1.7);
     }
-    else{
-      switch(divide()[1].split("°")[0].toInt())
-      {
-        case 0 :
-          summerPosition = 0;
-        case 50:
-          summerPosition = context.setWidth(2);
-        case 100:
-          summerPosition = context.setWidth(1.5);
-      }
-    }
-    // for(int i = 0; i <= staticTemps.length-1; i++)
+    // else{
+    //   switch(divide()[1].split("°")[0].toInt())
     //   {
-    //     if(i == staticTemps.length - 1)
-    //       {
-    //         return;
-    //       }
-    //     else{
-    //       if(initialTemp > staticTemps[i] && initialTemp < staticTemps[i+1])
-    //       {
-    //         // > 30
-    //         print('$initialTemp is greater than ${staticTemps[i]} and less than ${staticTemps[i+1]}');
-    //         position += 50;
-    //       }
-    //       else if(initialTemp > staticTemps[i] && initialTemp < staticTemps[i+1]){
-    //         // > 30 , <60
-    //         print('$initialTemp is greater than ${staticTemps[i]} and less than ${staticTemps[i+1]}');
-    //         position += 150;
-    //       }
-    //       else{
-    //         // > 60
-    //         position += 200;
-    //       }
-    //     }
+    //     case 0 :
+    //       summerPosition = 0;
+    //     case 50:
+    //       summerPosition = context.setWidth(2);
+    //     case 100:
+    //       summerPosition = context.setWidth(1.5);
     //   }
+    // }
   }
 
   void calcTemp()

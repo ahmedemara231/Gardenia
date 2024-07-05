@@ -19,8 +19,22 @@ class HiveRegisters
     _postsBox = await HiveHelper.getInstance().openBox('posts');
   }
 
+  late Box _plantsBox;
+
+  Future<void> registerPlantsBox()async
+  {
+    _postsBox = await HiveHelper.getInstance().openBox('plants');
+  }
+
   Box get getPostsBox
   {
     return _postsBox;
   }
+
+  Box get getPlantsBox
+  {
+    return _plantsBox;
+  }
+
+
 }

@@ -11,13 +11,15 @@ import 'gardenia.dart';
 
 void main()async {
   WidgetsFlutterBinding.ensureInitialized();
+  HiveHelper.getInstance().init();
   await CacheHelper.getInstance().cacheInit();
   SecureStorage.getInstance().init();
-  HiveHelper.getInstance().init();
   await HiveRegisters.getInstance().registerPostsBox();
+  await HiveRegisters.getInstance().registerPlantsBox();
   Bloc.observer = MyBlocObserver();
   if(kReleaseMode){
     // crashlitics
   }
   runApp(const Gardenia());
 }
+

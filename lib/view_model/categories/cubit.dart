@@ -60,6 +60,7 @@ class CategoriesCubit extends Cubit<CategoriesStates>
             }
           }
         }
+
         emit(GetCategoriesSuccessState());
       });
     }
