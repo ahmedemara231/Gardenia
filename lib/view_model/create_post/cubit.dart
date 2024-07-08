@@ -83,7 +83,7 @@ class CreatePostCubit extends Cubit<CreatePostStates>
           await Future.delayed(
             const Duration(milliseconds: 1500),
                 () {
-              context.removeOldRoute(const BottomNavBar());
+              context.removeOldRoute(BottomNavBar());
               selectedImage = null;
             },
           );

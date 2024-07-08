@@ -50,7 +50,7 @@ class _AllCategoriesState extends State<AllCategories> {
             );
           }
           else{
-            return Column(
+            return ListView(
               children: [
                 Column(
                   children: [

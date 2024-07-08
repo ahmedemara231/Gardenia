@@ -18,4 +18,7 @@ class Constants
   static const String penProfileIcon = 'assets/icons/pen_icon.png';
   static const String plantWater = 'assets/icons/water_plant.png';
   static const String controlFavButton = 'assets/icons/control_fav_button.png';
+  static const String homeIcon = 'assets/icons/home_icon.svg';
+  static const String categoriesIcon = 'assets/icons/categories_icon.svg';
+  static const String personIcon = 'assets/icons/person_icon.svg';
 }

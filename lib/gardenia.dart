@@ -76,11 +76,13 @@ class _GardeniaState extends State<Gardenia> {
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
-          home: Categories()
+          home:
+          Login()
+          // Categories()
           // Setting()
           // CacheHelper.getInstance().shared.getBool('finishOnBoarding') == true?
           // token == null?
-          // Login() : const BottomNavBar():
+          // Login() : BottomNavBar():
           // OnBoarding(),
         ),
       ),

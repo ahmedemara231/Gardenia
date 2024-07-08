@@ -50,6 +50,7 @@ class LoginCubit extends Cubit<LoginStates>
     required String password,
   }) async
   {
+
     emit(LoginLoadingState());
     await postRepo.login(email: email, password: password).then(
           (result) async

@@ -1,32 +1,30 @@
 import 'package:hive/hive.dart';
 
-@HiveType(typeId: 0)
+@HiveType(typeId: 0,adapterName: 'PostData')
 class PostData2 extends HiveObject
 {
   @HiveField(0)
-
-  @HiveField(1)
   int? postId;
 
-  @HiveField(2)
+  @HiveField(1)
   int? userId;
 
-  @HiveField(3)
+  @HiveField(2)
   String? caption;
 
-  @HiveField(4)
+  @HiveField(3)
   String? image;
 
-  @HiveField(5)
+  @HiveField(4)
   String creationTime;
 
-  @HiveField(6)
+  @HiveField(5)
   int? commentsCount;
 
-  @HiveField(7)
+  @HiveField(6)
   String? userName;
 
-  @HiveField(8)
+  @HiveField(7)
   String? userImage;
 
   PostData2({

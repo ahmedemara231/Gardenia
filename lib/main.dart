@@ -11,11 +11,15 @@ import 'gardenia.dart';
 
 void main()async {
   WidgetsFlutterBinding.ensureInitialized();
-  HiveHelper.getInstance().init();
   await CacheHelper.getInstance().cacheInit();
   SecureStorage.getInstance().init();
-  await HiveRegisters.getInstance().registerPostsBox();
-  await HiveRegisters.getInstance().registerPlantsBox();
+  HiveHelper.getInstance().init();
+
+  await Future.delayed(
+    const Duration(milliseconds: 250),()async {
+      await HiveRegisters.getInstance().registerPostsBox();
+      await HiveRegisters.getInstance().registerPlantsBox();
+  },);
   Bloc.observer = MyBlocObserver();
   if(kReleaseMode){
     // crashlitics
