@@ -53,8 +53,9 @@ class HeadersWithoutToken extends RequestHeaders
 
 class StripeHeaders extends RequestHeaders
 {
+  final stripeVersion;
 
-  StripeHeaders({super.contentType});
+  StripeHeaders({required super.contentType,this.stripeVersion});
 
   Map<String,dynamic> get _getHeaders
   {
@@ -62,6 +63,7 @@ class StripeHeaders extends RequestHeaders
       {
         HttpHeaders.authorizationHeader : StripeApiConstants.token,
         HttpHeaders.contentTypeHeader : contentType,
+        'Stripe-Version' : stripeVersion,
       };
   }
 

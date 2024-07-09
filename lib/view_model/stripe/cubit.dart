@@ -1,10 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:gardenia/model/remote/stripe/api_service/models/create_intent_input_model.dart';
 import 'package:gardenia/model/remote/stripe/api_service/models/create_intent_model.dart';
 import 'package:gardenia/model/remote/stripe/repositories/post_repo.dart';
 import 'package:gardenia/view_model/stripe/states.dart';
 import 'package:multiple_result/multiple_result.dart';
-
 import '../../model/remote/api_service/service/error_handling/errors.dart';
 import '../../model/remote/stripe/api_service/service/stripe_connection.dart';
 
@@ -19,18 +19,15 @@ class StripeCubit extends Cubit<StripeStates>
   );
 
   Future<Result<CreateIntentModel, CustomError>> createPaymentIntent({
-    required String amount,
-    required String currency
+    required CreateIntentInputModel inputModel
 })async
   {
     final data = await stripePostRepo.createPaymentIntent(
-        amount: amount,
-        currency: currency
+        inputModel: inputModel
     );
 
     return data;
   }
-
 
   Future<void> initPaymentSheet(var paymentIntentClientSecret) async {
     // 1. create payment intent on the server
@@ -41,12 +38,15 @@ class StripeCubit extends Cubit<StripeStates>
       paymentSheetParameters: SetupPaymentSheetParameters(
         // Set to true for custom flow
         // customFlow: false,
+
         // Main params
         merchantDisplayName: 'Gardenia Store',
-        paymentIntentClientSecret: paymentIntentClientSecret
+        paymentIntentClientSecret: paymentIntentClientSecret,
+
         // Customer keys
         // customerEphemeralKeySecret: data['ephemeralKey'],
         // customerId: data['customer'],
+
         // Extra options
         // applePay: const PaymentSheetApplePay(
         //   merchantCountryCode: 'US',
@@ -55,7 +55,6 @@ class StripeCubit extends Cubit<StripeStates>
         //   merchantCountryCode: 'US',
         //   testEnv: true,
         // ),
-        // style: ThemeMode.dark,
       ),
     );
   }
@@ -66,12 +65,11 @@ class StripeCubit extends Cubit<StripeStates>
   }
 
   Future<void> makePaymentProcess({
-    required String amount,
-    required String currency
+    required CreateIntentInputModel inputModel
   })async
   {
     emit(StripePaymentLoading());
-    await createPaymentIntent(amount: amount, currency: currency).then((result)async {
+    await createPaymentIntent(inputModel: inputModel).then((result)async {
       if(result.isSuccess())
         {
           await initPaymentSheet(result.getOrThrow().client_secret);
@@ -82,8 +80,5 @@ class StripeCubit extends Cubit<StripeStates>
         emit(StripePaymentError());
       }
     });
-
   }
-
-
 }
