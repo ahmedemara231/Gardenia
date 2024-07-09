@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:dio/src/response.dart';
 import 'package:gardenia/model/remote/api_service/service/error_handling/errors.dart';
 import 'package:gardenia/model/remote/api_service/service/languages_and_methods.dart';
@@ -67,11 +70,8 @@ class StripePostRepo {
   }
 
   // create  Ephemeral Key
-  Future<Result<String, CustomError>> createEphemeralKey({
-    required String name,
-    required String phone
-  }) async {
-    Result<Response, CustomError> createCustomerResponse =
+  Future<Result<String, CustomError>> createEphemeralKey() async {
+    Result<Response, CustomError> createEphemeralKeyResponse =
     await apiService.callApi(
       request: RequestModel(
         method: Methods.POST,
@@ -87,8 +87,8 @@ class StripePostRepo {
       ),
     );
 
-    return createCustomerResponse.when(
-          (success) => Result.success(success.data['id']),
+    return createEphemeralKeyResponse.when(
+          (success) => Result.success(success.data['secret']),
           (error) => Result.error(error),
     );
   }

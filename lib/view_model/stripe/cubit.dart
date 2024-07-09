@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:gardenia/model/local/secure_storage.dart';
 import 'package:gardenia/model/remote/stripe/api_service/models/create_intent_input_model.dart';
 import 'package:gardenia/model/remote/stripe/api_service/models/create_intent_model.dart';
 import 'package:gardenia/model/remote/stripe/repositories/post_repo.dart';
@@ -29,6 +30,12 @@ class StripeCubit extends Cubit<StripeStates>
     return data;
   }
 
+  Future<String> createEphemeralKey()async
+  {
+    final key = await stripePostRepo.createEphemeralKey();
+    return key.getOrThrow();
+  }
+
   Future<void> initPaymentSheet(var paymentIntentClientSecret) async {
     // 1. create payment intent on the server
     // final data = await _createTestPaymentSheet();
@@ -44,8 +51,9 @@ class StripeCubit extends Cubit<StripeStates>
         paymentIntentClientSecret: paymentIntentClientSecret,
 
         // Customer keys
-        // customerEphemeralKeySecret: data['ephemeralKey'],
-        // customerId: data['customer'],
+        customerId: 'cus_QRO74OeDrsV4D1',
+        customerEphemeralKeySecret: await createEphemeralKey(),
+        // customerId: await SecureStorage.getInstance().readData(key: '')
 
         // Extra options
         // applePay: const PaymentSheetApplePay(
