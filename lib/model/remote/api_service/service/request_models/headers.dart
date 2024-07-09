@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:gardenia/model/remote/stripe/api_service/constants.dart';
+
 import '../../../../local/secure_storage.dart';
 
 abstract class RequestHeaders
@@ -47,4 +49,26 @@ class HeadersWithoutToken extends RequestHeaders
         HttpHeaders.acceptHeader : contentType,
       };
   }
+}
+
+class StripeHeaders extends RequestHeaders
+{
+
+  StripeHeaders({super.contentType});
+
+  Map<String,dynamic> get _getHeaders
+  {
+    return
+      {
+        HttpHeaders.authorizationHeader : StripeApiConstants.token,
+        HttpHeaders.contentTypeHeader : contentType,
+      };
+  }
+
+  @override
+  Future<Map<String, dynamic>> toJson()async
+  {
+    return _getHeaders;
+  }
+
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:gardenia/model/local/Hive/registers.dart';
 import 'package:gardenia/view_model/bloc_observer.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,4 +27,3 @@ void main()async {
   }
   runApp(const Gardenia());
 }
-

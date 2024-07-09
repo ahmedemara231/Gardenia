@@ -16,6 +16,10 @@ migrate_working_dir/
 *.iws
 .idea/
 
+lib/model/remote/google_maps_service/service/google_maps_api_constants.dart
+lib/model/remote/stripe/api_service/constants.dart
+app/src/main/AndroidManifest.xml
+
 # The .vscode folder contains launch configuration and tasks you configure in
 # VS Code which you may wish to be included in version control, so this line
 # is commented out by default.

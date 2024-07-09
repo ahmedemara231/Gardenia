@@ -38,7 +38,4 @@ class ApiConstants
   // Favorites
   static const String getFavPlants = 'favourite_plants';
   static const String addRemFavorites = 'plants/toggle_plant';
-
-
-
 }

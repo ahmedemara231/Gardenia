@@ -4,6 +4,7 @@ import 'package:gardenia/extensions/string.dart';
 import 'package:gardenia/model/local/shared_prefs.dart';
 import 'package:gardenia/model/remote/api_service/factory_method.dart';
 import 'package:gardenia/model/remote/api_service/model/model.dart';
+import 'package:gardenia/model/remote/api_service/service/connections/dio_connection.dart';
 import 'package:gardenia/model/remote/api_service/service/constants.dart';
 import 'package:gardenia/model/remote/api_service/service/error_handling/errors.dart';
 import 'package:gardenia/model/remote/api_service/service/languages_and_methods.dart';
@@ -38,9 +39,11 @@ class GetRepo
     );
   }
 
+  DownloadApiService downloadApiService = DioConnection();
+
   Future<Result<Uint8List,CustomError>> downloadPostImage(DownloadModel request)async
   {
-    Result<Response,CustomError> downloadImageResponse = await apiService.downloadFromApi(
+    Result<Response,CustomError> downloadImageResponse = await downloadApiService.downloadFromApi(
         request: request,
     );
     return downloadImageResponse.when(

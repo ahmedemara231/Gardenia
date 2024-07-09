@@ -9,7 +9,10 @@ abstract class ApiService
   Future<Result<Response,CustomError>> callApi({
     required RequestModel request,
   });
+}
 
+abstract class DownloadApiService
+{
   Future<Result<Response,CustomError>> downloadFromApi({
     required DownloadModel request,
   });

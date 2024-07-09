@@ -14,7 +14,7 @@ import 'package:gardenia/model/remote/api_service/service/request_models/request
 import 'package:multiple_result/multiple_result.dart';
 import '../error_handling/handle_errors.dart';
 
-class DioConnection implements ApiService
+class DioConnection extends ApiService implements DownloadApiService
 {
 
   DioConnection()
