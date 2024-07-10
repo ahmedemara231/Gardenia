@@ -62,8 +62,10 @@ dependencies:
 
 #  payment
   flutter_stripe: ^10.2.0
+  flutter_paypal_payment: ^1.0.6
 
-#  other
+
+  #  other
   url_launcher: ^6.2.6
   share_plus: ^7.2.2
   equatable: ^2.0.0
