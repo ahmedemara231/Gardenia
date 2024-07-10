@@ -55,14 +55,6 @@ class StripeCubit extends Cubit<StripeStates>
         customerEphemeralKeySecret: await createEphemeralKey(),
         // customerId: await SecureStorage.getInstance().readData(key: '')
 
-        // Extra options
-        // applePay: const PaymentSheetApplePay(
-        //   merchantCountryCode: 'US',
-        // ),
-        // googlePay: const PaymentSheetGooglePay(
-        //   merchantCountryCode: 'US',
-        //   testEnv: true,
-        // ),
       ),
     );
   }

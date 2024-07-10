@@ -61,7 +61,7 @@ class StripeHeaders extends RequestHeaders
   {
     return
       {
-        HttpHeaders.authorizationHeader : StripeApiConstants.token,
+        HttpHeaders.authorizationHeader : StripeApiConstants.tokenSecretKey,
         HttpHeaders.contentTypeHeader : contentType,
         'Stripe-Version' : stripeVersion,
       };

@@ -1,8 +1,8 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_paypal_payment/flutter_paypal_payment.dart';
-import 'package:gardenia/model/remote/paypal_constants.dart';
+import 'package:gardenia/model/remote/paypal/models/amount.dart';
+import 'package:gardenia/model/remote/paypal/paypal_constants.dart';
 import 'package:gardenia/model/remote/stripe/api_service/models/create_intent_input_model.dart';
 import 'package:gardenia/modules/base_widgets/myText.dart';
 import 'package:gardenia/view_model/stripe/cubit.dart';
@@ -16,27 +16,24 @@ class TestMode extends StatelessWidget {
       body: Center(child: Column(
         children: [
           TextButton(
-                onPressed: () => StripeCubit.getInstance(context).makePaymentProcess(inputModel: CreateIntentInputModel(amount: '100', currency: 'USD', customerId: 'cus_QRO74OeDrsV4D1')),
+                onPressed: () =>
+                    StripeCubit.getInstance(context).makePaymentProcess(inputModel: CreateIntentInputModel(amount: '100', currency: 'USD', customerId: 'cus_QRO74OeDrsV4D1')),
               child: MyText(text: 'test',)),
           TextButton(
               onPressed: ()
               {
+                
+                AmountModel amount = AmountModel(total: '100', details: Details(subTotal: '100', shipping: '0', shipping_discount: 0));
+                
+                
                 Navigator.of(context).push(MaterialPageRoute(
                   builder: (BuildContext context) => PaypalCheckoutView(
                     sandboxMode: true,
                     clientId: PaypalConstants.paypalClientId,
                     secretKey: PaypalConstants.secretKey,
-                    transactions: const [
+                    transactions: [
                       {
-                        "amount": {
-                          "total": '100',
-                          "currency": "USD",
-                          "details": {
-                            "subtotal": '100',
-                            "shipping": '0',
-                            "shipping_discount": 0
-                          }
-                        },
+                        "amount": amount.toJson(),
                         "description": "The payment transaction description.",
                         "item_list": {
                           "items": [
