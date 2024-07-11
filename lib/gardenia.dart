@@ -83,10 +83,10 @@ class _GardeniaState extends State<Gardenia> {
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           home:
-          Cart()
+          // Cart()
           // BuyNowButton(amount: '100', items: [Item(name: 'name', quantity: 10, price: '100')],)
           // Login()
-          // Categories()
+          Categories()
           // Setting()
           // CacheHelper.getInstance().shared.getBool('finishOnBoarding') == true?
           // token == null?

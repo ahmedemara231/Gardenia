@@ -62,9 +62,12 @@ class _CartState extends State<Cart> {
                           SizedBox(width: 10.w),
                           Column(
                             children: [
-                              MyText(
-                                text: CategoriesCubit.getInstance(context).cartPlants[index].name,
-                                fontWeight: FontWeight.bold,
+                              SizedBox(
+                                width : context.setWidth(4),
+                                child: MyText(
+                                  text: CategoriesCubit.getInstance(context).cartPlants[index].name,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                               MyText(
                                 text: '${CategoriesCubit.getInstance(context).cartPlants[index].price} EGP',

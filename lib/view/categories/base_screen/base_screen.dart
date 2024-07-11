@@ -3,10 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gardenia/constants/constants.dart';
 import 'package:gardenia/extensions/context.dart';
+import 'package:gardenia/extensions/routes.dart';
 import 'package:gardenia/model/local/shared_prefs.dart';
 import 'package:gardenia/model/remote/api_service/service/constants.dart';
 import 'package:gardenia/modules/base_widgets/myText.dart';
 import 'package:gardenia/modules/base_widgets/textFormField.dart';
+import 'package:gardenia/view/cart/cart.dart';
 import 'package:gardenia/view/categories/all/categories.dart';
 import 'package:gardenia/view_model/categories/cubit.dart';
 import 'package:gardenia/view_model/categories/states.dart';
@@ -49,6 +51,7 @@ class _CategoriesState extends State<Categories> {
             ),
             centerTitle: true,
             actions: [
+              IconButton(onPressed: () => context.normalNewRoute(Cart()), icon: Icon(Icons.shopping_cart)),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 10.0.w),
                 child: CircleAvatar(
