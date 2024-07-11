@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gardenia/constants/constants.dart';
+import 'package:gardenia/extensions/string.dart';
 import 'package:gardenia/model/remote/api_service/repositories/get_repo.dart';
 import 'package:gardenia/model/remote/api_service/repositories/post_repo.dart';
 import 'package:gardenia/model/remote/api_service/service/connections/dio_connection.dart';
+import 'package:gardenia/model/remote/api_service/service/constants.dart';
 import 'package:gardenia/model/remote/api_service/service/error_handling/errors.dart';
+import 'package:gardenia/modules/base_widgets/snackBar.dart';
 import 'package:gardenia/modules/base_widgets/toast.dart';
 import 'package:gardenia/modules/data_types/plant.dart';
-import 'package:gardenia/view/plant_details/characteristics/carful/carful.dart';
-import 'package:gardenia/view/plant_details/characteristics/characteristics/characteristics.dart';
-import 'package:gardenia/view/plant_details/characteristics/place/place.dart';
 import 'package:gardenia/view_model/categories/states.dart';
-import '../../modules/data_types/place_data_model.dart';
+
+import '../../model/remote/paypal/models/item.dart';
 
 class CategoriesCubit extends Cubit<CategoriesStates>
 {
@@ -19,6 +21,86 @@ class CategoriesCubit extends Cubit<CategoriesStates>
   factory CategoriesCubit.getInstance(context) => BlocProvider.of(context);
 
   GetRepo getRepo = GetRepo(apiService: DioConnection.getInstance());
+
+
+  List<Plant> cartPlants = [
+    Plant(id: 1, name: 'name', image: 'https://bloomscape.com/wp-content/uploads/2022/10/bloomscape_sanseveria_zeylancia_sm_charcoal-scaled.jpg', description: 'description', type: 'type', light: 'light', ideal_temperature: 'ideal_temperature', resistance_zone: 'resistance_zone', suitable_location: 'suitable_location', careful: 'careful', liquid_fertilizer: 'liquid_fertilizer', clean: 'clean', toxicity: 'toxicity', names: 'names', price: 100),
+    Plant(id: 1, name: 'name', image: 'https://bloomscape.com/wp-content/uploads/2022/10/bloomscape_sanseveria_zeylancia_sm_charcoal-scaled.jpg', description: 'description', type: 'type', light: 'light', ideal_temperature: 'ideal_temperature', resistance_zone: 'resistance_zone', suitable_location: 'suitable_location', careful: 'careful', liquid_fertilizer: 'liquid_fertilizer', clean: 'clean', toxicity: 'toxicity', names: 'names', price: 100),
+  ];
+
+  late List<int> numbersOfCopiesList;
+  void makeNumbersOfCopies()
+  {
+    numbersOfCopiesList = [];
+    for (var value in cartPlants) {
+      numbersOfCopiesList.add(1);
+    }
+  }
+
+  void addCopy(int index)
+  {
+    numbersOfCopiesList[index]++;
+    emit(AddCopy());
+  }
+
+  void removeCopy(int index)
+  {
+    if(numbersOfCopiesList[index] > 1)
+      {
+        numbersOfCopiesList[index]--;
+        emit(RemoveCopy());
+      }
+  }
+
+  void putPlantInCart(context,{required Plant plant})
+  {
+    if(cartPlants.contains(plant))
+      {
+        MyToast.showToast(context, msg: 'Already Exists',color: Colors.red);
+      }
+    else{
+      cartPlants.add(plant);
+      MyToast.showToast(context, msg: 'Added to Cart',color: Constants.appColor);
+      emit(AddedTOCart());
+    }
+  }
+
+  void removePlantFromCart(context,{required Plant plant})
+  {
+    cartPlants.remove(plant);
+    emit(RemovedFromCart());
+  }
+
+  late List<Item> plantsItems;
+  void transPlantToItem()
+  {
+    plantsItems = [];
+
+    for (int i = 0; i < cartPlants.length; i++) {
+      Item item = Item.fromPlant(plant: cartPlants[i], quantity: numbersOfCopiesList[i]);
+      plantsItems.add(item);
+    }
+  }
+
+  int totalAmount = 0;
+  void calcTotalAmount()
+  {
+    totalAmount = 0;
+
+    for(var item in plantsItems)
+    {
+      totalAmount = totalAmount + (item.price.toInt() * item.quantity);
+    }
+    emit(CalcTotalAmountSuccess());
+  }
+
+  void executeCheckoutProcess()
+  {
+    transPlantToItem();
+    calcTotalAmount();
+  }
+
+
 
   List<List<Plant>> allCategory = [[],[]];
   Future<void> getAllCategories(context)async
@@ -131,8 +213,6 @@ class CategoriesCubit extends Cubit<CategoriesStates>
 
 
   List<Plant> favList = [];
-  bool isSpecificPlantExists = false;
-
 
   Future<void> getFavPlants()async
   {
@@ -216,9 +296,6 @@ class CategoriesCubit extends Cubit<CategoriesStates>
     favList.remove(plant);
     emit(AddRemFavorites());
   }
-
-
-
 }
 enum CurrentPage {fav, plantDetails}
 

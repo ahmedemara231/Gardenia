@@ -6,6 +6,7 @@ import 'package:gardenia/constants/constants.dart';
 import 'package:gardenia/model/remote/paypal/models/item.dart';
 import 'package:gardenia/modules/app_widgets/app_button.dart';
 import 'package:gardenia/modules/base_widgets/myText.dart';
+import 'package:gardenia/view_model/categories/cubit.dart';
 import 'package:gardenia/view_model/stripe/cubit.dart';
 import '../../model/remote/paypal/models/amount.dart';
 import '../../model/remote/paypal/paypal_constants.dart';
@@ -89,11 +90,13 @@ class BuyNowButton extends StatelessWidget {
     scaffoldKey.currentState!.showBottomSheet(
             (context) => Card(
               elevation: 5,
-              child: Container(
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 300),
                 width: double.infinity,
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.vertical(top: Radius.circular(16))
+                  border: Border.all(color: Constants.appColor),
+                  borderRadius: const BorderRadius.vertical(top: Radius.circular(16))
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -126,12 +129,14 @@ class BuyNowButton extends StatelessWidget {
                             }
                           },
                             child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: SizedBox(
-                                width: 100.w,
-                                height: 70.h,
-                                child: Image.asset(images[index])
-                              ),
+                              padding: const EdgeInsets.all(6.0),
+                              child: Container(
+                                  width: 100.w,
+                                  height: 70.h,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: Constants.appColor)
+                                  ),
+                                  child: Image.asset(images[index])),
                             ),
                           ),),
                       ),
@@ -143,13 +148,20 @@ class BuyNowButton extends StatelessWidget {
     );
   }
 
+  List<Item> itemss = [
+    Item(name: 'name', quantity: 2, price: '100'),
+    Item(name: 'name', quantity: 4, price: '200'),
+    Item(name: 'name', quantity: 3, price: '150'),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
       body: Center(
         child: AppButton(
-          onPressed: () => showPaymentOptionsSheet(),
+          onPressed: () =>
+              showPaymentOptionsSheet(),
           text: 'Buy',
           width: 1.2,
         ),

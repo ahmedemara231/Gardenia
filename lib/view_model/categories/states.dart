@@ -2,6 +2,16 @@ abstract class CategoriesStates {}
 
 class CategoriesInitState extends CategoriesStates {}
 
+class CalcTotalAmountSuccess extends CategoriesStates {}
+
+class AddedTOCart extends CategoriesStates {}
+
+class RemovedFromCart extends CategoriesStates {}
+
+class AddCopy extends CategoriesStates {}
+
+class RemoveCopy extends CategoriesStates {}
+
 class ChangeTap extends CategoriesStates {}
 
 class ChangeCharTab extends CategoriesStates{}

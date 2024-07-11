@@ -82,16 +82,34 @@ class GetRepo
       ),
     );
 
-    return getAllCategoriesRes.when(
-          (success) =>
-          Result.success(
-            (getAllCategoriesRes.tryGetSuccess()!.data['data']['plants'] as List)
-                .map(
-                  (e) => Plant.fromJson(e)
-            ).toList(),
-          ),
-          (error) => Result.error(error),
-    );
+    List plantsMaps = [];
+    List<Plant> plants = [];
+
+    if(getAllCategoriesRes.isSuccess())
+      {
+        plantsMaps = getAllCategoriesRes.tryGetSuccess()!.data['data']['plants'] as List;
+
+        plantsMaps.forEach((element) {
+          switch(element['type'])
+          {
+            case 'Indoor':
+              element['price'] = 250;
+            case 'Outdoor':
+              element['price'] = 300;
+            case 'Garden':
+              element['price'] = 400;
+            case 'Office':
+              element['price'] = 500;
+          }
+        });
+
+        plants = plantsMaps.map((e) => Plant.fromJson(e)).toList();
+
+        return Result.success(plants);
+      }
+    else{
+      return Result.error(getAllCategoriesRes.tryGetError()!);
+    }
   }
 
   Future<Result<List<Plant>,CustomError>> getPopularPlants()async
@@ -104,13 +122,34 @@ class GetRepo
       ),
     );
 
-    return getPopularPlantsRes.when(
-          (success) =>
-          Result.success((getPopularPlantsRes.tryGetSuccess()!
-              .data['data'] as List).map((e) =>
-              Plant.fromJson(e)).toList()),
-          (error) => Result.error(error),
-    );
+    List plantsMaps = [];
+    List<Plant> plants = [];
+
+    if(getPopularPlantsRes.isSuccess())
+    {
+      plantsMaps = getPopularPlantsRes.tryGetSuccess()!.data['data'] as List;
+
+      plantsMaps.forEach((element) {
+        switch(element['type'])
+        {
+          case 'Indoor':
+            element['price'] = 250;
+          case 'Outdoor':
+            element['price'] = 300;
+          case 'Garden':
+            element['price'] = 400;
+          case 'Office':
+            element['price'] = 500;
+        }
+      });
+
+      plants = plantsMaps.map((e) => Plant.fromJson(e)).toList();
+
+      return Result.success(plants);
+    }
+    else{
+      return Result.error(getPopularPlantsRes.tryGetError()!);
+    }
   }
 
   Future<Result<List<Plant>,CustomError>> getSpecificPlantsByCategory(int id)async
@@ -124,12 +163,34 @@ class GetRepo
       ),
     );
 
-    return getCategoryPlansRes.when(
-            (success) => Result.success(
-                (success.data['data'] as List).map((e) => Plant.fromJson(e)).toList()
-            ),
-            (error) => Result.error(error),
-    );
+    List plantsMaps = [];
+    List<Plant> plants = [];
+
+    if(getCategoryPlansRes.isSuccess())
+    {
+      plantsMaps = getCategoryPlansRes.tryGetSuccess()!.data['data'] as List;
+
+      plantsMaps.forEach((element) {
+        switch(element['type'])
+        {
+          case 'Indoor':
+            element['price'] = 250;
+          case 'Outdoor':
+            element['price'] = 300;
+          case 'Garden':
+            element['price'] = 400;
+          case 'Office':
+            element['price'] = 500;
+        }
+      });
+
+      plants = plantsMaps.map((e) => Plant.fromJson(e)).toList();
+
+      return Result.success(plants);
+    }
+    else{
+      return Result.error(getCategoryPlansRes.tryGetError()!);
+    }
   }
 
   Future<Result<Model,CustomError>> getProfileData()async

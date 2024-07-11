@@ -63,7 +63,8 @@ class _SpecificCategoryState extends State<SpecificCategory> {
                       liquid_fertilizer: categoriesCubit.categories[categoriesCubit.categoriesNames[categoriesCubit.currentTap]]![index].liquid_fertilizer,
                       clean: categoriesCubit.categories[categoriesCubit.categoriesNames[categoriesCubit.currentTap]]![index].clean,
                       toxicity: categoriesCubit.categories[categoriesCubit.categoriesNames[categoriesCubit.currentTap]]![index].toxicity,
-                      names: categoriesCubit.categories[categoriesCubit.categoriesNames[categoriesCubit.currentTap]]![index].names
+                      names: categoriesCubit.categories[categoriesCubit.categoriesNames[categoriesCubit.currentTap]]![index].names,
+                      price: categoriesCubit.categories[categoriesCubit.categoriesNames[categoriesCubit.currentTap]]![index].price
                   ),
                 ),
               );

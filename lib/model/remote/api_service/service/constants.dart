@@ -1,6 +1,6 @@
 class ApiConstants
 {
-  static const String baseUrlForImages = 'https://a238-45-244-65-133.ngrok-free.app';
+  static const String baseUrlForImages = 'https://831c-45-244-48-209.ngrok-free.app';
   static const String baseUrl = '$baseUrlForImages/api/v1/';
 
   // timeout durations

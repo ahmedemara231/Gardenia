@@ -21,4 +21,5 @@ class Constants
   static const String homeIcon = 'assets/icons/home_icon.svg';
   static const String categoriesIcon = 'assets/icons/categories_icon.svg';
   static const String personIcon = 'assets/icons/person_icon.svg';
+  static const String locationIcon = 'assets/icons/location_icon.png';
 }

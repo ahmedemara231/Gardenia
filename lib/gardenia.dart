@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gardenia/model/remote/paypal/models/item.dart';
 import 'package:gardenia/view/auth/login/login.dart';
 import 'package:gardenia/view/bottomNavBar/bottom_nav_bar.dart';
+import 'package:gardenia/view/cart/cart.dart';
 import 'package:gardenia/view/categories/base_screen/base_screen.dart';
 import 'package:gardenia/view/create_post/create_post.dart';
 import 'package:gardenia/view/home/home.dart';
@@ -81,7 +83,9 @@ class _GardeniaState extends State<Gardenia> {
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           home:
-          Login()
+          Cart()
+          // BuyNowButton(amount: '100', items: [Item(name: 'name', quantity: 10, price: '100')],)
+          // Login()
           // Categories()
           // Setting()
           // CacheHelper.getInstance().shared.getBool('finishOnBoarding') == true?

@@ -159,22 +159,38 @@ class _PlantDetailsState extends State<PlantDetails> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    MyText(
-                      text: widget.plant.name,
-                      fontSize: 25.sp,
-                      fontWeight: FontWeight.bold,
-                      color: Constants.appColor,
-                    ), // plant name
+                    SizedBox(
+                      width : context.setWidth(2),
+                      child: MyText(
+                        text: widget.plant.name,
+                        fontSize: 25.sp,
+                        fontWeight: FontWeight.bold,
+                        color: Constants.appColor,
+                      ),
+                    ),
+                    const Spacer(),// plant name
                     CircleAvatar(
                       radius: 20.sp,
-                      backgroundColor: Constants.secondAppColor.withOpacity(.5),
+                      backgroundColor: Constants.appColor,
+                      child: IconButton(
+                          onPressed: () => CategoriesCubit.getInstance(context).putPlantInCart(
+                              context,
+                              plant: widget.plant
+                          ),
+                          icon: const Icon(Icons.shopping_cart,color: Colors.white)
+                      ),
+                    ),
+                    SizedBox(width: 10.w,),// map view
+                    CircleAvatar(
+                      radius: 20.sp,
+                      backgroundColor: Constants.appColor,
                       child: IconButton(
                           onPressed: () => context.normalNewRoute(const MapView()),
-                          icon: Icon(Icons.location_on,color: Constants.appColor)
+                          icon: Image.asset(Constants.locationIcon)
                       ),
-                    ) // map view
+                    ),
+                     // map view
                   ],
                 ),
                 Row(
@@ -187,8 +203,18 @@ class _PlantDetailsState extends State<PlantDetails> {
                     ),
                   ],
                 ),
+                Row(
+                  children: [
+                    MyText(text: 'Price : ',fontWeight: FontWeight.bold,color: Constants.appColor,fontSize: 14.sp,),
+                    MyText(
+                      text: '${widget.plant.price} EGP',
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14.sp,
+                    ),
+                  ],
+                ),
                 Padding(
-                  padding: EdgeInsets.symmetric(vertical: 16.h),
+                  padding: EdgeInsets.symmetric(vertical: 10.h),
                   child: MyExpandableText(
                     text: widget.plant.description,
                   ),

@@ -15,6 +15,7 @@ class Plant extends Equatable{
   String? clean;
   String? toxicity;
   String? names;
+  int? price;
 
   Plant({
     required this.id,
@@ -30,27 +31,29 @@ class Plant extends Equatable{
     required this.liquid_fertilizer,
     required this.clean,
     required this.toxicity,
-    required this.names
+    required this.names,
+    required this.price,
   });
 
 
   factory Plant.fromJson(Map<String, dynamic> plantData)
   {
     return Plant(
-        id: plantData['id'],
-        name: plantData['name'],
-        image: plantData['image'],
-        description: plantData['description'],
-        type: plantData['type'],
-        light: plantData['light'],
-        ideal_temperature: plantData['ideal_temperature'],
-        resistance_zone: plantData['resistance_zone'],
-        suitable_location: plantData['suitable_location'],
-        careful: plantData['careful'],
-        liquid_fertilizer: plantData['liquid_fertilizer'],
-        clean: plantData['clean'],
-        toxicity: plantData['toxicity'],
-        names: plantData['names']
+      id: plantData['id'],
+      name: plantData['name'],
+      image: plantData['image'],
+      description: plantData['description'],
+      type: plantData['type'],
+      light: plantData['light'],
+      ideal_temperature: plantData['ideal_temperature'],
+      resistance_zone: plantData['resistance_zone'],
+      suitable_location: plantData['suitable_location'],
+      careful: plantData['careful'],
+      liquid_fertilizer: plantData['liquid_fertilizer'],
+      clean: plantData['clean'],
+      toxicity: plantData['toxicity'],
+      names: plantData['names'],
+      price: plantData['price']
     );
   }
 
