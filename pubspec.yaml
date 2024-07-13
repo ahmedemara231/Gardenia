@@ -53,6 +53,7 @@ dependencies:
   custom_refresh_indicator: ^3.1.0
   jiffy: ^6.2.2
   audioplayers: ^5.2.1
+  awesome_dialog: ^3.2.1
 
   #  maps
   google_maps_flutter: ^2.5.3

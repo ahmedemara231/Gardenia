@@ -10,6 +10,7 @@ import 'package:gardenia/model/remote/stripe/api_service/constants.dart';
 import 'package:gardenia/model/remote/stripe/api_service/models/create_intent_input_model.dart';
 import 'package:gardenia/model/remote/stripe/api_service/models/create_intent_model.dart';
 import 'package:multiple_result/src/result.dart';
+import '../../../local/secure_storage.dart';
 import '../../api_service/service/api_request.dart';
 
 class StripePostRepo {
@@ -77,7 +78,7 @@ class StripePostRepo {
         method: Methods.POST,
         endPoint: StripeApiConstants.getEphemeralKey,
         data: {
-          'customer' : 'cus_QRO74OeDrsV4D1'
+          'customer' : await SecureStorage.getInstance().readData(key: 'customerId')
         },
         headers:
         StripeHeaders(

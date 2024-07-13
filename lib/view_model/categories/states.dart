@@ -12,6 +12,8 @@ class AddCopy extends CategoriesStates {}
 
 class RemoveCopy extends CategoriesStates {}
 
+class FinishPayment extends CategoriesStates {}
+
 class ChangeTap extends CategoriesStates {}
 
 class ChangeCharTab extends CategoriesStates{}

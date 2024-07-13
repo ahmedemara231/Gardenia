@@ -51,9 +51,8 @@ class StripeCubit extends Cubit<StripeStates>
         paymentIntentClientSecret: paymentIntentClientSecret,
 
         // Customer keys
-        customerId: 'cus_QRO74OeDrsV4D1',
+        customerId: await SecureStorage.getInstance().readData(key: 'customerId'),
         customerEphemeralKeySecret: await createEphemeralKey(),
-        // customerId: await SecureStorage.getInstance().readData(key: '')
 
       ),
     );

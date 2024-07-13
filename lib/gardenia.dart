@@ -9,8 +9,6 @@ import 'package:gardenia/view/categories/base_screen/base_screen.dart';
 import 'package:gardenia/view/create_post/create_post.dart';
 import 'package:gardenia/view/home/home.dart';
 import 'package:gardenia/view/onBoarding/onBoarding_screen.dart';
-import 'package:gardenia/view/payment/buy_now_button.dart';
-import 'package:gardenia/view/payment/stripe/view.dart';
 import 'package:gardenia/view/profile/edit_profile/edit_profile.dart';
 import 'package:gardenia/view/profile/profile.dart';
 import 'package:gardenia/view/settting/setting.dart';
@@ -83,10 +81,10 @@ class _GardeniaState extends State<Gardenia> {
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           home:
-          // Cart()
+          Cart()
           // BuyNowButton(amount: '100', items: [Item(name: 'name', quantity: 10, price: '100')],)
           // Login()
-          Categories()
+          // Categories()
           // Setting()
           // CacheHelper.getInstance().shared.getBool('finishOnBoarding') == true?
           // token == null?

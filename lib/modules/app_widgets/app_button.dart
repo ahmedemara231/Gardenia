@@ -11,6 +11,7 @@ class AppButton extends StatelessWidget {
   Color? buttonColor;
   Color? buttonTextColor;
   double width;
+  BorderRadiusGeometry? borderRadius;
 
   AppButton({super.key,
     required this.onPressed,
@@ -18,6 +19,7 @@ class AppButton extends StatelessWidget {
     this.buttonColor,
     this.buttonTextColor,
     required this.width,
+    this.borderRadius,
   });
 
   @override
@@ -27,7 +29,7 @@ class AppButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         backgroundColor: buttonColor?? Constants.appColor,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8)
+          borderRadius: borderRadius?? BorderRadius.circular(8)
         ),
       ),
       child: SizedBox(

@@ -23,7 +23,7 @@ class CategoriesCubit extends Cubit<CategoriesStates>
   GetRepo getRepo = GetRepo(apiService: DioConnection.getInstance());
 
 
-  List<Plant> cartPlants = [];
+  List<Plant> cartPlants = [Plant(id: 1, name: 'name', image: 'image', description: 'description', type: 'type', light: 'light', ideal_temperature: 'ideal_temperature', resistance_zone: 'resistance_zone', suitable_location: 'suitable_location', careful: 'careful', liquid_fertilizer: 'liquid_fertilizer', clean: 'clean', toxicity: 'toxicity', names: 'names', price: 100)];
 
   late List<int> numbersOfCopiesList;
   void makeNumbersOfCopies()
@@ -40,13 +40,18 @@ class CategoriesCubit extends Cubit<CategoriesStates>
     emit(AddCopy());
   }
 
-  void removeCopy(int index)
+  void decCopy(int index)
   {
     if(numbersOfCopiesList[index] > 1)
       {
         numbersOfCopiesList[index]--;
         emit(RemoveCopy());
       }
+  }
+
+  void removeCopy(int index)
+  {
+    numbersOfCopiesList.removeAt(index);
   }
 
   void putPlantInCart(context,{required Plant plant})
@@ -62,9 +67,13 @@ class CategoriesCubit extends Cubit<CategoriesStates>
     }
   }
 
-  void removePlantFromCart(context,{required Plant plant})
+  void removePlantFromCart(context,{
+    required Plant plant,
+    required int index
+  })
   {
     cartPlants.remove(plant);
+    removeCopy(index);
     emit(RemovedFromCart());
   }
 
@@ -97,6 +106,13 @@ class CategoriesCubit extends Cubit<CategoriesStates>
     calcTotalAmount();
   }
 
+  void finishPayment(BuildContext context)
+  {
+    cartPlants = List.empty(growable: true);
+    numbersOfCopiesList = List.empty(growable: true);
+    plantsItems = List.empty(growable: true);
+    emit(FinishPayment());
+  }
 
 
   List<List<Plant>> allCategory = [[],[]];
