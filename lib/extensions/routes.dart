@@ -32,5 +32,6 @@ extension Routes on BuildContext
         builder: (context) => newRoute,
         context: this,
       ),
-    );  }
+    );
+  }
 }

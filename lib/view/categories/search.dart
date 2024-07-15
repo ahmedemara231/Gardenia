@@ -72,7 +72,7 @@ class Search extends SearchDelegate
                           image: CategoriesCubit.getInstance(context).searchedPlants[index].image,
                           name: CategoriesCubit.getInstance(context).searchedPlants[index].name,
                           type: CategoriesCubit.getInstance(context).searchedPlants[index].type
-                                      ),
+                        ),
                       ),),
                   ),
                 ],

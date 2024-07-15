@@ -25,11 +25,5 @@ class RequestModel
     this.onReceiveProgress,
     this.isFormData = false,
 });
-
-  factory RequestModel.getInstance(RequestModel requestModel)
-  {
-    requestModel.prepareDataForRequest();
-    return requestModel;
-  }
 }
 

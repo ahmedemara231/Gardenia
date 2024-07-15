@@ -35,6 +35,7 @@ class ApiConstants
   // profile
   static const String getProfileData = 'profile';
   static const String updateProfile = 'update_profile';
+  static const String updateUserImage = 'update_image';
 
   // Favorites
   static const String getFavPlants = 'favourite_plants';

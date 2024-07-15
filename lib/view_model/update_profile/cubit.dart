@@ -47,6 +47,7 @@ class UpdateProfileCubit extends Cubit<UpdateProfileStates>
   late Model updateProfileImageResult;
   Future<void> updateProfileImage(context)async
   {
+    emit(UpdateProfileImageLoading());
     await updateRepo.updateProfileImage(newProfileImage!).then((result) async
     {
       if(result.isSuccess())
@@ -66,6 +67,7 @@ class UpdateProfileCubit extends Cubit<UpdateProfileStates>
                   msg: updateProfileImageResult.message,
                   color: Constants.appColor
               );
+              Navigator.pop(context);
               emit(UpdateProfileImageSuccess());
             },
           );

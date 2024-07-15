@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:gardenia/model/remote/api_service/extensions/request_model.dart';
 import 'package:gardenia/modules/data_types/update_user_data.dart';
 import 'package:multiple_result/multiple_result.dart';
 import '../factory_method.dart';
@@ -19,21 +20,24 @@ class PutRepo
   Future<Result<Model,CustomError>> updateProfileImage(File image)async
   {
     FormData formData = FormData.fromMap({
-      '_method' : 'PATCH',
+      '_method' : Methods.PUT,
       'image' : await MultipartFile.fromFile(
         image.path,
         filename: image.path.split('/').last,
       ),
     });
 
+    final requestModel = RequestModel(
+      method: Methods.PUT,
+      endPoint: ApiConstants.updateUserImage,
+      data: formData,
+      headers: HeadersWithToken(contentType: 'multipart/form-data')
+    );
+
+    // requestModel.prepareDataForRequest();
 
     Result<Response,CustomError> updateProfileImageResponse = await apiService.callApi(
-      request: RequestModel(
-          method: Methods.POST,
-          endPoint: ApiConstants.updateProfile,
-          headers: HeadersWithToken(contentType: 'multipart/form-data'),
-          data: formData
-      ),
+      request: requestModel,
     );
 
     return updateProfileImageResponse.when(
