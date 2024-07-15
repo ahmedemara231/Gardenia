@@ -5,13 +5,10 @@ import 'package:gardenia/extensions/string.dart';
 import 'package:gardenia/model/remote/api_service/repositories/get_repo.dart';
 import 'package:gardenia/model/remote/api_service/repositories/post_repo.dart';
 import 'package:gardenia/model/remote/api_service/service/connections/dio_connection.dart';
-import 'package:gardenia/model/remote/api_service/service/constants.dart';
 import 'package:gardenia/model/remote/api_service/service/error_handling/errors.dart';
-import 'package:gardenia/modules/base_widgets/snackBar.dart';
 import 'package:gardenia/modules/base_widgets/toast.dart';
 import 'package:gardenia/modules/data_types/plant.dart';
 import 'package:gardenia/view_model/categories/states.dart';
-
 import '../../model/remote/paypal/models/item.dart';
 
 class CategoriesCubit extends Cubit<CategoriesStates>
@@ -23,7 +20,7 @@ class CategoriesCubit extends Cubit<CategoriesStates>
   GetRepo getRepo = GetRepo(apiService: DioConnection.getInstance());
 
 
-  List<Plant> cartPlants = [Plant(id: 1, name: 'name', image: 'image', description: 'description', type: 'type', light: 'light', ideal_temperature: 'ideal_temperature', resistance_zone: 'resistance_zone', suitable_location: 'suitable_location', careful: 'careful', liquid_fertilizer: 'liquid_fertilizer', clean: 'clean', toxicity: 'toxicity', names: 'names', price: 100)];
+  List<Plant> cartPlants = [];
 
   late List<int> numbersOfCopiesList;
   void makeNumbersOfCopies()
@@ -114,6 +111,24 @@ class CategoriesCubit extends Cubit<CategoriesStates>
     emit(FinishPayment());
   }
 
+
+  List<Plant> searchedPlants = [];
+  Future<void> search(String letter)async
+  {
+    searchedPlants = [];
+    emit(SearchLoading());
+    await getRepo.search(letter).then((result)
+    {
+      if(result.isSuccess())
+        {
+          searchedPlants = result.getOrThrow();
+          emit(SearchSuccess());
+        }
+      else{
+        emit(SearchError());
+      }
+    });
+  }
 
   List<List<Plant>> allCategory = [[],[]];
   Future<void> getAllCategories(context)async

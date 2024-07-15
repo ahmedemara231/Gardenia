@@ -69,7 +69,7 @@ class _SpecificCategoryState extends State<SpecificCategory> {
                 ),
               );
             },
-            child: ItemBuilder(
+            child: SpecificPlantTypeModel(
                 image: categoriesCubit.categories[categoriesCubit.categoriesNames[categoriesCubit.currentTap]]![index].image,
                 name: categoriesCubit.categories[categoriesCubit.categoriesNames[categoriesCubit.currentTap]]![index].name,
                 type: categoriesCubit.categories[categoriesCubit.categoriesNames[categoriesCubit.currentTap]]![index].type

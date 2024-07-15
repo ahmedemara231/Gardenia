@@ -14,6 +14,12 @@ class RemoveCopy extends CategoriesStates {}
 
 class FinishPayment extends CategoriesStates {}
 
+class SearchLoading extends CategoriesStates {}
+
+class SearchSuccess extends CategoriesStates {}
+
+class SearchError extends CategoriesStates {}
+
 class ChangeTap extends CategoriesStates {}
 
 class ChangeCharTab extends CategoriesStates{}

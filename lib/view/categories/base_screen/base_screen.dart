@@ -10,6 +10,7 @@ import 'package:gardenia/modules/base_widgets/myText.dart';
 import 'package:gardenia/modules/base_widgets/textFormField.dart';
 import 'package:gardenia/view/cart/cart.dart';
 import 'package:gardenia/view/categories/all/categories.dart';
+import 'package:gardenia/view/categories/search.dart';
 import 'package:gardenia/view_model/categories/cubit.dart';
 import 'package:gardenia/view_model/categories/states.dart';
 import '../specific_category/specific_category.dart';
@@ -51,7 +52,12 @@ class _CategoriesState extends State<Categories> {
             ),
             centerTitle: true,
             actions: [
-              IconButton(onPressed: () => context.normalNewRoute(Cart()), icon: Icon(Icons.shopping_cart)),
+              IconButton(
+                  onPressed: () => context.normalNewRoute(const Cart()),
+                  icon: const Icon(Icons.shopping_cart
+                  ),
+              ),
+
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 10.0.w),
                 child: CircleAvatar(
@@ -78,6 +84,7 @@ class _CategoriesState extends State<Categories> {
                           borderRadius: BorderRadius.circular(16)
                       ),
                       child: TFF(
+                        onPressed: () => showSearch(context: context, delegate: Search()),
                         style: const TextStyle(
                             color: Colors.white,
                             fontSize: 20

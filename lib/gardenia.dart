@@ -14,6 +14,7 @@ import 'package:gardenia/view/profile/profile.dart';
 import 'package:gardenia/view/settting/setting.dart';
 import 'package:gardenia/view/settting/setting/notifications.dart';
 import 'package:gardenia/view/settting/setting/privacy_policy.dart';
+import 'package:gardenia/view/test/test.dart';
 import 'package:gardenia/view_model/Login/cubit.dart';
 import 'package:gardenia/view_model/bottomNavBar/cubit.dart';
 import 'package:gardenia/view_model/categories/cubit.dart';
@@ -81,10 +82,11 @@ class _GardeniaState extends State<Gardenia> {
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           home:
-          Cart()
+          // Test1()
+          // Cart()
           // BuyNowButton(amount: '100', items: [Item(name: 'name', quantity: 10, price: '100')],)
           // Login()
-          // Categories()
+          Categories()
           // Setting()
           // CacheHelper.getInstance().shared.getBool('finishOnBoarding') == true?
           // token == null?

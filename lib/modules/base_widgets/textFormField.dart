@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gardenia/modules/base_widgets/myText.dart';
 
 class TFF extends StatelessWidget {
   String? hintText;
@@ -82,4 +84,30 @@ class TFF extends StatelessWidget {
       ),
     );
   }
+}
+class a extends SearchDelegate
+{
+  @override
+  List<Widget>? buildActions(BuildContext context) {
+    // TODO: implement buildActions
+    throw UnimplementedError();
+  }
+
+  @override
+  Widget? buildLeading(BuildContext context) {
+    // TODO: implement buildLeading
+    throw UnimplementedError();
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    // TODO: implement buildResults
+    throw UnimplementedError();
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    return BlocBuilder(builder: (context, state) => MyText(text: ''));
+  }
+
 }

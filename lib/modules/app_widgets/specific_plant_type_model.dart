@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../modules/base_widgets/myText.dart';
 
-class ItemBuilder extends StatelessWidget {
+class SpecificPlantTypeModel extends StatelessWidget {
   String image;
   String name;
   String type;
 
-  ItemBuilder({super.key,
+  SpecificPlantTypeModel({super.key,
     required this.image,
     required this.name,
     required this.type,

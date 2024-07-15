@@ -24,7 +24,7 @@ class SpecificCategoriesShimmer extends StatelessWidget {
               mainAxisSpacing: 16.h,
               crossAxisSpacing: 8.w
           ),
-          itemBuilder: (context, index) => ItemBuilder(
+          itemBuilder: (context, index) => SpecificPlantTypeModel(
               image: '',
               name: 'Name',
               type: 'Type'

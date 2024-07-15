@@ -84,7 +84,5 @@ class PutRepo
             (success) => Result.success(Executer().factory(success)),
             (error) => Result.error(error),
     );
-
   }
-
 }

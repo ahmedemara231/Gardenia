@@ -235,4 +235,26 @@ class GetRepo
     }
   }
 
+
+  Future<Result<List<Plant>,CustomError>> search(String letter)async
+  {
+    Result<Response<dynamic>, CustomError> searchResult = await apiService.callApi(
+      request: RequestModel(
+          method: Methods.GET,
+          endPoint: ApiConstants.search,
+          queryParams: {'name' : letter}
+      ),
+    );
+
+    if(searchResult.isSuccess())
+    {
+      List list = searchResult.getOrThrow().data['data'] as List;
+      List<Plant> plantsList = list.map((e) => Plant.fromJson(e)).toList();
+      return Result.success(plantsList);
+    }
+    else{
+      return Result.error(searchResult.tryGetError()!);
+    }
+  }
+
 }

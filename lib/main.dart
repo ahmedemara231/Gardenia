@@ -8,7 +8,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gardenia/model/local/Hive/hive.dart';
 import 'package:gardenia/model/local/secure_storage.dart';
 import 'package:gardenia/model/local/shared_prefs.dart';
-
 import 'gardenia.dart';
 
 void main()async {

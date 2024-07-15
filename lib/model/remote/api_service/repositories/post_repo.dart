@@ -196,9 +196,6 @@ class PostRepo
           endPoint: ApiConstants.addRemFavorites,
           queryParams: {'plant_id' : plantId},
           headers: HeadersWithToken(),
-        )).then((result)
-    {
-      print(result.getOrThrow().data);
-    });
+        ));
   }
 }

@@ -105,7 +105,7 @@ class DioConnection extends ApiService implements DownloadApiService
               receiveDataWhenStatusError: true,
               responseType: request.responseType?? ResponseType.json,
               method: request.method,
-              headers: await request.headers!.toJson()
+              headers: await request.headers?.toJson()
             ),
             data: request.isFormData?
             FormData.fromMap(request.data) : request.data,
