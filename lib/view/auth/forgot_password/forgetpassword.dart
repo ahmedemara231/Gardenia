@@ -7,6 +7,7 @@ import 'package:gardenia/modules/base_widgets/textFormField.dart';
 import 'package:gardenia/view/auth/otp_code/screen.dart';
 import 'package:gardenia/view_model/forgot_reset_pass/cubit.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
+import '../../../modules/app_widgets/arrow_back_button.dart';
 import '../../../modules/base_widgets/myText.dart';
 
 class ForgetPassword extends StatelessWidget {
@@ -18,7 +19,9 @@ class ForgetPassword extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        leading: const ArrowBackButton(),
+      ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.0.w),
         child: Column(

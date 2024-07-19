@@ -29,11 +29,11 @@ extension MediaQueryExtension on BuildContext
     switch(currentTab)
     {
       case 0:
-        return setHeight(1.8);
+        return setHeight(1.7);
       case 1:
-        return setHeight(1.2);
+        return setHeight(1.5);
       default:
-        return setHeight(3);
+        return setHeight(3.7);
     }
   }
 }

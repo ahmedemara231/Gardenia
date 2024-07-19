@@ -25,20 +25,35 @@ class BottomNavBar extends StatelessWidget {
 
   final List<BottomNavigationBarItemElement> elements =
   [
-    BottomNavigationBarItemElement(icon: SvgPicture.asset(Constants.homeIcon,height: 22.h),label: ''),
-    BottomNavigationBarItemElement(icon: SvgPicture.asset(Constants.categoriesIcon,height: 22.h),label: ''),
-    BottomNavigationBarItemElement(icon: Icon(Icons.favorite,size: 28.sp,),label: ''),
-    BottomNavigationBarItemElement(icon: SvgPicture.asset(Constants.personIcon,height: 22.h),label: ''),
+    BottomNavigationBarItemElement(
+        icon: SvgPicture.asset(Constants.homeIcon,
+            height: 18.h),label: ''
+    ),
+    BottomNavigationBarItemElement(
+        icon: SvgPicture.asset(Constants.categoriesIcon,
+            height: 18.h),label: ''
+    ),
+    BottomNavigationBarItemElement(
+        icon: Icon(Icons.favorite,size: 28.sp,),
+        label: ''
+    ),
+    BottomNavigationBarItemElement(
+        icon: SvgPicture.asset(
+          Constants.personIcon,
+          height: 21.h,
+          color: Colors.white,
+        ),label: ''),
   ];
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<BottomNavCubit,BottomNavStates>(
       builder: (context, state) => Scaffold(
         bottomNavigationBar: Container(
+          height: 65.h,
           clipBehavior: Clip.antiAliasWithSaveLayer,
           decoration: const BoxDecoration(
               borderRadius:  BorderRadius.vertical(
-                  top: Radius.circular(16)
+                  top: Radius.circular(14)
               )
           ),
           child: BottomNavigationBar(

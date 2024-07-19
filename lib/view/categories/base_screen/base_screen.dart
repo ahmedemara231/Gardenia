@@ -61,7 +61,9 @@ class _CategoriesState extends State<Categories> {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 10.0.w),
                 child: CircleAvatar(
-                  backgroundImage: NetworkImage('${ApiConstants.baseUrlForImages}${CacheHelper.getInstance().getUserData()![3]}'),
+                  backgroundImage: NetworkImage(
+                      '${ApiConstants.baseUrlForImages}${CacheHelper.getInstance().getUserData()?[3]}'
+                  ),
                 ),
               )
             ],

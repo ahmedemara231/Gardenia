@@ -42,111 +42,118 @@ class _AllCategoriesState extends State<AllCategories> {
           );
         }
         else{
-          if(state is GetCategoryNetworkError)
+          switch(state)
           {
-            return ErrorBuilder(
-              message: state.message,
-              onPressed: () => CategoriesCubit.getInstance(context).getAllCategories(context),
-            );
-          }
-          else{
-            return ListView(
-              children: [
-                Column(
-                  children: [
-                    SizedBox(
-                      height: context.setHeight(5),
-                      child: ListView.separated(
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) => InkWell(
-                          onTap: () => context.normalNewRoute(
+            case GetCategoryNetworkError():
+              return ErrorBuilder(
+                message: state.message,
+                onPressed: () => CategoriesCubit.getInstance(context).getAllCategories(context),
+              );
+
+            case GetCategoriesErrorState():
+              return ErrorBuilder(
+                message: 'Try Again Later',
+                onPressed: () => CategoriesCubit.getInstance(context).getAllCategories(context),
+              );
+
+            default:
+              return ListView(
+                children: [
+                  Column(
+                    children: [
+                      SizedBox(
+                        height: context.setHeight(5),
+                        child: ListView.separated(
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) => InkWell(
+                            onTap: () => context.normalNewRoute(
                               PlantDetails(
-                                  plant: categoriesCubit.allCategory[0].sublist(0,categoriesCubit.allCategory[0].length ~/ 2)[index],
+                                plant: categoriesCubit.allCategory[0].sublist(0,categoriesCubit.allCategory[0].length ~/ 2)[index],
                               ),
-                          ),
-                          child: AllPlantsModel(
-                            imageUrl: categoriesCubit.allCategory[0].sublist(0,categoriesCubit.allCategory[0].length ~/ 2)[index].image,
-                            plantName: categoriesCubit.allCategory[0].sublist(0,categoriesCubit.allCategory[0].length ~/ 2)[index].name,
-                            plantType: categoriesCubit.allCategory[0].sublist(0,categoriesCubit.allCategory[0].length ~/ 2)[index].type,
-                          ),
-                        ),
-                        separatorBuilder: (context, index) => SizedBox(width: 10.w,),
-                        itemCount: categoriesCubit.allCategory[0].sublist(0,categoriesCubit.allCategory[0].length ~/ 2).length,
-                      ),
-                    ),
-                    SizedBox(height: 16.h,),
-                    SizedBox(
-                      height: context.setHeight(5),
-                      child: ListView.separated(
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) => InkWell(
-                          onTap: () => context.normalNewRoute(
-                            PlantDetails(
-                              plant: categoriesCubit.allCategory[0].sublist(categoriesCubit.allCategory[0].length ~/ 2,categoriesCubit.allCategory[0].length)[index],
+                            ),
+                            child: AllPlantsModel(
+                              imageUrl: categoriesCubit.allCategory[0].sublist(0,categoriesCubit.allCategory[0].length ~/ 2)[index].image,
+                              plantName: categoriesCubit.allCategory[0].sublist(0,categoriesCubit.allCategory[0].length ~/ 2)[index].name,
+                              plantType: categoriesCubit.allCategory[0].sublist(0,categoriesCubit.allCategory[0].length ~/ 2)[index].type,
                             ),
                           ),
-                          child: AllPlantsModel(
-                            imageUrl: categoriesCubit.allCategory[0].sublist(categoriesCubit.allCategory[0].length ~/ 2,categoriesCubit.allCategory[0].length)[index].image,
-                            plantName: categoriesCubit.allCategory[0].sublist(categoriesCubit.allCategory[0].length ~/ 2,categoriesCubit.allCategory[0].length)[index].name,
-                            plantType: categoriesCubit.allCategory[0].sublist(categoriesCubit.allCategory[0].length ~/ 2,categoriesCubit.allCategory[0].length)[index].type,
-                          ),
+                          separatorBuilder: (context, index) => SizedBox(width: 10.w,),
+                          itemCount: categoriesCubit.allCategory[0].sublist(0,categoriesCubit.allCategory[0].length ~/ 2).length,
                         ),
-                        separatorBuilder: (context, index) => SizedBox(width: 10.w,),
-                        itemCount: categoriesCubit.allCategory[0].sublist(categoriesCubit.allCategory[0].length ~/ 2,categoriesCubit.allCategory[0].length).length,
                       ),
-                    ),
-                  ],
-                ),
+                      SizedBox(height: 16.h,),
+                      SizedBox(
+                        height: context.setHeight(5),
+                        child: ListView.separated(
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) => InkWell(
+                            onTap: () => context.normalNewRoute(
+                              PlantDetails(
+                                plant: categoriesCubit.allCategory[0].sublist(categoriesCubit.allCategory[0].length ~/ 2,categoriesCubit.allCategory[0].length)[index],
+                              ),
+                            ),
+                            child: AllPlantsModel(
+                              imageUrl: categoriesCubit.allCategory[0].sublist(categoriesCubit.allCategory[0].length ~/ 2,categoriesCubit.allCategory[0].length)[index].image,
+                              plantName: categoriesCubit.allCategory[0].sublist(categoriesCubit.allCategory[0].length ~/ 2,categoriesCubit.allCategory[0].length)[index].name,
+                              plantType: categoriesCubit.allCategory[0].sublist(categoriesCubit.allCategory[0].length ~/ 2,categoriesCubit.allCategory[0].length)[index].type,
+                            ),
+                          ),
+                          separatorBuilder: (context, index) => SizedBox(width: 10.w,),
+                          itemCount: categoriesCubit.allCategory[0].sublist(categoriesCubit.allCategory[0].length ~/ 2,categoriesCubit.allCategory[0].length).length,
+                        ),
+                      ),
+                    ],
+                  ),
 
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 16.0.h),
-                  child: Row(
-                    children: [
-                      MyText(
-                          text: 'Popular',
-                          color: Constants.appColor,
-                          fontSize: 15.sp,
-                          fontWeight: FontWeight.bold
-                      ),
-                      const Spacer(),
-                      TextButton(
-                        onPressed: () {},
-                        child: MyText(
-                            text: 'See all',
-                            color: Colors.black,
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: 16.0.h),
+                    child: Row(
+                      children: [
+                        MyText(
+                            text: 'Popular',
+                            color: Constants.appColor,
                             fontSize: 15.sp,
                             fontWeight: FontWeight.bold
                         ),
-                      )
-                    ],
-                  ),
-                ),
-
-                SizedBox(
-                  height: context.setHeight(6),
-                  child: ListView.separated(
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) => InkWell(
-                        onTap: () {},
-                        child: InkWell(
-                          onTap: () => context.normalNewRoute(
-                            PlantDetails(
-                              plant: categoriesCubit.allCategory[1][index],
-                            ),
-                          ),
-                          child: PopularPlants(
-                            image: categoriesCubit.allCategory[1][index].image,
-                            type: categoriesCubit.allCategory[1][index].type,
-                            plantName: categoriesCubit.allCategory[1][index].name,
+                        const Spacer(),
+                        TextButton(
+                          onPressed: () {},
+                          child: MyText(
+                              text: 'See all',
+                              color: Colors.black,
+                              fontSize: 15.sp,
+                              fontWeight: FontWeight.bold
                           ),
                         )
+                      ],
                     ),
-                    separatorBuilder: (context, index) => SizedBox(width: 10.w,),
-                    itemCount: categoriesCubit.allCategory[1].length,
                   ),
-                ),
-              ],
-            );
+
+                  SizedBox(
+                    height: context.setHeight(6),
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) => InkWell(
+                          onTap: () {},
+                          child: InkWell(
+                            onTap: () => context.normalNewRoute(
+                              PlantDetails(
+                                plant: categoriesCubit.allCategory[1][index],
+                              ),
+                            ),
+                            child: PopularPlants(
+                              image: categoriesCubit.allCategory[1][index].image,
+                              type: categoriesCubit.allCategory[1][index].type,
+                              plantName: categoriesCubit.allCategory[1][index].name,
+                            ),
+                          )
+                      ),
+                      separatorBuilder: (context, index) => SizedBox(width: 10.w,),
+                      itemCount: categoriesCubit.allCategory[1].length,
+                    ),
+                  ),
+                ],
+              );
           }
         }
       }

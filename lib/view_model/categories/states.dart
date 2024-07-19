@@ -40,6 +40,9 @@ class GetSpecificCategoryLoading extends CategoriesStates{}
 
 class GetSpecificCategorySuccess extends CategoriesStates{}
 
+class GetSpecificCategoryError extends CategoriesStates {}
+
+
 class GetCategoryNetworkError extends CategoriesStates{
   String message;
   GetCategoryNetworkError({required this.message});

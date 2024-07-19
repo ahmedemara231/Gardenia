@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gardenia/constants/constants.dart';
+import 'package:gardenia/modules/app_widgets/arrow_back_button.dart';
 import 'package:gardenia/modules/base_widgets/myText.dart';
 import 'package:gardenia/modules/base_widgets/snackBar.dart';
 import 'package:gardenia/modules/data_types/user_data.dart';
@@ -104,10 +105,22 @@ class _SignUpState extends State<SignUp> {
     ];
     super.initState();
   }
+
+  @override
+  void dispose() {
+    nameCont.dispose();
+    emailCont.dispose();
+    passCont.dispose();
+    passConfCont.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        leading: const ArrowBackButton(),
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding:  EdgeInsets.symmetric(horizontal: 16.w),
@@ -143,7 +156,7 @@ class _SignUpState extends State<SignUp> {
                     {
                       if(passCont.text == passConfCont.text)
                         {
-                          SignUpCubit.getInstance(context).signUp(
+                          SignUpCubit.getInstance(context).makeSignUpProcess(
                             context,
                             user: UserData(
                               name: nameCont.text,

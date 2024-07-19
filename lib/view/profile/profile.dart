@@ -32,7 +32,6 @@ class _ProfileState extends State<Profile> {
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ProfileCubit,ProfileStates>(
@@ -41,7 +40,6 @@ class _ProfileState extends State<Profile> {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
-          leading: const ArrowBackButton(),
           title: MyText(
             text: 'Profile',
             color: Constants.appColor,fontSize: 20.sp,

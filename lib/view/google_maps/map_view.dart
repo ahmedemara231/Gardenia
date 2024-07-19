@@ -4,6 +4,7 @@ import 'package:gardenia/view_model/google_maps/cubit.dart';
 import 'package:gardenia/view_model/google_maps/states.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+import '../../modules/app_widgets/arrow_back_button.dart';
 
 class MapView extends StatefulWidget {
   const MapView({super.key});
@@ -37,6 +38,7 @@ class _MapViewState extends State<MapView> {
       key: scaffoldKey,
       extendBodyBehindAppBar: true,
       appBar: AppBar(
+        leading: const ArrowBackButton(),
         backgroundColor: Colors.transparent,
       ),
       body: BlocBuilder<MapsCubit,GoogleMapsStates>(

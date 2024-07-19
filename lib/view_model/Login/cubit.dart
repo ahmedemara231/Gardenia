@@ -10,10 +10,7 @@ import 'package:gardenia/model/remote/api_service/model/success_model.dart';
 import 'package:gardenia/model/remote/api_service/repositories/post_repo.dart';
 import 'package:gardenia/model/remote/api_service/service/connections/dio_connection.dart';
 import 'package:gardenia/model/remote/api_service/service/error_handling/errors.dart';
-import 'package:gardenia/model/remote/stripe/api_service/service/stripe_connection.dart';
-import 'package:gardenia/model/remote/stripe/repositories/post_repo.dart';
 import 'package:gardenia/modules/base_widgets/toast.dart';
-import 'package:gardenia/modules/data_types/login_process_inputs.dart';
 import 'package:gardenia/view_model/Login/states.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 import '../../view/auth/login/login.dart';
@@ -48,21 +45,18 @@ class LoginCubit extends Cubit<LoginStates>
 
   final RoundedLoadingButtonController loginButtonCont = RoundedLoadingButtonController();
 
-  StripePostRepo stripeRepo = StripePostRepo(apiService: StripeConnection());
+  late Model loginResult;
 
-  Future<Model> login(BuildContext context, {
+  Future<void> login(BuildContext context, {
     required String email,
     required String password,
   }) async
   {
     emit(LoginLoadingState());
-    late Model loginResult;
 
     await postRepo.login(email: email, password: password).then(
           (result) async
     {
-      loginResult = result.getOrThrow();
-
       if(result.isSuccess())
         {
           loginButtonCont.success();
@@ -100,12 +94,11 @@ class LoginCubit extends Cubit<LoginStates>
         else{
           log(result.tryGetError()!.message!);
         }
-
         emit(LoginErrorState());
-      }
+
+      } loginResult = result.getOrThrow();
       },
     );
-    return loginResult;
   }
 
   Future<void> logout(BuildContext context)async
@@ -144,36 +137,18 @@ class LoginCubit extends Cubit<LoginStates>
     );
   }
 
-  Future<void> createStripeCustomer({
-    required String name,
-    required String phone
-  })async
-  {
-    await stripeRepo.createCustomer(name: name, phone: phone).then((result)
-    {
-      result.when(
-            (success) => SecureStorage.getInstance().setData(
-                key: 'customerId', value: result.getOrThrow()
-            ),
-            (error) => null,
-      );
-    });
-  }
-
-
-  Future<void> makeLoginProcess(context,{required LoginProcessInputs loginInputs})async{
-    Model loginResult = await login(
+  Future<void> makeLoginProcess(context,{
+    required String email,
+    required String password
+  })async{
+    await login(
         context,
-        email: loginInputs.email,
-        password: loginInputs.password
+        email: email,
+        password: password
     );
     if(loginResult is SuccessModel)
       {
         await cacheUserData(loginResult);
-        await createStripeCustomer(
-            name: loginInputs.name,
-            phone: loginInputs.phone
-        );
       }
   }
 }

@@ -153,6 +153,5 @@ class DioConnection extends ApiService implements DownloadApiService
     {
       return Result.error(handleErrors(e));
     }
-
   }
 }

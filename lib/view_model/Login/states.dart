@@ -18,8 +18,3 @@ class LogoutSuccessState extends LoginStates {}
 
 class LogoutErrorState extends LoginStates {}
 
-// class RefreshTokenSuccessState extends LoginStates {}
-
-// class RefreshTokenErrorState extends LoginStates {}
-
-

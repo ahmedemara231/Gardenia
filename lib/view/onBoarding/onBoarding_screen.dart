@@ -13,9 +13,9 @@ class OnBoarding extends StatelessWidget {
   
   final List<ScreenModel> onBoardingScreens =
   [
-    ScreenModel(image: '1', icon: Icons.search, text1: 'Search for Plants', text2: 'Discover new types plants. learn more about the plant'),
-    ScreenModel(image: '2', icon: Icons.add, text1: 'Save your Plants', text2: 'Use the save button to add them to you list of favorite plants'),
-    ScreenModel(image: '3', icon: Icons.share, text1: 'Share your Plants', text2: 'Use the save button to add them to you list of favorite plants')
+    ScreenModel(image: '1', text1: 'Search for Plants', text2: 'Discover new types plants. learn more about the plant'),
+    ScreenModel(image: '2', text1: 'Save your Plants', text2: 'Use the save button to add them to you list of favorite plants'),
+    ScreenModel(image: '3', text1: 'Share your Plants', text2: 'Use the save button to add them to you list of favorite plants')
   ];
 
   final onBoardingCont = PageController();

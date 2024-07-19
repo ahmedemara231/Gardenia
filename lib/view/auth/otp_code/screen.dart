@@ -10,6 +10,8 @@ import 'package:gardenia/view_model/forgot_reset_pass/states.dart';
 import 'package:pinput/pinput.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 
+import '../../../modules/app_widgets/arrow_back_button.dart';
+
 class OtpCode extends StatelessWidget {
   String email;
   OtpCode({super.key,
@@ -19,7 +21,9 @@ class OtpCode extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        leading: const ArrowBackButton(),
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30.0),
         child: Column(

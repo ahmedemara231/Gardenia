@@ -92,7 +92,7 @@ class _HomeState extends State<Home> {
                               InkWell(
                                 onTap: () => context.normalNewRoute(const Profile()),
                                 child: CircleAvatar(
-                                  backgroundImage: NetworkImage('${ApiConstants.baseUrlForImages}${CacheHelper.getInstance().getUserData()![3]}'),
+                                  backgroundImage: NetworkImage('${ApiConstants.baseUrlForImages}${CacheHelper.getInstance().getUserData()?[3]}'),
                                   radius: 20.sp,
                                 ),
                               ),

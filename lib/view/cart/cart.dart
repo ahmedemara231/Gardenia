@@ -8,6 +8,7 @@ import 'package:gardenia/modules/app_widgets/cart_item.dart';
 import 'package:gardenia/modules/base_widgets/myText.dart';
 import 'package:gardenia/view_model/categories/cubit.dart';
 import 'package:gardenia/view_model/categories/states.dart';
+import '../../modules/app_widgets/arrow_back_button.dart';
 import '../check_out/check_out.dart';
 
 class Cart extends StatefulWidget {
@@ -30,6 +31,7 @@ class _CartState extends State<Cart> {
     return BlocBuilder<CategoriesCubit,CategoriesStates>(
       builder: (context, state) => Scaffold(
         appBar: AppBar(
+          leading: const ArrowBackButton(),
           title: MyText(text: 'Your Cart',fontWeight: FontWeight.w500,),
         ),
         body:

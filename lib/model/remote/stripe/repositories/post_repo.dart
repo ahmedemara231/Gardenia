@@ -1,6 +1,3 @@
-import 'dart:convert';
-import 'dart:developer';
-
 import 'package:dio/src/response.dart';
 import 'package:gardenia/model/remote/api_service/service/error_handling/errors.dart';
 import 'package:gardenia/model/remote/api_service/service/languages_and_methods.dart';
@@ -48,7 +45,6 @@ class StripePostRepo {
   // create customer
   Future<Result<String, CustomError>> createCustomer({
     required String name,
-    required String phone
   }) async {
     Result<Response, CustomError> createCustomerResponse =
         await apiService.callApi(
@@ -57,7 +53,6 @@ class StripePostRepo {
         endPoint: StripeApiConstants.createCustomer,
         data: {
           'name': name,
-          'phone': phone,
         },
         headers:
             StripeHeaders(contentType: 'application/x-www-form-urlencoded'),

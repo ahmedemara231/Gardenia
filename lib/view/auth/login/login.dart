@@ -3,10 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gardenia/constants/constants.dart';
 import 'package:gardenia/extensions/routes.dart';
-import 'package:gardenia/model/local/shared_prefs.dart';
 import 'package:gardenia/modules/base_widgets/myText.dart';
 import 'package:gardenia/modules/base_widgets/textFormField.dart';
-import 'package:gardenia/modules/data_types/login_process_inputs.dart';
 import 'package:gardenia/view/auth/forgot_password/forgetpassword.dart';
 import 'package:gardenia/view/auth/sign_up/sign_up.dart';
 import 'package:gardenia/view_model/Login/cubit.dart';
@@ -144,12 +142,8 @@ class Login extends StatelessWidget {
                           {
                             await LoginCubit.getInstance(context).makeLoginProcess(
                                 context,
-                                loginInputs: LoginProcessInputs(
-                                    name: CacheHelper.getInstance().getUserData()![1],
-                                    email: emailCont.text,
-                                    password: passCont.text,
-                                    phone: CacheHelper.getInstance().getUserData()![0]
-                                ),
+                                email: emailCont.text,
+                                password: passCont.text
                             );
                           }
                         else{

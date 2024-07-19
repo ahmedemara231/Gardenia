@@ -7,6 +7,8 @@ import 'package:gardenia/modules/base_widgets/textFormField.dart';
 import 'package:gardenia/modules/data_types/checkout_invoice.dart';
 import 'package:gardenia/view_model/categories/cubit.dart';
 
+import '../../modules/app_widgets/arrow_back_button.dart';
+
 class CheckOut extends StatefulWidget {
   const CheckOut({super.key});
 
@@ -58,6 +60,7 @@ class _CheckOutState extends State<CheckOut> {
     return Scaffold(
       key: scaffoldKey,
       appBar: AppBar(
+        leading: const ArrowBackButton(),
         title: MyText(text: 'Check out',fontWeight: FontWeight.w500,),
       ),
       body: Padding(

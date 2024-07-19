@@ -8,12 +8,10 @@ class ScreenModel extends StatelessWidget {
 
   String text1;
   String text2;
-  IconData icon;
   String image;
 
   ScreenModel({super.key,
     required this.image,
-    required this.icon,
     required this.text1,
     required this.text2,
   });
@@ -22,35 +20,12 @@ class ScreenModel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
         children: [
-          Stack(
-            children: [
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 30.h),
-                child: Image.asset('assets/images/plant$image.png'),
-              ),
-              Positioned(
-                right: 20,
-                bottom: 30,
-                child: Container(
-                  decoration: BoxDecoration(
-                      color: Constants.appColor,
-                      borderRadius: BorderRadius.circular(8.sp)
-                  ),
-                  width: 40.w,
-                  height: 75.h,
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Icon(
-                      icon,
-                      size: 25.sp,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ),
-            ],
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 30.h),
+            child: Image.asset('assets/images/plant$image.png'),
           ),
-          Expanded(
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 60.w),
             child: Column(
               children: [
                 AnimatedTextKit(

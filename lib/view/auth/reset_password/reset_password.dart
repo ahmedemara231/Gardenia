@@ -5,6 +5,7 @@ import 'package:gardenia/modules/data_types/reset_password.dart';
 import 'package:gardenia/view_model/forgot_reset_pass/cubit.dart';
 import '../../../constants/constants.dart';
 import '../../../modules/app_widgets/app_button.dart';
+import '../../../modules/app_widgets/arrow_back_button.dart';
 import '../../../modules/base_widgets/myText.dart';
 
 class ResetPassword extends StatelessWidget {
@@ -21,7 +22,9 @@ class ResetPassword extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        leading: const ArrowBackButton(),
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 16.0.w),

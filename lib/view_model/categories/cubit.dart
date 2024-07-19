@@ -222,7 +222,7 @@ class CategoriesCubit extends Cubit<CategoriesStates>
               );
             }
             else{
-              emit(GetCategoriesErrorState());
+              emit(GetSpecificCategoryError());
             }
           }
         });
