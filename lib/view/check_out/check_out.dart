@@ -51,7 +51,6 @@ class _CheckOutState extends State<CheckOut> {
         value:'${CategoriesCubit.getInstance(context).totalAmount+40+120}',
       )
     ];
-
     super.initState();
   }
 

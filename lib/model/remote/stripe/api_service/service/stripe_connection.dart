@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:dio/src/response.dart';
@@ -56,6 +59,10 @@ class StripeConnection extends ApiService
         }on DioException catch(e)
         {
           // return Result.error(handleErrors(e));
+
+          String prettyJson = const JsonEncoder.withIndent('  ').convert(e.response?.data);
+          log(prettyJson);
+
           return Result.error(CustomError('Error : $e'));
         }
       case ConnectivityResult.none:

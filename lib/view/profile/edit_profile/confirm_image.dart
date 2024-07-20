@@ -9,7 +9,7 @@ import '../../../modules/base_widgets/myText.dart';
 
 class ConfirmImage extends StatelessWidget {
 
-  ConfirmImage({super.key});
+  const ConfirmImage({super.key});
 
   @override
   Widget build(BuildContext context) {

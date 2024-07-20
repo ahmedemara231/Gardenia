@@ -284,8 +284,6 @@ class CategoriesCubit extends Cubit<CategoriesStates>
       emit(AddRemFavorites());
       await postRepo.addRemFavorite(plantId);
     }
-
-    MyToast.showToast(context, msg: 'Done');
   }
 
   Future<void> removeItemFromFavorites(Plant plant)async

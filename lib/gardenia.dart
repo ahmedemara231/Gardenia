@@ -6,6 +6,7 @@ import 'package:gardenia/view/auth/login/login.dart';
 import 'package:gardenia/view/bottomNavBar/bottom_nav_bar.dart';
 import 'package:gardenia/view/cart/cart.dart';
 import 'package:gardenia/view/categories/base_screen/base_screen.dart';
+import 'package:gardenia/view/check_out/check_out.dart';
 import 'package:gardenia/view/create_post/create_post.dart';
 import 'package:gardenia/view/home/home.dart';
 import 'package:gardenia/view/onBoarding/onBoarding_screen.dart';
@@ -14,6 +15,7 @@ import 'package:gardenia/view/profile/profile.dart';
 import 'package:gardenia/view/settting/setting.dart';
 import 'package:gardenia/view/settting/setting/notifications.dart';
 import 'package:gardenia/view/settting/setting/privacy_policy.dart';
+import 'package:gardenia/view/splash.dart';
 import 'package:gardenia/view/test/test.dart';
 import 'package:gardenia/view_model/Login/cubit.dart';
 import 'package:gardenia/view_model/bottomNavBar/cubit.dart';
@@ -79,12 +81,13 @@ class _GardeniaState extends State<Gardenia> {
           BlocProvider(create: (context) =>  SettingCubit()),
           BlocProvider(create: (context) =>  StripeCubit()),
         ],
-        child: MaterialApp(
+        child:  MaterialApp(
           debugShowCheckedModeBanner: false,
-          home:
+          home: CheckOut()
+          // Splash(),
           // BottomNavBar()
           // Profile()
-          Login()
+          // Login()
           // Home()
           // Cart()
           // Categories()

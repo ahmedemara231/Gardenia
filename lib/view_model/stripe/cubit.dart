@@ -36,7 +36,10 @@ class StripeCubit extends Cubit<StripeStates>
     return key.getOrThrow();
   }
 
-  Future<void> initPaymentSheet(var paymentIntentClientSecret) async {
+  Future<void> initPaymentSheet({
+    required var paymentIntentClientSecret,
+    required String customerId
+  }) async {
     // 1. create payment intent on the server
     // final data = await _createTestPaymentSheet();
 
@@ -51,9 +54,8 @@ class StripeCubit extends Cubit<StripeStates>
         paymentIntentClientSecret: paymentIntentClientSecret,
 
         // Customer keys
-        customerId: await SecureStorage.getInstance().readData(key: 'customerId'),
+        customerId: customerId,
         customerEphemeralKeySecret: await createEphemeralKey(),
-
       ),
     );
   }
@@ -64,14 +66,17 @@ class StripeCubit extends Cubit<StripeStates>
   }
 
   Future<void> makePaymentProcess({
-    required CreateIntentInputModel inputModel
+    required CreateIntentInputModel inputModel,
   })async
   {
     emit(StripePaymentLoading());
     await createPaymentIntent(inputModel: inputModel).then((result)async {
       if(result.isSuccess())
         {
-          await initPaymentSheet(result.getOrThrow().client_secret);
+          await initPaymentSheet(
+              customerId: inputModel.customerId,
+              paymentIntentClientSecret: result.getOrThrow().client_secret,
+          );
           await presentPaymentSheet();
           emit(StripePaymentSuccess());
         }
