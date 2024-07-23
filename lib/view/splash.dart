@@ -10,7 +10,6 @@ import 'package:gardenia/modules/base_widgets/myText.dart';
 import 'package:gardenia/view/auth/login/login.dart';
 import 'package:gardenia/view/bottomNavBar/bottom_nav_bar.dart';
 import 'package:gardenia/view/onBoarding/onBoarding_screen.dart';
-
 import '../model/local/shared_prefs.dart';
 
 class Splash extends StatefulWidget {
@@ -25,7 +24,7 @@ class _SplashState extends State<Splash> {
   String? waitingToken;
   Future<void> getToken() async
   {
-    String? token = await SecureStorage.getInstance().readData(key: '');
+    String? token = await SecureStorage.getInstance().readData(key: 'userToken');
     waitingToken = token;
   }
   @override

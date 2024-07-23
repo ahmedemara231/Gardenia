@@ -6,6 +6,7 @@ import 'package:gardenia/model/remote/api_service/service/request_models/request
 import 'package:gardenia/model/remote/stripe/api_service/constants.dart';
 import 'package:gardenia/model/remote/stripe/api_service/models/create_intent_input_model.dart';
 import 'package:gardenia/model/remote/stripe/api_service/models/create_intent_model.dart';
+import 'package:gardenia/modules/app_widgets/choose_payment_method_card.dart';
 import 'package:multiple_result/src/result.dart';
 import '../../../local/secure_storage.dart';
 import '../../api_service/service/api_request.dart';

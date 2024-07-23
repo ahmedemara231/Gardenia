@@ -156,7 +156,7 @@ class _SignUpState extends State<SignUp> {
                     {
                       if(passCont.text == passConfCont.text)
                         {
-                          SignUpCubit.getInstance(context).makeSignUpProcess(
+                          SignUpCubit.getInstance(context).signUp(
                             context,
                             user: UserData(
                               name: nameCont.text,

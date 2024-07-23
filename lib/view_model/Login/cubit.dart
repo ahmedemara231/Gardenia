@@ -15,6 +15,8 @@ import 'package:gardenia/view_model/Login/states.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 import '../../view/auth/login/login.dart';
 import '../../view/bottomNavBar/bottom_nav_bar.dart';
+import 'package:gardenia/model/remote/stripe/api_service/service/stripe_connection.dart';
+import 'package:gardenia/model/remote/stripe/repositories/post_repo.dart';
 
 class LoginCubit extends Cubit<LoginStates>
 {
@@ -137,6 +139,23 @@ class LoginCubit extends Cubit<LoginStates>
     );
   }
 
+  StripePostRepo stripeRepo = StripePostRepo(apiService: StripeConnection());
+
+  Future<void> createStripeCustomer({
+    required String name,
+  })async
+  {
+    await stripeRepo.createCustomer(name: name).then((result)
+    {
+      result.when(
+            (success) => SecureStorage.getInstance().setData(
+            key: 'customerId', value: result.getOrThrow()
+        ),
+            (error) => null,
+      );
+    });
+  }
+
   Future<void> makeLoginProcess(context,{
     required String email,
     required String password
@@ -149,8 +168,10 @@ class LoginCubit extends Cubit<LoginStates>
     if(loginResult is SuccessModel)
       {
         await cacheUserData(loginResult);
+        await createStripeCustomer(name: email.split("@").first);
       }
   }
 }
 
 
+// logout

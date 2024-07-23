@@ -61,7 +61,6 @@ class ChoosingPaymentMethodCard extends StatelessWidget {
                           ),
                         ).then((value)
                         {
-                          print(state);
                           if(state is StripePaymentSuccess)
                             {
                               context.replacementRoute(const ThankYouView());
@@ -71,7 +70,7 @@ class ChoosingPaymentMethodCard extends StatelessWidget {
                           }
                         });
                       case 1:
-                        PaypalService().makePaypalPaymentProcess(context);
+                        PaypalService().makePaypalPaymentProcess(context,amount: amount);
                     }
                   },
                   child: Padding(

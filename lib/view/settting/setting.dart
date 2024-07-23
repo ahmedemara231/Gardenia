@@ -4,18 +4,20 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gardenia/constants/constants.dart';
 import 'package:gardenia/extensions/context.dart';
 import 'package:gardenia/extensions/routes.dart';
+import 'package:gardenia/model/local/secure_storage.dart';
 import 'package:gardenia/modules/app_widgets/arrow_back_button.dart';
 import 'package:gardenia/modules/base_widgets/myText.dart';
 import 'package:gardenia/view/profile/edit_profile/edit_profile.dart';
 import 'package:gardenia/view/settting/setting/notifications.dart';
 import 'package:gardenia/view/settting/setting/privacy_policy.dart';
+import 'package:gardenia/view_model/Login/cubit.dart';
 import 'package:gardenia/view_model/setting/cubit.dart';
 import 'package:gardenia/view_model/setting/states.dart';
-import 'package:gardenia/view_model/update_profile/states.dart';
 import '../../model/remote/api_service/service/constants.dart';
 import '../../modules/app_widgets/setting.dart';
 import '../../view_model/profile/cubit.dart';
 import '../../view_model/update_profile/cubit.dart';
+import '../../view_model/update_profile/states.dart';
 
 class Setting extends StatefulWidget {
   const Setting({super.key});
@@ -41,11 +43,15 @@ class _SettingState extends State<Setting> {
     SettingModel(optionIcon: Icons.share, optionName: 'Share App',),
 
     SettingModel(optionIcon: Icons.security, optionName: 'security'),
-    SettingModel(optionIcon: Icons.dark_mode_outlined, optionName: 'Theme',value: 'Light Mode'),
+    SettingModel(optionIcon: Icons.dark_mode_outlined, optionName: 'Theme',value: 'Light Mode Only'),
+  ];
 
+  List lastSettings =
+  [
     SettingModel(optionIcon: Icons.help_outline_outlined, optionName: 'Help & Support'),
     SettingModel(optionIcon: Icons.contact_page_outlined, optionName: 'Contact Us'),
     SettingModel(optionIcon: Icons.privacy_tip_outlined, optionName: 'Privacy policy'),
+    SettingModel(optionIcon: Icons.login_outlined, optionName: 'Logout'),
   ];
 
   @override
@@ -126,7 +132,6 @@ class _SettingState extends State<Setting> {
                 ),
               ],
             ),
-        
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 10.w),
               child: Column(
@@ -167,7 +172,7 @@ class _SettingState extends State<Setting> {
                   Card(
                     child: Column(
                       children: List.generate(
-                          settings.sublist(5,8).length,
+                        lastSettings.length,
                               (index) => InkWell(
                                 onTap: ()
                                 {
@@ -179,8 +184,10 @@ class _SettingState extends State<Setting> {
                                       SettingCubit.getInstance(context).handleCallingStore(context);
                                     case 2:
                                       context.normalNewRoute(PrivacyPolicy());
+                                    case 3:
+                                      showLogoutDialog(context);
                                   }
-                                }, child: settings.sublist(5,8)[index],
+                                }, child: lastSettings[index],
                               )
                       ),
                     ),
@@ -193,4 +200,48 @@ class _SettingState extends State<Setting> {
       ),
     );
   }
+}
+
+List<String> options = ['Cancel', 'Logout'];
+void showLogoutDialog(BuildContext context)
+{
+  showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: MyText(text: 'Are You Sure to logout?',color: Constants.appColor,fontSize: 16.sp,),
+      actions: List.generate(
+          options.length,
+              (index) => ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Constants.appColor,
+                      shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)
+                      )
+                  ),
+                  onPressed: ()async
+                  {
+                    switch(index)
+                    {
+                      case 0:
+                        Navigator.pop(context);
+                      case 1:
+                        await handleLogoutButton(context);
+                    }
+                  },
+                  child: MyText(text: options[index],color: Colors.white,)
+              ),
+      ),
+    ),
+  );
+}
+
+Future<void> handleLogoutButton(BuildContext context)async
+{
+  await LoginCubit.getInstance(context).logout(context);
+  await emptyCache();
+}
+
+Future<void> emptyCache()async
+{
+  await SecureStorage.getInstance().deleteAll();
 }

@@ -72,5 +72,4 @@ class StripeHeaders extends RequestHeaders
   {
     return _getHeaders;
   }
-
 }

@@ -2,20 +2,17 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gardenia/extensions/routes.dart';
-import 'package:gardenia/model/remote/api_service/model/success_model.dart';
 import 'package:gardenia/model/remote/api_service/repositories/post_repo.dart';
 import 'package:gardenia/model/remote/api_service/service/connections/dio_connection.dart';
 import 'package:gardenia/modules/data_types/user_data.dart';
 import 'package:gardenia/view_model/sign_up/states.dart';
 import 'package:rounded_loading_button/rounded_loading_button.dart';
 import '../../constants/constants.dart';
-import '../../model/local/secure_storage.dart';
 import '../../model/remote/api_service/model/model.dart';
 import '../../model/remote/api_service/service/error_handling/errors.dart';
 import '../../modules/base_widgets/toast.dart';
 import '../../view/auth/login/login.dart';
-import 'package:gardenia/model/remote/stripe/api_service/service/stripe_connection.dart';
-import 'package:gardenia/model/remote/stripe/repositories/post_repo.dart';
+
 
 class SignUpCubit extends Cubit<SignUpStates>
 {
@@ -83,31 +80,5 @@ class SignUpCubit extends Cubit<SignUpStates>
       }
     });
     return signUpResult;
-  }
-
-  StripePostRepo stripeRepo = StripePostRepo(apiService: StripeConnection());
-
-  Future<void> createStripeCustomer({
-    required String name,
-  })async
-  {
-    await stripeRepo.createCustomer(name: name).then((result)
-    {
-      result.when(
-            (success) => SecureStorage.getInstance().setData(
-            key: 'customerId', value: result.getOrThrow()
-        ),
-            (error) => null,
-      );
-    });
-  }
-
-  void makeSignUpProcess(BuildContext context,{required UserData user})async
-  {
-    Model resultModel = await signUp(context,user: user);
-    if(resultModel is SuccessModel)
-    {
-      await createStripeCustomer(name: user.name);
-    }
   }
 }

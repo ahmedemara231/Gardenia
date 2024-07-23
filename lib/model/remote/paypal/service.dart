@@ -10,13 +10,13 @@ import 'models/amount.dart';
 
 class PaypalService
 {
-  Future<void> makePaypalPaymentProcess(BuildContext context)async
+  Future<void> makePaypalPaymentProcess(BuildContext context,{required int amount})async
   {
       AmountModel amountModel = AmountModel(
-        total: CategoriesCubit.getInstance(context).totalAmount.toString(),
+        total: amount.toString(),
         details: Details(
-            subTotal: CategoriesCubit.getInstance(context).totalAmount.toString(),
-            shipping: '0',
+            subTotal: (amount - 40).toString(),
+            shipping: 40.toString(),
             shipping_discount: 0
         ),
       );
